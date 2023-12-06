@@ -7,5 +7,16 @@ make_linechart <- function(df){
     hc_yAxis(title = "", 
              labels = list(format = '£{value: ,f}')) %>% 
     hc_tooltip(valueDecimals = 0,
-               valuePrefix = "£")
+               valuePrefix = "£") %>% 
+    hc_credits(enabled = TRUE,
+               text = "Office for National Statistics ASHE data",
+               href = "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/previousReleases") %>% 
+    hc_exporting(enabled = TRUE,
+                 filename = NULL,
+                 buttons = list(
+                   contextButton = list(
+                     menuItems = c("printChart", "downloadPNG", "downloadSVG")
+                   ))
+    )
+  
 }  

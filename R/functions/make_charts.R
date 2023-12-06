@@ -17,6 +17,8 @@ make_linechart <- function(df){
                    contextButton = list(
                      menuItems = c("printChart", "downloadPNG", "downloadSVG")
                    ))
-    )
+    ) %>% 
+    hc_legend(align = "right",
+              layout = "proximate")
   
 }  

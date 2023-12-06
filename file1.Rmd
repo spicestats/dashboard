@@ -1,0 +1,109 @@
+---
+title: "Median gross earnings, ASHE data"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(flexdashboard)
+```
+
+```{r prep_data}
+source("R/earnings_charts.R")
+```
+
+
+Weekly
+================
+
+Row {data-height=650}
+-------------------------------------
+
+### All employees
+
+```{r}
+
+charts_earnings$weekly_all
+
+```
+
+### Full-time employees
+
+```{r}
+
+charts_earnings$weekly_FT
+
+```
+
+### Part-time employees
+
+```{r}
+
+charts_earnings$weekly_PT
+
+```
+
+
+Annual
+================
+
+Row {data-height=650}
+-------------------------------------
+
+### All employees
+
+```{r}
+
+charts_earnings$annual_all
+
+```
+
+### Full-time employees
+
+```{r}
+
+charts_earnings$annual_FT
+
+```
+
+### Part-time employees
+
+```{r}
+
+charts_earnings$annual_PT
+
+```
+
+Hourly
+================
+
+Row {data-height=650}
+-------------------------------------
+
+### All employees
+
+```{r}
+
+charts_earnings$hourly_all
+
+```
+
+### Full-time employees
+
+```{r}
+
+charts_earnings$hourly_FT
+
+```
+
+### Part-time employees
+
+```{r}
+
+charts_earnings$hourly_PT
+
+```
+

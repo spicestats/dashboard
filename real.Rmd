@@ -2,7 +2,10 @@
 title: "Median gross earnings in real terms, ASHE data"
 output: 
   flexdashboard::flex_dashboard:
-  vertical_layout: fill
+    navbar: 
+      - { title: "NOMINAL PAY", href: "index.html", align: right }
+    vertical_layout: fill
+
 ---
 
 ```{r setup, include=FALSE}

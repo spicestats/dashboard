@@ -5,9 +5,9 @@ make_linechart <- function(df){
     hc_colors(colors = spcols) %>% 
     hc_xAxis(title = NULL) %>% 
     hc_yAxis(title = "", 
-             labels = list(format = '£{value: ,f}')) %>% 
+             labels = list(format = '\u00A3{value: ,f}')) %>% 
     hc_tooltip(valueDecimals = 0,
-               valuePrefix = "£") %>% 
+               valuePrefix = "\u00A3") %>% 
     hc_credits(enabled = TRUE,
                text = "Office for National Statistics ASHE data",
                href = "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/previousReleases") %>% 

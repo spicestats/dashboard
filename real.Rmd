@@ -1,8 +1,8 @@
 ---
-title: "Median gross earnings, ASHE data"
+title: "Median gross earnings in real terms, ASHE data"
 output: 
   flexdashboard::flex_dashboard:
-    vertical_layout: fill
+  vertical_layout: fill
 ---
 
 ```{r setup, include=FALSE}
@@ -25,7 +25,7 @@ charts_earnings <- readRDS("data/charts_earnings.rds")
 
 ```{r}
 
-charts_earnings$weekly_all
+charts_earnings$weekly_all_real
 
 ```
 
@@ -35,7 +35,7 @@ charts_earnings$weekly_all
 
 ```{r}
 
-charts_earnings$weekly_FT
+charts_earnings$weekly_FT_real
 
 ```
 
@@ -43,7 +43,7 @@ charts_earnings$weekly_FT
 
 ```{r}
 
-charts_earnings$weekly_PT
+charts_earnings$weekly_PT_real
 
 ```
 
@@ -55,7 +55,7 @@ charts_earnings$weekly_PT
 
 ```{r}
 
-charts_earnings$annual_all
+charts_earnings$annual_all_real
 
 ```
 
@@ -65,7 +65,7 @@ charts_earnings$annual_all
 
 ```{r}
 
-charts_earnings$annual_FT
+charts_earnings$annual_FT_real
 
 ```
 
@@ -73,7 +73,7 @@ charts_earnings$annual_FT
 
 ```{r}
 
-charts_earnings$annual_PT
+charts_earnings$annual_PT_real
 
 ```
 
@@ -85,7 +85,7 @@ charts_earnings$annual_PT
 
 ```{r}
 
-charts_earnings$hourly_all
+charts_earnings$hourly_all_real
 
 ```
 
@@ -95,7 +95,7 @@ charts_earnings$hourly_all
 
 ```{r}
 
-charts_earnings$hourly_FT
+charts_earnings$hourly_FT_real
 
 ```
 
@@ -103,6 +103,6 @@ charts_earnings$hourly_FT
 
 ```{r}
 
-charts_earnings$hourly_PT
+charts_earnings$hourly_PT_real
 
 ```

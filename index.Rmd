@@ -1,5 +1,5 @@
 ---
-title: "Median gross earnings, ASHE data"
+title: "Employee earnings"
 output: 
   flexdashboard::flex_dashboard:
     vertical_layout: fill
@@ -21,7 +21,11 @@ charts_earnings <- readRDS("data/charts_earnings.rds")
 
 ```
 
+The charts show median gross earnings of employees (without adjusting for inflation). Data is collected by the Office for National Statistics each April via the [Annual Survey of Hours and Earnings](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/latest). The statistics cover employees only and exclude self-employed earnings.
+
 # Weekly
+
+These charts show weekly earnings.
 
 ## Column
 
@@ -53,6 +57,8 @@ charts_earnings$weekly_PT
 
 # Annual
 
+These charts show annual earnings.
+
 ## Column
 
 ### All employees
@@ -82,6 +88,8 @@ charts_earnings$annual_PT
 ```
 
 # Hourly
+
+These charts show hourly earnings.
 
 ## Column
 

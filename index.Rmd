@@ -3,9 +3,11 @@ title: "Median gross earnings, ASHE data"
 output: 
   flexdashboard::flex_dashboard:
     vertical_layout: fill
+    css: styles.css
     navbar: 
       - { title: "REAL PAY", href: "real.html", align: right }
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)

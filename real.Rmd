@@ -21,7 +21,7 @@ charts_earnings <- readRDS("data/charts_earnings.rds")
 
 ```
 
-The charts show median gross earnings of employees after adjusting for inflation. Data is collected by the Office for National Statistics each April via the [Annual Survey of Hours and Earnings](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/latest). The statistics cover employees only and exclude self-employed earnings. We adjusted earnings using the [CPI inflator](https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/latest#latest-movements-in-cpi-inflation).
+The charts show median gross earnings of employees after adjusting for inflation. Data is collected by the Office for National Statistics each April via the [Annual Survey of Hours and Earnings](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/latest). The statistics cover employees only and exclude self-employed earnings. We adjusted earnings using the [CPIH inflator](https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/latest#latest-movements-in-cpih-inflation).
 
 # Weekly
 

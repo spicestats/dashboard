@@ -12,7 +12,7 @@ source("R/functions/f_make_charts.R")
 
 spcols <- cols <-  c("#B884CB", "#568125", "#007DBA", "#E87722")
 
-data <- readRDS("data/tidy_earnings.rds") %>% 
+data <- readRDS("data/tidy_earnings_data.rds") %>% 
   filter(region %in% c("England", "Scotland", "Northern Ireland", "Wales"))
 
 charts_earnings <- list()

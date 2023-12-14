@@ -4,8 +4,8 @@
 library(tidyverse)
 
 # load rounding function
-source("R/functions/round2.R")
-source("R/functions/get_region.R")
+source("R/functions/f_round2.R")
+source("R/functions/f_get_region.R")
 
 labourmarket <- readRDS("data/labourmarketdata.rds")
 
@@ -68,4 +68,6 @@ tidy_lm_combined <- tidy_lm %>%
 saveRDS(tidy_lm_combined, "data/tidy_labourmarket_data.rds")
 
 rm(list = ls())
+cat("Labour market data prepped", fill = TRUE)
+
 

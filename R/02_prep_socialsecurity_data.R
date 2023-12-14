@@ -3,7 +3,7 @@
 
 library(tidyverse)
 
-source("R/functions/get_region.R")
+source("R/functions/f_get_region.R")
 
 data <- readRDS("data/social_security_data.rds")
 
@@ -42,3 +42,6 @@ social_security <- lapply(c("AA", "CA", "DLA"), function(x) {
 saveRDS(social_security, "data/tidy_socialsecurity_data.rds")
 
 rm(list = ls())
+
+cat("Social security data prepped", fill = TRUE)
+

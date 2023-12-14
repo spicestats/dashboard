@@ -140,7 +140,10 @@ data <- new %>%
 
 # save data --------------------------------------------------------------------
 
-saveRDS(data, "data/tidy_earnings.rds")
+saveRDS(data, "data/tidy_earnings_data.rds")
 
 rm(list = ls())
+
+cat("ASHE earnings data prepped", fill = TRUE)
+
 

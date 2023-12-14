@@ -19,5 +19,5 @@ download.file(paste0("https://www.nrscotland.gov.uk/", download_url),
               "data/spc_population.xlsx",
               mode = "wb")
 
-cat("Population estimates downloaded from NRS")
+cat("Population estimates downloaded from NRS", fill = TRUE)
 rm(list = ls())

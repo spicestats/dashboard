@@ -3,7 +3,7 @@
 
 library(tidyverse)
 
-source("R/functions/get_region.R")
+source("R/functions/f_get_region.R")
 
 ct_files <- list.files("data/counciltax_data")
 
@@ -62,3 +62,5 @@ saveRDS(rbind(house_prices = hp_data,
         "data/tidy_housing_data.rds")
 
 rm(list = ls())
+
+cat("Housing data prepped", fill = TRUE)

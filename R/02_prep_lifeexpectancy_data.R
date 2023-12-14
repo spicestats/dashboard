@@ -1,7 +1,7 @@
 # load -------------------------------------------------------------------------
 
 library(tidyverse)
-source("R/functions/get_region.R")
+source("R/functions/f_get_region.R")
 
 expect <- readRDS("data/lifeexpectancy.rds") %>% 
   filter(grepl("S16", refArea),
@@ -27,3 +27,6 @@ expect <- readRDS("data/lifeexpectancy.rds") %>%
 
 saveRDS(expect, "data/tidy_lifeexpectancy_data.rds")
 rm(list = ls())
+
+cat("Life expectancy data prepped", fill = TRUE)
+

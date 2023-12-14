@@ -26,7 +26,7 @@ data <- ods_dataset("Life-Expectancy",
 saveRDS(data, "data/lifeexpectancy.rds")
 
 cat("Life expectancy data downloaded from statistics.gov.scot - latest data from",
-                  max(data$refPeriod))
+                  max(data$refPeriod), fill = TRUE)
 rm(list = ls())
 
 

@@ -62,4 +62,4 @@ saveRDS(nomis_aps, "data/labourmarketdata.rds")
 # write message
 
 cat("APS data downloaded from NOMIS - data last updated on NOMIS on", day(last_updated), 
-    month.name[month(last_updated)], year(last_updated))
+    month.name[month(last_updated)], year(last_updated), fill = TRUE)

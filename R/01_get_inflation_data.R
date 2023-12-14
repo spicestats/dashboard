@@ -33,4 +33,4 @@ inflators <- inflation_data  %>%
 
 saveRDS(inflators, "data/inflators.rds")
 
-cat("Inflation index data download from ONS - latest data for", max(inflators$year))
+cat("Inflation index data download from ONS - latest data for", max(inflators$year), fill = TRUE)

@@ -1,7 +1,7 @@
 # load -------------------------------------------------------------------------
 
 library(tidyverse)
-source("R/functions/get_region.R")
+source("R/functions/f_get_region.R")
 
 data_years <- readxl::excel_sheets("data/spc_population.xlsx")
 data_years <- data_years[!(data_years %in% c("General_notes", "Table_of_contents"))]
@@ -52,3 +52,6 @@ pop <- pop_data %>%
 
 saveRDS(pop, "data/tidy_population_data.rds")
 rm(list = ls())
+
+cat("Population data prepped", fill = TRUE)
+

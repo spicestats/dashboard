@@ -95,6 +95,6 @@ saveRDS(nomis_wp, "data/nomis_data.rds")
 
 # write message
 cat("ASHE data downloaded from NOMIS - data last updated on NOMIS on", day(last_updated), 
-    month.name[month(last_updated)], year(last_updated))
+    month.name[month(last_updated)], year(last_updated), fill = TRUE)
 
 rm(list = ls())

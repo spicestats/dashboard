@@ -2,6 +2,7 @@
 
 # 01 download data -------------------------------------------------------------
 
+source("R/01_get_gss_codes.R")
 source("R/01_get_ASHE_data.R")
 source("R/01_get_housing_data.R")
 source("R/01_get_inflation_data.R")

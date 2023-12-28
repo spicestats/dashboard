@@ -22,10 +22,10 @@ for (benefit in c("AA", "CA", "DLA")) {
   json_old <- jsonlite::fromJSON(paste0("data/", benefit, "_query.json"))
   
   # restructure some bits
-  json_old$database <- unbox(json_old$database)
-  json_old$recodes[[1]]$total <- unbox(json_old$recodes[[1]]$total)
-  json_old$recodes[[2]]$total <- unbox(json_old$recodes[[2]]$total)
-  json_old$recodes[[3]]$total <- unbox(json_old$recodes[[3]]$total)
+  json_old$database <- jsonlite::unbox(json_old$database)
+  json_old$recodes[[1]]$total <- jsonlite::unbox(json_old$recodes[[1]]$total)
+  json_old$recodes[[2]]$total <- jsonlite::unbox(json_old$recodes[[2]]$total)
+  json_old$recodes[[3]]$total <- jsonlite::unbox(json_old$recodes[[3]]$total)
   
   # check it works (for debugging)
   # data_old <- fetch_table(toJSON(json_old))
@@ -54,7 +54,8 @@ for (benefit in c("AA", "CA", "DLA")) {
   
   # if no error, overwrite json file
   if (!inherits(check_error, "try-error")) {
-    write_json(json_new, paste0("data/", benefit, "_query.json"), pretty = TRUE)
+    jsonlite::write_json(json_new, paste0("data/", benefit, "_query.json"), 
+                         pretty = TRUE)
     cat(benefit, "json query updated", fill = TRUE)
   } else {
     cat(benefit, "- no updates available", fill = TRUE)

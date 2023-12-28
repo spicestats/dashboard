@@ -110,7 +110,7 @@ my_theme <- highcharter::hc_theme(
 
 # make charts ------------------------------------------------------------------
 
-make_linechart <- function(df){ 
+make_earnings_chart <- function(df){ 
   df %>% 
     hchart("line", hcaes(x = year, y = value, group = region),
            colour = spcols) %>% 

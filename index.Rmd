@@ -1,120 +1,39 @@
 ---
-title: "Employee earnings"
-output: 
-  flexdashboard::flex_dashboard:
-    vertical_layout: fill
-    css: styles.css
-    navbar: 
-      - { title: "REAL PAY", href: "real.html", align: right }
+title: "SPICe statistics"
 ---
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-library(flexdashboard)
-library(highcharter)
 ```
 
-```{r prep_data}
+## Row {data-height=200}
 
-charts_earnings <- readRDS("data/charts_earnings.rds")
+### Pay
 
-```
+-   [Pay](earnings_nominal.html)
+-   [Pay (real terms)](earnings_real.html)
 
-The charts show median gross earnings of employees (without adjusting for inflation). Data is collected by the Office for National Statistics each April via the [Annual Survey of Hours and Earnings](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/latest). The statistics cover employees only and exclude self-employed earnings.
+### Labour market indicators
 
-# Weekly
+-   [Employment, Unemployment & Inactivity](labourmarket.html)
 
-These charts show weekly earnings.
+### Life expectancy
 
-## Column
+- nsns
+- sdnd
 
-### All employees
+### Health
 
-```{r}
+sad
 
-charts_earnings$weekly_all
+## Row {data-height=200}
 
-```
+### lala
 
-## Column {.tabset}
+sdsd
 
-### Full-time employees
+### lascs
 
-```{r}
+### asar
 
-charts_earnings$weekly_FT
-
-```
-
-### Part-time employees
-
-```{r}
-
-charts_earnings$weekly_PT
-
-```
-
-# Annual
-
-These charts show annual earnings.
-
-## Column
-
-### All employees
-
-```{r}
-
-charts_earnings$annual_all
-
-```
-
-## Column {.tabset}
-
-### Full-time employees
-
-```{r}
-
-charts_earnings$annual_FT
-
-```
-
-### Part-time employees
-
-```{r}
-
-charts_earnings$annual_PT
-
-```
-
-# Hourly
-
-These charts show hourly earnings.
-
-## Column
-
-### All employees
-
-```{r}
-
-charts_earnings$hourly_all
-
-```
-
-## Column {.tabset}
-
-### Full-time employees
-
-```{r}
-
-charts_earnings$hourly_FT
-
-```
-
-### Part-time employees
-
-```{r}
-
-charts_earnings$hourly_PT
-
-```
+### awaer

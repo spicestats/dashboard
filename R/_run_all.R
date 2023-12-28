@@ -21,4 +21,5 @@ source("R/02_prep_socialsecurity_data.R")
 
 # 03 present data --------------------------------------------------------------
 
-source("R/earnings_charts.R")
+source("R/charts_earnings.R")
+source("R/charts_labourmarket.R")

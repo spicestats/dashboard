@@ -1,0 +1,11 @@
+name: "SPICe statistics"
+output: 
+  flexdashboard::flex_dashboard:
+    vertical_layout: scroll
+    orientation: rows
+    css: styles.css
+    navbar: 
+      - { title: "Home", href: "index.html" }
+      - { title: "Pay", href: "earnings.html" }
+      - { title: "Labour market", href: "labourmarket.html" }
+exclude: ["data", "R"]

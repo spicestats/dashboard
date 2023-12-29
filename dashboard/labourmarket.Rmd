@@ -2,15 +2,25 @@
 title: "Labour market indicators"
 ---
   
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-library(highcharter)
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
 ```
 
 ```{r prep_data}
+
+library(highcharter)
 charts_labourmarket <- readRDS("data/charts_labourmarket.rds")
 rowheight <- 200
 ncol <- 4
+
 ```
 
 - **Employment rate** - The proportion of x year-olds who are employed or self-employed

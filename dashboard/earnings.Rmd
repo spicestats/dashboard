@@ -2,12 +2,20 @@
 title: "Pay"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-library(highcharter)
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
 ```
 
 ```{r prep_data}
+library(highcharter)
 charts_earnings <- readRDS("data/charts_earnings.rds")
 rowheight <- 300
 ncol <- 3
@@ -142,6 +150,4 @@ charts_earnings$hourly_FT_real
 ```{r}
 charts_earnings$hourly_PT_real
 ```
-
-
 

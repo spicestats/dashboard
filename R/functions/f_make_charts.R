@@ -24,44 +24,44 @@ spcols <- c(darkblue = "#003057",
 my_theme <- highcharter::hc_theme(
   
   # * colors ----
-  colors = spcols,
+  colors = unname(spcols),
   
   # * chart ----
   chart = list(backgroundColor = "white",
                style = list(fontFamily = "Roboto",
                             fontSize = 'medium',
-                            color = "grey20")),
+                            color = "grey30")),
   
   # * titles ----
   
   title = list(
     useHTML = TRUE,
     align = "left",
-    style = list(fontSize = 'large',
-                 color = "grey20",
+    style = list(fontSize = 'medium',
+                 color = "grey30",
                  fontWeight = 'bold')),
   
   subtitle = list(
     useHTML = TRUE,
     align = "left",
     style = list(fontSize = 'medium',
-                 color = "grey20",
+                 color = "grey30",
                  # enable wrapped text for subtitles
                  whiteSpace = 'inherit')),
   
   credits = list(
     style = list(fontSize = 'small',
-                 color = "grey40")),
+                 color = "grey80")),
   
   # * y axis ----
   
   yAxis = list(
     title = list(
       style = list(fontSize = 'medium',
-                   color = "grey40")),
+                   color = "grey70")),
     labels = list(
-      style = list(fontSize = 'medium',
-                   color = "grey40")),
+      style = list(fontSize = 'small',
+                   color = "grey70")),
     useHTML = TRUE,
     lineWidth = 1,
     tickAmount = 5,
@@ -73,11 +73,11 @@ my_theme <- highcharter::hc_theme(
   xAxis = list(
     title = list(
       style = list(fontSize = 'medium',
-                   color = "grey40")),
+                   color = "grey70")),
     labels = list(
       useHTML = TRUE,
-      style = list(fontSize = 'medium',
-                   color = "grey40")),
+      style = list(fontSize = 'small',
+                   color = "grey70")),
     tickmarkPlacement = "on",
     tickLength = 0),
   
@@ -85,14 +85,15 @@ my_theme <- highcharter::hc_theme(
   tooltip = list(
     useHTML = TRUE,
     backgroundColor = "white",
-    style = list(color = "grey20")),
+    style = list(color = "grey30")),
   
   # * legend ----
   
   legend = list(
     itemStyle = list(
-      color = "grey40",
-      fontSize = "medium"
+      color = "grey70",
+      fontSize = "small",
+      fontWeight = "300"
     )),
   
   plotOptions = list(
@@ -101,7 +102,7 @@ my_theme <- highcharter::hc_theme(
       # * dataLabels ----
       dataLabels = list(
         style = list(fontSize = "medium",
-                     color = "grey20")),
+                     color = "grey30")),
       
       marker = list(fillColor = "white",
                     lineWidth = 2,
@@ -112,24 +113,59 @@ my_theme <- highcharter::hc_theme(
 
 make_earnings_chart <- function(df){ 
   df %>% 
-    hchart("line", hcaes(x = year, y = value, group = region),
-           colour = spcols) %>% 
-    hc_colors(colors = spcols) %>% 
+    hchart("line", hcaes(x = year, y = value, group = region)) %>% 
+    hc_colors(colors = unname(spcols)) %>% 
     hc_xAxis(title = NULL) %>% 
     hc_yAxis(title = "", 
              labels = list(format = '\u00A3{value: ,f}')) %>% 
     hc_tooltip(valueDecimals = 0,
                valuePrefix = "\u00A3") %>% 
-    hc_credits(enabled = TRUE,
-               text = "Office for National Statistics ASHE data",
-               href = "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/previousReleases") %>% 
     hc_exporting(enabled = TRUE,
                  filename = NULL,
                  buttons = list(
                    contextButton = list(
                      menuItems = c("printChart", "downloadPNG", "downloadSVG")
-                   ))
-    ) %>% 
-    hc_legend(align = "right",
-              layout = "proximate")
+                   ))) %>% 
+    hc_add_theme(my_theme) %>%
+    hc_legend(verticalAlign = "bottom",
+              align = "right",
+              floating = TRUE,
+              backgroundColor = "white",
+              y = -25)
 } 
+
+make_labourmarket_chart <- function(df){
+  
+  ids <- unique(df$Measure)
+  
+  df %>% 
+    hchart("line", hcaes(x = Year, y = Data, group = Measure),
+           marker = list(enabled = FALSE),
+           id = ids) %>% 
+    hc_add_series(type = "arearange", 
+                  data = df, 
+                  hcaes(x = Year, low = Lower, high = Upper, group = Measure),
+                  linkedTo = ids,
+                  fillOpacity = 0.3,
+                  enableMouseTracking = FALSE,
+                  lineColor = "transparent",
+                  marker = list(enabled = FALSE),
+                  showInLegend = FALSE) %>% 
+    hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
+    hc_legend(verticalAlign = "top",
+              align = "right",
+              floating = TRUE,
+              #layout = "vertical",
+              y = 15,
+              backgroundColor = "white") %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "",
+             max = 1,
+             labels = list(
+               formatter = JS('function () {
+                              return Math.round(this.value*100, 0) + "%";} ')),
+             accessibility = list(description = "Rate")) %>% 
+    hc_add_theme(my_theme) %>%
+    hc_tooltip(headerFormat = '<b> {series.name} </b><br>',
+               pointFormatter = JS('function () {return this.x + ": " + Highcharts.numberFormat(this.y * 100, 1) + "%";}'))
+}

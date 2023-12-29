@@ -6,8 +6,11 @@ library(highcharter)
 
 source("R/functions/f_make_charts.R")
 
+spcols <- c("#B884CB", "#568125", "#E87722")
+
+
 data <- readRDS("data/tidy_labourmarket_data.rds") %>% 
-  arrange(Year, Month)
+  arrange(Year, Month, Measure)
 
 latest_quarter <- tail(data$Month, 1)
 regions <- unique(data$Region)
@@ -39,76 +42,43 @@ for (i in regions) {
                Region == Region_selected,
                Constituency == constituencies[x])
       
-      df %>% 
-        hchart("line", hcaes(x = Year, y = Data, group = Measure),
-               marker = list(enabled = FALSE),
-               id = c("a", "b")) %>% 
-        hc_add_series(type = "arearange", 
-                      data = df, 
-                      hcaes(x = Year, low = Lower, high = Upper, group = Measure),
-                      name = c(" ", " "),
-                      linkedTo = c("a", "b"),
-                      color = spcols[2:1],
-                      fillOpacity = 0.3,
-                      enableMouseTracking = FALSE,
-                      lineColor = "transparent",
-                      marker = list(enabled = FALSE),
-                      showInLegend = FALSE) %>% 
-        hc_title(text = constituencies[x]) %>% 
-        hc_legend(#verticalAlign = "top",
-                  enabled = FALSE) %>% 
-        hc_xAxis(title = NULL) %>% 
-        hc_yAxis(title = "",
-                 max = 1,
-                 labels = list(
-                   formatter = JS('function () {
-                              return Math.round(this.value*100, 0) + "%";} ')),
-                 accessibility = list(description = "Rate")) %>% 
-        hc_add_theme(my_theme) %>%
-        hc_tooltip(headerFormat = '<b> {series.name} </b><br>',
-                   pointFormatter = JS('function () {return this.x + ": " + Highcharts.numberFormat(this.y * 100, 1) + "%";}')
-        )
+      chart <- make_labourmarket_chart(df) %>% 
+        hc_title(text = constituencies[x])
+      
+      # remove y axis labels from all charts except 1st and 5th
+      if (!(x %in% c(1, 5, 9))) {
+        chart <- chart %>% 
+          hc_yAxis(labels = list(enabled = FALSE))
+      }
+      
+      chart
+      
     })
 }
+
 
 # Regions ----------------------------------------------------------------------
 # Inactivity, Unemployment & Employment
 
 charts_labourmarket_regions <- lapply(regions, function(x) {
+  
   df <- data %>% 
     filter(Region == x,
            Month == latest_quarter,
            Sex == "All",
            is.na(Constituency))
   
-  df %>% 
-    hchart("line", hcaes(x = Year, y = Data, group = Measure),
-           marker = list(enabled = FALSE),
-           id = c("a", "b", "c")) %>% 
-    hc_add_series(type = "arearange", 
-                  data = df, 
-                  hcaes(x = Year, low = Lower, high = Upper, group = Measure),
-                  linkedTo = c("a", "b", "c"),
-                  color = spcols[3:1],
-                  fillOpacity = 0.3,
-                  enableMouseTracking = FALSE,
-                  lineColor = "transparent",
-                  marker = list(enabled = FALSE),
-                  showInLegend = FALSE) %>% 
-    hc_title(text = x) %>% 
-    hc_legend(#verticalAlign = "top",
-              enabled = FALSE) %>% 
-    hc_xAxis(title = NULL) %>% 
-    hc_yAxis(title = "",
-             max = 1,
-             labels = list(
-               formatter = JS('function () {
-                              return Math.round(this.value*100, 0) + "%";} ')),
-             accessibility = list(description = "Rate")) %>% 
-    hc_add_theme(my_theme) %>%
-    hc_tooltip(headerFormat = '<b> {series.name} </b><br>',
-               pointFormatter = JS('function () {return this.x + ": " + Highcharts.numberFormat(this.y * 100, 1) + "%";}')
-    )
+  chart <- make_labourmarket_chart(df) %>% 
+    hc_title(text = x)
+  
+  # remove y axis labels from all charts except 1st and 5th
+  if (x != regions[1] & x != regions[5]) {
+    chart <- chart %>% 
+      hc_yAxis(labels = list(enabled = FALSE))
+  }
+  
+  chart
+  
 })
 
 

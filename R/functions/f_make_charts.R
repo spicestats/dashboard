@@ -111,6 +111,10 @@ my_theme <- highcharter::hc_theme(
 
 # make charts ------------------------------------------------------------------
 
+hcoptslang <- getOption("highcharter.lang")
+hcoptslang$thousandsSep <- ","
+options(highcharter.lang = hcoptslang)
+
 make_earnings_chart <- function(df){ 
   df %>% 
     hchart("line", hcaes(x = year, y = value, group = region)) %>% 
@@ -119,13 +123,9 @@ make_earnings_chart <- function(df){
     hc_yAxis(title = "", 
              labels = list(format = '\u00A3{value: ,f}')) %>% 
     hc_tooltip(valueDecimals = 0,
-               valuePrefix = "\u00A3") %>% 
-    hc_exporting(enabled = TRUE,
-                 filename = NULL,
-                 buttons = list(
-                   contextButton = list(
-                     menuItems = c("printChart", "downloadPNG", "downloadSVG")
-                   ))) %>% 
+               valuePrefix = "\u00A3",
+               xDateFormat = '%b %Y') %>% 
+    hc_exporting(enabled = TRUE) %>%
     hc_add_theme(my_theme) %>%
     hc_legend(verticalAlign = "bottom",
               align = "right",
@@ -152,6 +152,7 @@ make_labourmarket_chart <- function(df){
                   marker = list(enabled = FALSE),
                   showInLegend = FALSE) %>% 
     hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
+    hc_exporting(enabled = TRUE) %>%
     hc_legend(verticalAlign = "top",
               align = "right",
               floating = TRUE,
@@ -167,5 +168,5 @@ make_labourmarket_chart <- function(df){
              accessibility = list(description = "Rate")) %>% 
     hc_add_theme(my_theme) %>%
     hc_tooltip(headerFormat = '<b> {series.name} </b><br>',
-               pointFormatter = JS('function () {return this.x + ": " + Highcharts.numberFormat(this.y * 100, 1) + "%";}'))
+               pointFormatter = JS('function () {return Highcharts.dateFormat("%b %Y", this.x)  + ": " + Highcharts.numberFormat(this.y * 100, 1) + "%";}'))
 }

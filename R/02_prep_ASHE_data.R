@@ -135,7 +135,9 @@ nomis <- backseries %>%
 data <- new %>% 
   rbind(nomis) %>% 
   left_join(inflators, by = "year") %>% 
-  arrange(year, pay, employee)
+  arrange(year, pay, employee) %>% 
+  # format year as date (April)
+  mutate(year = lubridate::my(paste("Apr", year)))
 
 
 # save data --------------------------------------------------------------------

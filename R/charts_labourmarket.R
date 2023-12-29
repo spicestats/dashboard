@@ -8,12 +8,16 @@ source("R/functions/f_make_charts.R")
 
 spcols <- c("#B884CB", "#568125", "#E87722")
 
-
-data <- readRDS("data/tidy_labourmarket_data.rds") %>% 
+all_data <- readRDS("data/tidy_labourmarket_data.rds") %>% 
   arrange(Year, Month, Measure)
 
-latest_quarter <- tail(data$Month, 1)
-regions <- unique(data$Region)
+latest_quarter <- tail(all_data$Month, 1)
+regions <- unique(all_data$Region)
+
+data <- all_data %>% 
+  mutate(Year = lubridate::my(paste(Month, Year))) %>% 
+  filter(Month == latest_quarter,
+         Sex == "All")
 
 # Constituencies ---------------------------------------------------------------
 # Inactivity & Employment only
@@ -36,9 +40,7 @@ for (i in regions) {
     function(x) {
       
       df <- data %>% 
-        filter(Month == latest_quarter,
-               Sex == "All",
-               Measure != "Unemployment",
+        filter(Measure != "Unemployment",
                Region == Region_selected,
                Constituency == constituencies[x])
       
@@ -64,8 +66,6 @@ charts_labourmarket_regions <- lapply(regions, function(x) {
   
   df <- data %>% 
     filter(Region == x,
-           Month == latest_quarter,
-           Sex == "All",
            is.na(Constituency))
   
   chart <- make_labourmarket_chart(df) %>% 

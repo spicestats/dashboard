@@ -27,19 +27,19 @@ The charts show median gross earnings of employees (without adjusting for inflat
 
 ## Weekly {data-height=300}
 
-### All
+### Weekly pay, all
 
 ```{r}
 charts_earnings$weekly_all
 ```
 
-### Full-time
+### Weekly pay, full-time
 
 ```{r}
     charts_earnings$weekly_FT
 ```
 
-### Part-time
+### Weekly pay, part-time
 
 ```{r}
     charts_earnings$weekly_PT
@@ -48,19 +48,19 @@ charts_earnings$weekly_all
 
 ## Annual {data-height=300}
 
-### All
+### Annual pay, all
 
 ```{r}
 charts_earnings$annual_all
 ```
 
-### Full-time
+### Annual pay, full-time
 
 ```{r}
 charts_earnings$annual_FT
 ```
 
-### Part-time
+### Annual pay, part-time
 
 ```{r}
 charts_earnings$annual_PT
@@ -68,19 +68,19 @@ charts_earnings$annual_PT
 
 ## Hourly {data-height=300}
 
-### All
+### Hourly pay, all
 
 ```{r}
 charts_earnings$hourly_all
 ```
 
-### Full-time
+### Hourly pay, full-time
 
 ```{r}
 charts_earnings$hourly_FT
 ```
 
-### Part-time
+### Hourly pay, part-time
 
 ```{r}
 charts_earnings$hourly_PT
@@ -92,19 +92,19 @@ The charts show median gross earnings of employees after adjusting for inflation
 
 ## Weekly {data-height=300}
 
-### All
+### Weekly pay, all
 
 ```{r}
 charts_earnings$weekly_all_real
 ```
 
-### Full-time
+### Weekly pay, full-time
 
 ```{r}
     charts_earnings$weekly_FT_real
 ```
 
-### Part-time
+### Weekly pay, part-time
 
 ```{r}
     charts_earnings$weekly_PT_real
@@ -113,19 +113,19 @@ charts_earnings$weekly_all_real
 
 ## Annual {data-height=300}
 
-### All
+### Annual pay, all
 
 ```{r}
 charts_earnings$annual_all_real
 ```
 
-### Full-time
+### Annual pay, full-time
 
 ```{r}
 charts_earnings$annual_FT_real
 ```
 
-### Part-time
+### Annual pay, part-time
 
 ```{r}
 charts_earnings$annual_PT_real
@@ -133,19 +133,19 @@ charts_earnings$annual_PT_real
 
 ## Hourly {data-height=300}
 
-### All
+### Hourly pay, all
 
 ```{r}
 charts_earnings$hourly_all_real
 ```
 
-### Full-time
+### Hourly pay, full-time
 
 ```{r}
 charts_earnings$hourly_FT_real
 ```
 
-### Part-time
+### Hourly pay, part-time
 
 ```{r}
 charts_earnings$hourly_PT_real

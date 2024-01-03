@@ -18,8 +18,7 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 ### Pay
 
--   [Pay](earnings_nominal.html)
--   [Pay (real terms)](earnings_real.html)
+-   [Pay](earnings.html)
 
 ### Labour market indicators
 

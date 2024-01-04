@@ -7,33 +7,66 @@ library(highcharter)
 source("R/functions/f_make_charts.R")
 
 data <- readRDS("data/tidy_housing_data.rds")
+earnings_data <- readRDS("data/tidy_PAYE_data.rds")[["paye"]]
 regions <- unique(data$Region)
+regions <- regions[!is.na(regions)]
 
-# time series ----
+# house prices bar charts ------------------------------------------------------
 
-lapply(1:11, function(x){
+data_hp1 <- data %>% 
+  filter(Area_type == "SP Constituency",
+         Measure == "Median house price",
+         Year == max(Year))
 
-data %>% 
-  filter(Region == regions[1],
-         Constituency == unique(data$Constituency)[x],
-         Measure == "Median house price") %>% 
-  hchart("line", hcaes(x = Year, y = Data, group = Constituency)) %>% 
-  hc_colors(colors = unname(spcols)) %>% 
-  hc_xAxis(title = NULL) %>% 
-  hc_yAxis(title = "", 
-           labels = list(format = '\u00A3{value: ,f}'),
-           min = 0,
-           max = 250000) %>% 
-  hc_tooltip(valueDecimals = 0,
-             valuePrefix = "\u00A3",
-             xDateFormat = '%b %Y') %>% 
-  hc_exporting(enabled = TRUE) %>%
-  hc_add_theme(my_theme) %>%
-  hc_legend(verticalAlign = "bottom",
-            align = "right",
-            floating = TRUE,
-            backgroundColor = "white",
-            y = -25)}) %>% 
-  hw_grid(ncol = 3)
+house_prices <- lapply(seq_along(regions), function(x) {
+  
+  data_hp1 %>% 
+    filter(Region == regions[x]) %>% 
+    make_house_prices_chart() %>% 
+    hc_title(text = paste0("Median house prices in ", regions[x], ", ", data_hp1$Year[1]))
+})
 
-# bar chart latest ----
+names(house_prices) <- regions
+
+# house prices line charts -----------------------------------------------------
+# time series
+
+data_hp2 <- data %>% 
+  filter(Area_type == "SP Constituency",
+         Measure == "Median house price")
+
+house_prices_ts <- lapply(seq_along(regions), function(x) {
+  
+  data_hp2 %>% 
+    filter(Region == regions[x]) %>% 
+    make_house_prices_chart_ts()
+})
+
+names(house_prices_ts) <- regions
+
+# housing affordability --------------------------------------------------------
+
+data_hp3 <- data %>% 
+  filter(Area_type == "Council",
+         Measure == "Median house price",
+         Year == max(Year))
+
+earnings_data %>% 
+  filter(Area_type == "Council",
+         Month == 4) %>% # select April
+  filter(TimePeriod == max(TimePeriod)) # needs separate filter step!
+
+# TODO ---------
+
+# map councils (there are 41??) to SP regions, see https://boundaries.scot/boundary-maps
+
+
+
+# tenure mix -------------------------------------------------------------------
+
+# council tax mix --------------------------------------------------------------
+
+# save all ---------------------------------------------------------------------
+
+saveRDS(list(house_prices = house_prices,
+             house_prices_ts = house_prices_ts), "data/charts_housing.rds")

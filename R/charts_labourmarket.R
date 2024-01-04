@@ -30,8 +30,8 @@ for (i in regions) {
   
   constituencies <- data %>% 
     filter(Region == Region_selected,
-           !is.na(Constituency)) %>% 
-    select(Constituency) %>% 
+           Area_type == "SP Constituency") %>% 
+    select(Area_name) %>% 
     distinct() %>% 
     pull()
   
@@ -42,44 +42,24 @@ for (i in regions) {
       df <- data %>% 
         filter(Measure != "Unemployment",
                Region == Region_selected,
-               Constituency == constituencies[x])
+               Area_name == constituencies[x])
       
-      chart <- make_labourmarket_chart(df) %>% 
-        hc_title(text = constituencies[x])
-      
-      # remove y axis labels from all charts except 1st and 5th
-      if (!(x %in% c(1, 5, 9))) {
-        chart <- chart %>% 
-          hc_yAxis(labels = list(enabled = FALSE))
-      }
-      
-      chart
-      
+      make_labourmarket_chart(df) %>% hc_title(text = constituencies[x])
     })
+  
+  names(charts_labourmarket_constituencies[[i]]) <- constituencies
 }
-
 
 # Regions ----------------------------------------------------------------------
 # Inactivity, Unemployment & Employment
 
 charts_labourmarket_regions <- lapply(regions, function(x) {
   
-  df <- data %>% 
-    filter(Region == x,
-           is.na(Constituency))
-  
-  chart <- make_labourmarket_chart(df) %>% 
-    hc_title(text = x)
-  
-  # remove y axis labels from all charts except 1st and 5th
-  if (x != regions[1] & x != regions[5]) {
-    chart <- chart %>% 
-      hc_yAxis(labels = list(enabled = FALSE))
-  }
-  
-  chart
-  
+  df <- data %>% filter(Region == x, Area_type == "SP Region")
+  make_labourmarket_chart(df) %>% hc_title(text = x)
 })
+
+names(charts_labourmarket_regions) <- regions
 
 
 # save all ---------------------------------------------------------------------
@@ -87,3 +67,4 @@ charts_labourmarket_regions <- lapply(regions, function(x) {
 saveRDS(list(regions = charts_labourmarket_regions,
              constituencies = charts_labourmarket_constituencies), 
         "data/charts_labourmarket.rds")
+

@@ -125,7 +125,6 @@ make_earnings_chart <- function(df){
     hc_tooltip(valueDecimals = 0,
                valuePrefix = "\u00A3",
                xDateFormat = '%b %Y') %>% 
-    hc_exporting(enabled = TRUE) %>%
     hc_add_theme(my_theme) %>%
     hc_legend(verticalAlign = "bottom",
               align = "right",
@@ -152,16 +151,16 @@ make_labourmarket_chart <- function(df){
                   marker = list(enabled = FALSE),
                   showInLegend = FALSE) %>% 
     hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
-    hc_exporting(enabled = TRUE) %>%
     hc_legend(verticalAlign = "top",
               align = "right",
               floating = TRUE,
-              #layout = "vertical",
               y = 15,
               backgroundColor = "white") %>% 
     hc_xAxis(title = NULL) %>% 
     hc_yAxis(title = "",
-             max = 1,
+             softMin = 0,
+             softMax = 1,
+             maxPadding = 0, 
              labels = list(
                formatter = JS('function () {
                               return Math.round(this.value*100, 0) + "%";} ')),
@@ -169,4 +168,39 @@ make_labourmarket_chart <- function(df){
     hc_add_theme(my_theme) %>%
     hc_tooltip(headerFormat = '<b> {series.name} </b><br>',
                pointFormatter = JS('function () {return Highcharts.dateFormat("%b %Y", this.x)  + ": " + Highcharts.numberFormat(this.y * 100, 1) + "%";}'))
+}
+
+make_house_prices_chart <- function(df){
+  
+  df %>% 
+    arrange(desc(Data)) %>% 
+    hchart("bar", hcaes(x = Area_name, y = Data),
+           name = data_hp1$Year[1]) %>% 
+    hc_colors(colors = unname(spcols)) %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "", 
+             labels = list(format = '\u00A3{value: ,f}')) %>% 
+    hc_tooltip(valueDecimals = 0,
+               valuePrefix = "\u00A3",
+               xDateFormat = '%b %Y') %>% 
+    hc_add_theme(my_theme)
+}
+
+make_house_prices_chart_ts <- function(df){
+  
+  df %>% 
+    arrange(Year, desc(Data)) %>% 
+    hchart("line", hcaes(x = Year, y = Data, group = Area_name)) %>% 
+    hc_colors(colors = unname(spcols)) %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "", 
+             labels = list(format = '\u00A3{value: ,f}')) %>% 
+    hc_tooltip(valueDecimals = 0,
+               valuePrefix = "\u00A3",
+               xDateFormat = '%b %Y') %>% 
+    hc_add_theme(my_theme) %>% 
+    hc_plotOptions(line = list(marker = list(enabled = FALSE))) %>%
+    hc_legend(layout = "proximate",
+              align = "right",
+              backgroundColor = "white") 
 }

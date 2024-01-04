@@ -12,12 +12,12 @@ pop_data <- lapply(seq_along(data_years), function(x) {
   bind_rows()
 
 pop <- pop_data %>% 
-  rename(Constituency = "Scottish Parliamentary Constituency name",
+  rename(Area_name = "Scottish Parliamentary Constituency name",
          Year = year) %>% 
   pivot_longer(cols = c(paste("Age", 0:89), "Age 90 and over"), names_to = "Age",
                values_to = "population") %>% 
-  mutate(Constituency = case_when(Constituency == "Perthshire South and Kinross-shire" ~ "Perthshire South and Kinrossshire",
-                                  TRUE ~ Constituency),
+  mutate(Area_name = case_when(Area_name == "Perthshire South and Kinross-shire" ~ "Perthshire South and Kinrossshire",
+                                  TRUE ~ Area_name),
          Sex = case_when(Sex == "Females" ~ "Female",
                          Sex == "Males" ~ "Male",
                          Sex == "Persons" ~ "All"),
@@ -30,11 +30,12 @@ pop <- pop_data %>%
                                   TRUE ~ "85 and over"),
          agegroup = factor(agegroup, ordered = TRUE),
          agegroup = fct_relevel(agegroup, "Under 16", after = 0L)) %>% 
-  group_by(Year, Constituency, Sex, agegroup) %>% 
+  group_by(Year, Area_name, Sex, agegroup) %>% 
   summarise(Total = Total[1],
             population = sum(population),
             share = population/Total) %>% 
-  mutate(Region = const_name_to_region(Constituency),
+  mutate(Region = const_name_to_region(Area_name),
+         Area_type = "SP Constituency",
          Subject = "Population",
          Measure = "Age groups",
          TimePeriod = Year,
@@ -44,9 +45,9 @@ pop <- pop_data %>%
          Data = population,
          Lower = NA,
          Upper = NA) %>% 
-  select(Region, Constituency, Subject, Measure, TimePeriod, Year, Month, Sex, Age, 
-         CTBand, Data, Lower, Upper) %>% 
-  arrange(Year, Region, Constituency)
+  select(Area_name, Area_type, Region, Subject, Measure, TimePeriod, Year, Month, 
+         Sex, Age, CTBand, Data, Lower, Upper) %>% 
+  arrange(Year, Region, Area_type, Area_name)
 
 # save tidy data ---------------------------------------------------------------
 

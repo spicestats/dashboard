@@ -6,8 +6,9 @@ source("R/functions/f_get_region.R")
 expect <- readRDS("data/lifeexpectancy.rds") %>% 
   filter(grepl("S16", refArea),
          age == "0-years") %>% 
-  mutate(Constituency = const_code_to_name(refArea),
-         Region = const_name_to_region(Constituency),
+  mutate(Area_name = const_code_to_name(refArea),
+         Area_type = "SP Constituency",
+         Region = const_name_to_region(Area_name),
          Subject = "Health",
          Measure = "Life expectancy at birth",
          TimePeriod = refPeriod,
@@ -19,9 +20,9 @@ expect <- readRDS("data/lifeexpectancy.rds") %>%
          Data = value,
          Lower = NA,
          Upper = NA) %>% 
-  select(Region, Constituency, Subject, Measure, TimePeriod, Year, Month, Sex, Age, 
-         CTBand, Data, Lower, Upper) %>% 
-  arrange(Year, Region, Constituency)
+  select(Area_name, Area_type, Region, Subject, Measure, TimePeriod, Year, Month, 
+         Sex, Age, CTBand, Data, Lower, Upper) %>% 
+  arrange(Year, Region, Area_type, Area_name)
 
 # save data --------------------------------------------------------------------
 

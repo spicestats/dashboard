@@ -20,48 +20,49 @@ tidy_lm <- labourmarket %>%
   pivot_wider(names_from = measures_name, values_from = obs_value) %>% 
   
   # get region for each constituency
-  mutate(region = const_name_to_region(geography_name)         ,
-         region = case_when(geography_type == "scottish parliamentary regions" ~ geography_name,
-                            TRUE ~ region),
-         gender = case_when(grepl(" males", variable_name) ~ "Male",
+  mutate(Region = const_name_to_region(geography_name)         ,
+         Region = case_when(geography_type == "scottish parliamentary regions" ~ geography_name,
+                            TRUE ~ Region),
+         Sex = case_when(grepl(" males", variable_name) ~ "Male",
                             grepl(" female", variable_name) ~ "Female",
                             TRUE ~ "All"),
          variable_name = case_when(grepl("Unemployment", variable_name) ~ "Unemployment",
                                    grepl("Employment", variable_name) ~ "Employment",
                                    TRUE ~ "Inactivity"),
          # if confidence is missing then the estimate is not reliable either
-         rate = case_when(!is.na(Confidence) ~ Variable / 100),
+         Data = case_when(!is.na(Confidence) ~ Variable / 100),
          Confidence = Confidence / 100,
-         Lower = rate - rate * Confidence * 1.96,
-         Upper = rate + rate * Confidence * 1.96) %>% 
+         Lower = Data - Data * Confidence * 1.96,
+         Upper = Data + Data * Confidence * 1.96) %>% 
   select(-geography_type, -Confidence, -Variable)
 
 
 # for earlier data, aggregate constituency estimates to regions
 aggregated_rates <- tidy_lm %>% 
   filter(date < "2012-12",
-         geography_name != region) %>% 
-  group_by(date, region, variable_name, gender) %>% 
+         geography_name != Region) %>% 
+  group_by(date, Region, variable_name, Sex) %>% 
   summarise(rate_aggr = round2(sum(Numerator)/sum(Denominator), 3))
 
 # combine aggregated estimates with all data
 tidy_lm_combined <- tidy_lm %>% 
-  left_join(aggregated_rates, by = c("date", "region", "variable_name", "gender")) %>% 
-  mutate(Data = case_when(date < "2012-12" & region == geography_name ~ rate_aggr,
-                          TRUE ~ rate),
+  left_join(aggregated_rates, by = c("date", "Region", "variable_name", "Sex")) %>% 
+  mutate(Data = case_when(date < "2012-12" & Region == geography_name ~ rate_aggr,
+                          TRUE ~ Data),
          Year = year(ym(date)),
          Month = month(ym(date)),
-         Constituency = case_when(geography_name != region ~ geography_name),
-         Region = region,
+         Area_name = case_when(geography_name == Region ~ Region,
+                               geography_name != Region ~ geography_name),
+         Area_type = case_when(geography_name == Region ~ "SP Region",
+                               TRUE ~ "SP Constituency"),
          Subject = "Labour market",
          Measure = variable_name,
          TimePeriod = date_name,
-         Sex = gender, 
          Age = "All",
          CTBand = "All") %>% 
-  select(Region, Constituency, Subject, Measure, TimePeriod, Year, Month, 
+  select(Area_name, Area_type, Region, Subject, Measure, TimePeriod, Year, Month, 
          Sex, Age, CTBand, Data, Lower, Upper) %>% 
-  arrange(Year, Month, Region, Constituency)
+  arrange(Year, Month, Region, Area_type, Area_name)
 
 # save tidy data ---------------------------------------------------------------
 

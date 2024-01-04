@@ -37,19 +37,24 @@ spc <- ods_find_lower_geographies("S92000003") %>%
   distinct() %>% 
   pull(geography)
 
-data <- ods_dataset("residential-properties-sales-and-price",
+data_spc <- ods_dataset("residential-properties-sales-and-price",
                     measureType = "median",
                     refArea = spc)
 
+data_la <- ods_dataset("residential-properties-sales-and-price",
+                        measureType = "median",
+                        geography = "la")
+
 ## save dataset ----------------------------------------------------------------
 
-saveRDS(data, "data/house_prices_data.rds")
+saveRDS(list(la = data_la,
+             spc = data_spc), "data/house_prices_data.rds")
 
 # write message
 message1 <- paste("Council tax data downloaded from statistics.gov.scot - latest data from",
                   max(data_year))
 message2 <- paste("House prices data downloaded from statistics.gov.scot - latest data from",
-                 max(data$refPeriod))
+                 max(data_spc$refPeriod))
 cat(message1, message2, fill = TRUE)
 
 rm(list = ls())

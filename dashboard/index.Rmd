@@ -14,33 +14,22 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 ```
 
-## Row {data-height=200}
+## Row {rowheight=100}
 
-### Pay
+### Labour Market & Earnings / Pay
 
--   [Pay](earnings.html)
+-   [Employment, Unemployment & Inactivity rates](labourmarket.html)
+-   [Pay by council area](earnings_LA.html)
+-   [Pay by UK country](earnings_nations.html)
 
-### Labour market indicators
-
--   [Employment, Unemployment & Inactivity](labourmarket.html)
-
-### Life expectancy
-
-- nsns
-- sdnd
 
 ### Health
 
-sad
+- Life expectancy
+- Health
 
-## Row {data-height=200}
+### Housing
 
-### lala
+- [House prices](housing.html)
 
-sdsd
 
-### lascs
-
-### asar
-
-### awaer

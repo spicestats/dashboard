@@ -1,5 +1,9 @@
 ---
 title: "Labour market indicators"
+output: 
+  flexdashboard::flex_dashboard:
+    vertical_layout: scroll
+    orientation: columns
 ---
   
 ```{r setup, include = FALSE}
@@ -18,83 +22,96 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 library(highcharter)
 charts_labourmarket <- readRDS("data/charts_labourmarket.rds")
-rowheight <- 200
-ncol <- 4
 
 ```
 
-- **Employment rate** - The proportion of x year-olds who are employed or self-employed
-- **Unemployment rate** - The proportion of x year-olds who are currently unemployed, i.e. they are looking for work
-- **Inactivity rate** - The proportion of xx year-olds who are currently not employed or self-employed and are not actively looking for work.
+- **Employment rate** - The proportion of 16-65 year-olds who are employed or self-employed
+- **Unemployment rate** - The proportion of 16+ year-olds who are currently unemployed, i.e. they are looking for work
+- **Inactivity rate** - The proportion of 16-65 year-olds who are currently not employed or self-employed and are not actively looking for work.
 
-The data is updated quarterly by the Office for National Statistics via the [Labour Force Survey](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/bulletins/regionallabourmarket/september2023). The shaded areas show measurement uncertainty (where available).
+The data is updated quarterly by the Office for National Statistics via the [Labour Force Survey](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/bulletins/regionallabourmarket/september2023). The shaded areas show measurement uncertainty (where available). Missing data is shown as gaps. Due to small numbers, unemployment rates are not available on a constituency-level.
 
-# Regions
+# Central Scotland
+
+## Column 1
+
+### Scottish Parliament Region {data-height=300 .first-box}
 
 ```{r}
-highcharter::hw_grid(charts_labourmarket$regions, 
-                     ncol = ncol, rowheight = rowheight)
+charts_labourmarket$regions[["Central Scotland"]]
 ```
 
-# Constituencies
-
-## Row {.tabset .tabset-fade}
-
-### Central Scotland {data-height=600}
+### Constituency {data-height=300}
 
 ```{r}
-highcharter::hw_grid(
-  charts_labourmarket$constituencies[["Central Scotland"]], 
-  ncol = ncol, rowheight = rowheight)
+charts_labourmarket$constituencies[["Central Scotland"]][["Airdrie and Shotts"]]
 ```
 
-### Glasgow
+### Constituency {data-height=300}
 
 ```{r}
-highcharter::hw_grid(charts_labourmarket$constituencies[["Glasgow"]], 
-                     ncol = ncol, rowheight = rowheight)
+charts_labourmarket$constituencies[["Central Scotland"]][["Coatbridge and Chryston"]]
 ```
 
-### Highlands and Islands
+### Constituency {data-height=300}
 
 ```{r}
-highcharter::hw_grid(charts_labourmarket$constituencies[["Highlands and Islands"]],
-                     ncol = ncol, rowheight = rowheight)
+charts_labourmarket$constituencies[["Central Scotland"]][["Cumbernauld and Kilsyth"]]
 ```
 
-### Lothian
+## Column 2
+
+### Constituency {data-height=300}
 
 ```{r}
-highcharter::hw_grid(charts_labourmarket$constituencies[["Lothian"]], 
-                     ncol = ncol, rowheight = rowheight)
+charts_labourmarket$constituencies[["Central Scotland"]][["East Kilbride"]]
 ```
 
-### Mid Scotland and Fife
+### Constituency {data-height=300}
 
 ```{r}
-highcharter::hw_grid(charts_labourmarket$constituencies[["Mid Scotland and Fife"]],
-                     ncol = ncol, rowheight = rowheight)
+charts_labourmarket$constituencies[["Central Scotland"]][["Falkirk East"]]
 ```
 
-### North East Scotland
+### Constituency {data-height=300}
 
 ```{r}
-highcharter::hw_grid(charts_labourmarket$constituencies[["North East Scotland"]],
-                     ncol = ncol, rowheight = rowheight)
+charts_labourmarket$constituencies[["Central Scotland"]][["Falkirk West"]]
 ```
 
-### South Scotland
+### Constituency {data-height=300}
 
 ```{r}
-highcharter::hw_grid(charts_labourmarket$constituencies[["South Scotland"]], 
-                     ncol = ncol, rowheight = rowheight)
+charts_labourmarket$constituencies[["Central Scotland"]][["Hamilton, Larkhall and Stonehouse"]]
 ```
 
-### West Scotland
+## Column 3
+
+### Constituency {data-height=300}
 
 ```{r}
-highcharter::hw_grid(charts_labourmarket$constituencies[["West Scotland"]], 
-                     ncol = ncol, rowheight = rowheight)
+charts_labourmarket$constituencies[["Central Scotland"]][["Motherwell and Wishaw"]]
 ```
 
+### Constituency {data-height=300}
+
+```{r}
+charts_labourmarket$constituencies[["Central Scotland"]][["Uddingston and Bellshill"]]
+```
+
+### empty {data-height=660 .empty-box .no-title}
+
+# Glasgow
+
+# Highlands & Islands
+
+# Lothian
+
+# Mid Scotland & Fife
+
+# North East Scotland
+
+# South Scotland
+
+# West Scotland
 

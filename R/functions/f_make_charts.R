@@ -116,9 +116,21 @@ hcoptslang$thousandsSep <- ","
 options(highcharter.lang = hcoptslang)
 
 make_earnings_chart <- function(df){ 
+  
+  ids <- unique(df$Area_name)
+  
   df %>% 
-    hchart("line", hcaes(x = year, y = value, group = region)) %>% 
-    hc_colors(colors = unname(spcols)) %>% 
+    hchart("line", hcaes(x = TimePeriod, y = Data, group = Area_name),
+           id = ids) %>% 
+    hc_add_series(type = "arearange", 
+                  data = df, 
+                  hcaes(x = TimePeriod, low = Lower, high = Upper, group = Area_name),
+                  linkedTo = ids,
+                  fillOpacity = 0.3,
+                  enableMouseTracking = FALSE,
+                  lineColor = "transparent",
+                  showInLegend = FALSE) %>% 
+    hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
     hc_xAxis(title = NULL) %>% 
     hc_yAxis(title = "", 
              labels = list(format = '\u00A3{value: ,f}')) %>% 
@@ -126,12 +138,23 @@ make_earnings_chart <- function(df){
                valuePrefix = "\u00A3",
                xDateFormat = '%b %Y') %>% 
     hc_add_theme(my_theme) %>%
-    hc_legend(verticalAlign = "bottom",
+    hc_plotOptions(series = list(marker = list(enabled = FALSE))) %>%
+    hc_legend(verticalAlign = "top",
               align = "right",
               floating = TRUE,
               backgroundColor = "white",
-              y = -25)
+              y = 20)
 } 
+
+make_region_earnings_chart <- function(df, council_list) {
+  
+  df %>% 
+    filter(Area_name %in% council_list,
+           Measure == "Median weekly employee earnings") %>% 
+    make_earnings_chart() %>% 
+    hc_legend(layout = "proximate",
+              align = "right")
+}
 
 make_labourmarket_chart <- function(df){
   
@@ -188,6 +211,8 @@ make_house_prices_chart <- function(df){
 
 make_house_prices_chart_ts <- function(df){
   
+  spcols <- spcols[1:length(unique(df$Area_name))]
+  
   df %>% 
     arrange(Year, desc(Data)) %>% 
     hchart("line", hcaes(x = Year, y = Data, group = Area_name)) %>% 
@@ -203,4 +228,43 @@ make_house_prices_chart_ts <- function(df){
     hc_legend(layout = "proximate",
               align = "right",
               backgroundColor = "white") 
+}
+
+make_earnings_errorbar_chart <- function(df) {
+  
+  df %>% 
+    hchart("scatter", hcaes(x = Area_name, y = Data),
+           name = paste(month.abb[df$Month[1]], df$Year[1])) %>% 
+    hc_chart(inverted = TRUE) %>% 
+    hc_add_series("errorbar", data = df, hcaes(low = Lower, high = Upper),
+                  enableMouseTracking = FALSE) %>% 
+    hc_colors(colors = unname(spcols)) %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "", 
+             labels = list(format = '\u00A3{value: ,f}')) %>% 
+    hc_tooltip(valueDecimals = 0,
+               valuePrefix = "\u00A3",
+               pointFormat = "<b>{point.y}</b><br/>") %>% 
+    hc_add_theme(my_theme)
+}
+
+make_labourmarket_errorbar_chart <- function(df) {
+  df %>% 
+    hchart("scatter", hcaes(x = Area_name, y = Data), 
+           name = paste(month.abb[df$Month[1]], year(df$Year[1]))) %>% 
+    hc_add_series(type = "errorbar", 
+                  data = df, 
+                  hcaes(x = Area_name, low = Lower, high = Upper),
+                  enableMouseTracking = FALSE) %>% 
+    hc_chart(inverted = TRUE) %>% 
+    hc_colors(colors = unname(spcols)) %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "",
+             labels = list(
+               formatter = JS('function () {
+                              return Math.round(this.value*100, 0) + "%";} ')),
+             accessibility = list(description = "Rate")) %>% 
+    hc_add_theme(my_theme) %>%
+    hc_tooltip(pointFormatter = JS('function () {return Highcharts.numberFormat(this.y * 100, 1) + "%";}'))
+  
 }

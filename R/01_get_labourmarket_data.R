@@ -22,7 +22,7 @@ last_updated <- nomis_overview(id = "NM_17_5") %>%
 
 # run these to understand what's in the datasets
 #nomis_get_metadata(id = "NM_17_5", concept = "GEOGRAPHY")
-#nomis_get_metadata(id = "NM_17_5", concept = "GEOGRAPHY", type = "TYPE") %>% view()
+#nomis_get_metadata(id = "NM_17_5", concept = "GEOGRAPHY", type = "TYPE499") %>% view()
 #nomis_get_metadata(id = "NM_17_5", concept = "TIME")
 #nomis_get_metadata(id = "NM_17_5", concept = "MEASURES")
 #nomis_get_metadata(id = "NM_17_5", concept = "FREQ")
@@ -36,8 +36,8 @@ nomis_aps <- nomis_get_data(
   
   id = "NM_17_5", 
   
-  # Scottish parliamentary regions & constituencies
-  geography = c("TYPE241", "TYPE458"), 
+  # UK, UK countries, Scottish parliamentary regions & constituencies
+  geography = c("TYPE499", "TYPE241", "TYPE458"), 
   
   # frequency annual only (for now)
   freq = "A",

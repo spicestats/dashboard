@@ -11,17 +11,19 @@ ct_files <- list.files("data/counciltax_data")
 # council tax data -------------------------------------------------------------
 
 # remove DZ-level files from list, read in data, only keep S16 geographies (SPC)
+# and Scotland
 
 ct_data <- paste0("data/counciltax_data/", ct_files[!grepl("DZ", ct_files)]) %>% 
   lapply(read.csv) %>% 
   bind_rows() %>% 
-  filter(grepl("S16", Geography_Code),
+  filter(grepl("S16|S92000003", Geography_Code),
          !grepl("Bands", Council.Tax.Band)) %>% 
   mutate(Area_name = Geography_Name,
          Area_name = case_when(Area_name == "Perthshire South and Kinross-shire" ~ "Perthshire South and Kinrossshire",
                                   TRUE ~ Area_name),
          Region = const_name_to_region(Area_name),
-         Area_type = "SP Constituency",
+         Area_type = case_when(Geography_Code == "S92000003" ~"Country",
+                               TRUE ~ "SP Constituency"),
          Subject = "Housing",
          Measure = "Dwellings by council tax band",
          TimePeriod = DateCode,
@@ -42,8 +44,11 @@ ct_data <- paste0("data/counciltax_data/", ct_files[!grepl("DZ", ct_files)]) %>%
 hp_data <- readRDS("data/house_prices_data.rds") 
 
 hp_data_spc <- hp_data$spc %>% 
-  mutate(Area_name = const_code_to_name(refArea),
-         Area_type = "SP Constituency",
+  mutate(refArea = const_code_to_name(refArea)) %>% 
+  rbind(hp_data$Scot) %>% 
+  mutate(Area_name = case_when(grepl("S92", refArea) ~ "Scotland",
+                               TRUE ~ refArea),
+         Area_type = ifelse(Area_name == "Scotland", "Country", "SP Constituency"),
          Region = const_name_to_region(Area_name),
          Subject = "Housing",
          Measure = "Median house price",
@@ -58,14 +63,15 @@ hp_data_spc <- hp_data$spc %>%
          Upper = NA) %>% 
   select(Area_name, Area_type, Region, Subject, Measure, TimePeriod, Year, Month, 
          Sex, Age, CTBand, Data, Lower, Upper) %>% 
-  arrange(Year, Region, Area_type, Area_name)
+  arrange(Year, Region, Area_type, Area_name) 
 
 hp_data_la <- hp_data$la %>% 
-  mutate(Area_name = council_code_to_name(refArea),
-         Area_type = "Council",
-         # add best matches?? NA for now
+  mutate(refArea = council_code_to_name(refArea)) %>% 
+  rbind(hp_data$Scot) %>% 
+  mutate(Area_name = case_when(grepl("S92", refArea) ~ "Scotland",
+                               TRUE ~ refArea),
+         Area_type = ifelse(Area_name == "Scotland", "Country", "Council"),
          Region = NA,
-         
          Subject = "Housing",
          Measure = "Median house price",
          TimePeriod = refPeriod,
@@ -85,7 +91,8 @@ hp_data_la <- hp_data$la %>%
 
 saveRDS(rbind(hp_data_spc,
               hp_data_la,
-              ct_data),
+              ct_data) %>% 
+          distinct(),
         "data/tidy_housing_data.rds")
 
 rm(list = ls())

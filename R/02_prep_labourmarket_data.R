@@ -11,6 +11,8 @@ labourmarket <- readRDS("data/labourmarketdata.rds")
 
 # tidy labour market dataset
 tidy_lm <- labourmarket %>% 
+  filter(geography_name != "Great Britain",
+         geography_name != "England and Wales") %>% 
   select(date, date_name, geography_name, geography_type, variable_name,
          measures_name, obs_value, obs_status, obs_status_name) %>% 
   
@@ -34,27 +36,30 @@ tidy_lm <- labourmarket %>%
          Confidence = Confidence / 100,
          Lower = Data - Data * Confidence * 1.96,
          Upper = Data + Data * Confidence * 1.96) %>% 
-  select(-geography_type, -Confidence, -Variable)
+  select(-Confidence, -Variable)
 
 
 # for earlier data, aggregate constituency estimates to regions
 aggregated_rates <- tidy_lm %>% 
   filter(date < "2012-12",
-         geography_name != Region) %>% 
+         grepl("scottish parliamentary constituencies", geography_type)) %>% 
+  select(-geography_type) %>% 
   group_by(date, Region, variable_name, Sex) %>% 
   summarise(rate_aggr = round2(sum(Numerator)/sum(Denominator), 3))
+  
 
 # combine aggregated estimates with all data
 tidy_lm_combined <- tidy_lm %>% 
   left_join(aggregated_rates, by = c("date", "Region", "variable_name", "Sex")) %>% 
-  mutate(Data = case_when(date < "2012-12" & Region == geography_name ~ rate_aggr,
+  mutate(Data = case_when(date < "2012-12" & geography_type == "scottish parliamentary regions" ~ rate_aggr,
                           TRUE ~ Data),
          Year = year(ym(date)),
          Month = month(ym(date)),
-         Area_name = case_when(geography_name == Region ~ Region,
-                               geography_name != Region ~ geography_name),
-         Area_type = case_when(geography_name == Region ~ "SP Region",
-                               TRUE ~ "SP Constituency"),
+         Area_name = case_when(geography_type == "scottish parliamentary regions" ~ Region,
+                               TRUE ~ geography_name),
+         Area_type = case_when(geography_type == "scottish parliamentary regions" ~ "SP Region",
+                               geography_type == "countries" ~ "Country",
+                               grepl("scottish parliamentary constituencies", geography_type) ~ "SP Constituency"),
          Subject = "Labour market",
          Measure = variable_name,
          TimePeriod = date_name,

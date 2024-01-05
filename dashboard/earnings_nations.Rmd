@@ -16,7 +16,7 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 ```{r prep_data}
 library(highcharter)
-charts_earnings <- readRDS("data/charts_earnings.rds")
+charts_earnings <- readRDS("data/charts_earnings.rds")[["countries"]]
 rowheight <- 300
 ncol <- 3
 ```

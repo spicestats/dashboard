@@ -1,3 +1,5 @@
+# Note that PAYE local data is available on LAU1, and NUTS3-level, but not on 
+# SPR, SPC or council level
 
 # load -------------------------------------------------------------------------
 

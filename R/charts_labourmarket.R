@@ -13,6 +13,7 @@ all_data <- readRDS("data/tidy_labourmarket_data.rds") %>%
 
 latest_quarter <- tail(all_data$Month, 1)
 regions <- unique(all_data$Region)
+regions <- regions[!is.na(regions)]
 
 data <- all_data %>% 
   mutate(Year = lubridate::my(paste(Month, Year))) %>% 
@@ -53,6 +54,8 @@ for (i in regions) {
 # Regions ----------------------------------------------------------------------
 # Inactivity, Unemployment & Employment
 
+## line charts -----------------------------------------------------------------
+
 charts_labourmarket_regions <- lapply(regions, function(x) {
   
   df <- data %>% filter(Region == x, Area_type == "SP Region")
@@ -61,10 +64,40 @@ charts_labourmarket_regions <- lapply(regions, function(x) {
 
 names(charts_labourmarket_regions) <- regions
 
+## errorbar charts -------------------------------------------------------------
+
+charts_labourmarket_regions_employment_errorbar <- lapply(regions, function(x) {
+  
+  df <- data %>% 
+    filter(Area_type == "SP Constituency" | Area_name == "Scotland",
+           Region == x | Area_name == "Scotland",
+           TimePeriod == max(TimePeriod),
+           Measure == "Employment") %>% 
+    arrange(desc(Data)) %>% 
+    make_labourmarket_errorbar_chart() %>% 
+    hc_title(text = "Proportion of 16-65 year olds who are employed or self-employed")
+})
+
+charts_labourmarket_regions_inactivity_errorbar <- lapply(regions, function(x) {
+  
+  df <- data %>% 
+    filter(Area_type == "SP Constituency" | Area_name == "Scotland",
+           Region == x | Area_name == "Scotland",
+           TimePeriod == max(TimePeriod),
+           Measure == "Inactivity") %>% 
+    arrange(desc(Data)) %>% 
+    make_labourmarket_errorbar_chart() %>% 
+    hc_title(text = "Proportion of 16-65 year olds who are economically inactive")
+})
+
+names(charts_labourmarket_regions_employment_errorbar) <- regions
+names(charts_labourmarket_regions_inactivity_errorbar) <- regions
 
 # save all ---------------------------------------------------------------------
 
 saveRDS(list(regions = charts_labourmarket_regions,
-             constituencies = charts_labourmarket_constituencies), 
+             constituencies = charts_labourmarket_constituencies,
+             regions_emp = charts_labourmarket_regions_employment_errorbar,
+             regions_inact = charts_labourmarket_regions_inactivity_errorbar), 
         "data/charts_labourmarket.rds")
 

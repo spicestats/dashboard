@@ -21,7 +21,10 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```{r prep_data}
 
 library(highcharter)
-charts_labourmarket <- readRDS("data/charts_labourmarket.rds")
+charts_r <- readRDS("data/charts_labourmarket.rds")[["regions"]]
+charts_c <- readRDS("data/charts_labourmarket.rds")[["constituencies"]]
+charts_emp <- readRDS("data/charts_labourmarket.rds")[["regions_emp"]]
+charts_inact <- readRDS("data/charts_labourmarket.rds")[["regions_inact"]]
 
 ```
 
@@ -33,73 +36,85 @@ The data is updated quarterly by the Office for National Statistics via the [Lab
 
 # Central Scotland
 
-## Column 1
+## Column
 
 ### Scottish Parliament Region {data-height=300 .first-box}
 
 ```{r}
-charts_labourmarket$regions[["Central Scotland"]]
+charts_r[["Central Scotland"]]
 ```
 
 ### Constituency {data-height=300}
 
 ```{r}
-charts_labourmarket$constituencies[["Central Scotland"]][["Airdrie and Shotts"]]
+charts_c[["Central Scotland"]][["Airdrie and Shotts"]]
 ```
 
 ### Constituency {data-height=300}
 
 ```{r}
-charts_labourmarket$constituencies[["Central Scotland"]][["Coatbridge and Chryston"]]
+charts_c[["Central Scotland"]][["Coatbridge and Chryston"]]
 ```
 
 ### Constituency {data-height=300}
 
 ```{r}
-charts_labourmarket$constituencies[["Central Scotland"]][["Cumbernauld and Kilsyth"]]
+charts_c[["Central Scotland"]][["Cumbernauld and Kilsyth"]]
 ```
 
-## Column 2
+## Column
 
-### Constituency {data-height=300}
-
-```{r}
-charts_labourmarket$constituencies[["Central Scotland"]][["East Kilbride"]]
-```
-
-### Constituency {data-height=300}
+### Region - Employment {data-height=300 .first-box}
 
 ```{r}
-charts_labourmarket$constituencies[["Central Scotland"]][["Falkirk East"]]
+charts_emp[["Central Scotland"]]
 ```
 
 ### Constituency {data-height=300}
 
 ```{r}
-charts_labourmarket$constituencies[["Central Scotland"]][["Falkirk West"]]
+charts_c[["Central Scotland"]][["East Kilbride"]]
 ```
 
 ### Constituency {data-height=300}
 
 ```{r}
-charts_labourmarket$constituencies[["Central Scotland"]][["Hamilton, Larkhall and Stonehouse"]]
-```
-
-## Column 3
-
-### Constituency {data-height=300}
-
-```{r}
-charts_labourmarket$constituencies[["Central Scotland"]][["Motherwell and Wishaw"]]
+charts_c[["Central Scotland"]][["Falkirk East"]]
 ```
 
 ### Constituency {data-height=300}
 
 ```{r}
-charts_labourmarket$constituencies[["Central Scotland"]][["Uddingston and Bellshill"]]
+charts_c[["Central Scotland"]][["Falkirk West"]]
 ```
 
-### empty {data-height=660 .empty-box .no-title}
+
+## Column
+
+### Region - Inactivity {data-height=300 .first-box}
+
+```{r}
+charts_inact[["Central Scotland"]]
+```
+
+### Constituency {data-height=300}
+
+```{r}
+charts_c[["Central Scotland"]][["Hamilton, Larkhall and Stonehouse"]]
+```
+
+### Constituency {data-height=300}
+
+```{r}
+charts_c[["Central Scotland"]][["Motherwell and Wishaw"]]
+```
+
+### Constituency {data-height=300}
+
+```{r}
+charts_c[["Central Scotland"]][["Uddingston and Bellshill"]]
+```
+
 
 # Glasgow
 

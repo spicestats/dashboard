@@ -45,10 +45,15 @@ data_la <- ods_dataset("residential-properties-sales-and-price",
                         measureType = "median",
                         geography = "la")
 
+data_scot <- ods_dataset("residential-properties-sales-and-price",
+                       measureType = "median",
+                       refArea = "S92000003")
+
 ## save dataset ----------------------------------------------------------------
 
 saveRDS(list(la = data_la,
-             spc = data_spc), "data/house_prices_data.rds")
+             spc = data_spc,
+             Scot = data_scot), "data/house_prices_data.rds")
 
 # write message
 message1 <- paste("Council tax data downloaded from statistics.gov.scot - latest data from",

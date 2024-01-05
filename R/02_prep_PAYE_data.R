@@ -1,3 +1,6 @@
+# Note that PAYE local data is available on LAU1 (41), and NUTS3-level (23), but 
+# not on any sensible geographic (SPR, SPC or council) level
+
 # load -------------------------------------------------------------------------
 
 library(tidyverse)
@@ -60,7 +63,7 @@ employees_region <- data$sheet7 %>%
   mutate(SIC = "All",
          Age = "All",
          UK_Region = ifelse(UK_Region == "UK", "All", UK_Region),
-         LA = NA)
+         LAU = NA)
 
 
 var_names <- names(data$sheet19)
@@ -69,20 +72,20 @@ country <- str_sub(var_names, 1, 1)
 names(data$sheet19) <- paste0(country, "_", unlist(data$sheet19[1, ]))
 names(data$sheet19)[1] <- "Date"
 
-employees_LA <- data$sheet19 %>% 
+employees_LAU <- data$sheet19 %>% 
   filter(Date != "Date") %>% 
   mutate(Date = my(Date)) %>% 
   pivot_longer(cols = names(data$sheet19)[2:ncol(data$sheet19)],
-               names_to = "LA",
+               names_to = "LAU",
                values_to = "Data") %>% 
-  filter(!grepl("E_", LA),
-         !grepl("W_", LA),
-         !grepl("N_", LA),
-         LA != "._UK") %>% 
+  filter(!grepl("E_", LAU),
+         !grepl("W_", LAU),
+         !grepl("N_", LAU),
+         LAU != "._UK") %>% 
   mutate(SIC = "All",
          Age = "All",
          UK_Region = "Scotland",
-         LA = str_split_i(LA, "_", 2))
+         LAU = str_split_i(LAU, "_", 2))
 
 employees_sector <- data$sheet36 %>% 
   mutate(Date = my(Date)) %>% 
@@ -92,7 +95,7 @@ employees_sector <- data$sheet36 %>%
   mutate(UK_Region = str_split_i(region_sector, ":", 1),
          SIC = str_split_i(region_sector, ":", 2),
          Age = "All",
-         LA = NA) %>% 
+         LAU = NA) %>% 
   filter(UK_Region == "Scotland") %>% 
   select(-region_sector)
 
@@ -104,17 +107,17 @@ employees_age <- data$sheet32 %>%
   mutate(UK_Region = str_split_i(region_age, ":", 1),
          Age = str_split_i(region_age, ":", 2),
          SIC = "All", 
-         LA = NA) %>% 
+         LAU = NA) %>% 
   filter(UK_Region == "Scotland") %>% 
   select(-region_age)
 
-employees <- rbind(employees_region, employees_LA, employees_sector,
+employees <- rbind(employees_region, employees_LAU, employees_sector,
                    employees_age)  %>% 
-  filter(!(UK_Region == "All" & is.na(LA))) %>% 
-  mutate(Area_name = case_when(is.na(LA) ~ UK_Region,
-                               !is.na(LA) ~ LA),
-         Area_type = case_when(is.na(LA) ~ "UK Region",
-                               !is.na(LA) ~ "Council"), 
+  filter(!(UK_Region == "All" & is.na(LAU))) %>% 
+  mutate(Area_name = case_when(is.na(LAU) ~ UK_Region,
+                               !is.na(LAU) ~ LAU),
+         Area_type = case_when(is.na(LAU) ~ "UK Region",
+                               !is.na(LAU) ~ "LAU1"), 
          Region = NA, 
          Subject = "Labour market", 
          Measure = "Employees", 
@@ -141,7 +144,7 @@ pay_region <- data$sheet8 %>%
   mutate(SIC = "All",
          Age = "All",
          UK_Region = ifelse(UK_Region == "UK", "All", UK_Region),
-         LA = NA)
+         LAU = NA)
 
 var_names <- names(data$sheet20)
 country <- str_sub(var_names, 1, 1)
@@ -149,20 +152,20 @@ country <- str_sub(var_names, 1, 1)
 names(data$sheet20) <- paste0(country, "_", unlist(data$sheet20[1, ]))
 names(data$sheet20)[1] <- "Date"
 
-pay_LA <- data$sheet20 %>% 
+pay_LAU <- data$sheet20 %>% 
   filter(Date != "Date") %>% 
   mutate(Date = my(Date)) %>% 
   pivot_longer(cols = names(data$sheet20)[2:ncol(data$sheet20)],
-               names_to = "LA",
+               names_to = "LAU",
                values_to = "Data") %>% 
-  filter(!grepl("E_", LA),
-         !grepl("W_", LA),
-         !grepl("N_", LA),
-         LA != "._UK") %>% 
+  filter(!grepl("E_", LAU),
+         !grepl("W_", LAU),
+         !grepl("N_", LAU),
+         LAU != "._UK") %>% 
   mutate(SIC = "All",
          Age = "All",
          UK_Region = "Scotland",
-         LA = str_split_i(LA, "_", 2))
+         LAU = str_split_i(LAU, "_", 2))
 
 pay_sector <- data$sheet37 %>% 
   mutate(Date = my(Date)) %>% 
@@ -172,7 +175,7 @@ pay_sector <- data$sheet37 %>%
   mutate(UK_Region = str_split_i(region_sector, ":", 1),
          SIC = str_split_i(region_sector, ":", 2),
          Age = "All",
-         LA = NA) %>% 
+         LAU = NA) %>% 
   filter(UK_Region == "Scotland") %>% 
   select(-region_sector)
 
@@ -184,16 +187,16 @@ pay_age <- data$sheet33 %>%
   mutate(UK_Region = str_split_i(region_age, ":", 1),
          Age = str_split_i(region_age, ":", 2),
          SIC = "All", 
-         LA = NA) %>% 
+         LAU = NA) %>% 
   filter(UK_Region == "Scotland") %>% 
   select(-region_age)
 
-pay <- rbind(pay_region, pay_LA, pay_sector, pay_age) %>% 
-  filter(!(UK_Region == "All" & is.na(LA))) %>% 
-  mutate(Area_name = case_when(is.na(LA) ~ UK_Region,
-                               !is.na(LA) ~ LA),
-         Area_type = case_when(is.na(LA) ~ "UK Region",
-                               !is.na(LA) ~ "Council"), 
+pay <- rbind(pay_region, pay_LAU, pay_sector, pay_age) %>% 
+  filter(!(UK_Region == "All" & is.na(LAU))) %>% 
+  mutate(Area_name = case_when(is.na(LAU) ~ UK_Region,
+                               !is.na(LAU) ~ LAU),
+         Area_type = case_when(is.na(LAU) ~ "UK Region",
+                               !is.na(LAU) ~ "LAU1"), 
          Region = NA, 
          Subject = "Labour market", 
          Measure = "Earnings", 

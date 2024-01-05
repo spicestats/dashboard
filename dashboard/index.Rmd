@@ -18,18 +18,22 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 ### Labour Market & Earnings / Pay
 
--   [Employment, Unemployment & Inactivity rates](labourmarket.html)
--   [Pay by council area](earnings_LA.html)
--   [Pay by UK country](earnings_nations.html)
+#### Scottish Parliament Regions
 
+-   [Employment, Unemployment & Inactivity rates](labourmarket.html)
+-   [Pay](earnings.html)
+
+#### UK nations
+
+-   [Pay](earnings_nations.html)
+
+### Housing
+
+- [House prices](housing.html)
 
 ### Health
 
 - Life expectancy
 - Health
-
-### Housing
-
-- [House prices](housing.html)
 
 

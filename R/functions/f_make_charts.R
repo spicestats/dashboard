@@ -230,6 +230,38 @@ make_house_prices_chart_ts <- function(df){
               backgroundColor = "white") 
 }
 
+make_housing_affordability_chart <- function(df){
+  
+  df %>% 
+    arrange(desc(Data)) %>% 
+    hchart("bar", hcaes(x = Area_name, y = Data),
+           name = df$Year[1]) %>% 
+    hc_colors(colors = unname(spcols)) %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "") %>% 
+    hc_tooltip(valueDecimals = 1,
+               xDateFormat = '%b %Y') %>% 
+    hc_add_theme(my_theme)
+}
+
+make_tenure_chart <- function(df) {
+  df %>%    
+    arrange(Measure, desc(Data)) %>% 
+    hchart("bar", hcaes(x = Area_name, y = Data, group = Measure)) %>% 
+    hc_colors(colors = unname(spcols)) %>% 
+    hc_plotOptions(bar = list(stacking = "normal")) %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "",
+             reversedStacks = FALSE,
+             max = 1,
+             labels = list(
+               formatter = JS('function () {
+                              return Math.round(this.value*100, 0) + "%";} '))
+    ) %>% 
+    hc_tooltip(pointFormatter = JS('function () {return this.series.name  + ": " + Highcharts.numberFormat(this.y * 100, 0) + "%";}')) %>% 
+    hc_add_theme(my_theme)
+}
+
 make_earnings_errorbar_chart <- function(df) {
   
   df %>% 

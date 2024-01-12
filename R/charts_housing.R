@@ -45,7 +45,7 @@ house_prices_ts <- lapply(seq_along(regions), function(x) {
 
 names(house_prices_ts) <- regions
 
-# housing affordability --------------------------------------------------------
+# housing affordability bar charts ---------------------------------------------
 
 data_hp3 <- data %>% 
   filter(Area_type == "Council" | Area_name == "Scotland",
@@ -61,17 +61,78 @@ afford <- earnings_data %>%
   mutate(Data = HousePrice / (Data * 52)) %>% 
   arrange(desc(Data))
 
-# TODO ---------
+# region (council) -level
+# combine those councils that overlap with a region
 
-# map councils to SP regions, see labour market charts
+region_council_lookup <- list(
+  "Central Scotland" = c("Falkirk", "North Lanarkshire", "South Lanarkshire"),
+  "Glasgow" = c("Glasgow City", "South Lanarkshire"),
+  "Highlands and Islands" = c("Argyll and Bute", "Highland", "Moray", 
+                              "Na h-Eileanan Siar", "Orkney Islands", 
+                              "Shetland Islands"),
+  "Lothian" = c("City of Edinburgh", "East Lothian", "Midlothian", 
+                "West Lothian"),
+  "Mid Scotland and Fife" = c("Clackmannanshire", "Fife",  "Perth and Kinross", 
+                              "Stirling"),
+  "North East Scotland" = c("Aberdeen City", "Aberdeenshire",  "Angus", 
+                            "Dundee City", "Moray"),
+  "South Scotland" = c("Dumfries and Galloway", "East Ayrshire", "East Lothian", 
+                       "Midlothian", "Scottish Borders", "South Ayrshire", 
+                       "South Lanarkshire"),
+  "West Scotland" = c("Argyll and Bute", "East Dunbartonshire", 
+                      "East Renfrewshire", "Inverclyde", "North Ayrshire", 
+                      "Renfrewshire", "West Dunbartonshire"))
 
+# bar chart
+affordability <- lapply(
+  seq_along(region_council_lookup), function(x) {
+    afford %>% 
+      filter(Area_name %in% c("Scotland", region_council_lookup[[x]])) %>% 
+      make_housing_affordability_chart() %>% 
+      hc_title(text = paste("Median house price relative to median pay per year,", year(max(afford$TimePeriod))))
+  })
 
+names(affordability) <- names(region_council_lookup)
 
 # tenure mix -------------------------------------------------------------------
+# hhld level analysis
+
+tenure_data <- data %>% 
+  filter(grepl("Tenure", Measure)) %>% 
+  mutate(Measure = str_split_i(Measure, ": ", 2),
+         Measure = factor(Measure, 
+                          levels = c("Owned outright",
+                                     "Buying with a mortgage",
+                                     "Social rented",
+                                     "Private rented"),
+                          ordered = TRUE))
+
+tenure <- lapply(seq_along(regions), function(x) {
+  
+  tenure_data %>% 
+  filter(Region == regions[x] | Area_name == "Scotland") %>% 
+    make_tenure_chart()
+})
+
 
 # council tax mix --------------------------------------------------------------
+
+ct_data <- data %>% 
+  filter(Measure == "Dwellings by council tax band")
+
+
+
+tenure <- lapply(seq_along(regions), function(x) {
+  
+  tenure_data %>% 
+    filter(Region == regions[x] | Area_name == "Scotland") %>% 
+    make_tenure_chart()
+  
+})
 
 # save all ---------------------------------------------------------------------
 
 saveRDS(list(house_prices = house_prices,
-             house_prices_ts = house_prices_ts), "data/charts_housing.rds")
+             house_prices_ts = house_prices_ts,
+             affordability = affordability,
+             tenure_mix = tenure), "data/charts_housing.rds")

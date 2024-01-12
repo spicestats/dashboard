@@ -8,6 +8,8 @@ library(opendatascot)
 library(polite)
 library(rvest)
 
+# Note that Census data download isn't automated as it doesn't get updated often
+
 # NRS Dwellings by Council Tax Band --------------------------------------------
 
 url <- "https://statistics.gov.scot/data/dwellings-by-council-tax-band-detailed-current-geographic-boundaries"

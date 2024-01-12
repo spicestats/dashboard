@@ -6,9 +6,54 @@ library(tidyverse)
 source("R/functions/f_get_region.R")
 source("R/functions/f_get_council.R")
 
-ct_files <- list.files("data/counciltax_data")
+# Census tenure data ----------------------------------------------------------- 
+
+tenure <- read_csv("data/DC4427SC.csv", skip = 4)
+
+tenure_tidy <- tenure %>% 
+  rename(Area_name = 1,
+         Group = 2,
+         Total = "All households") %>% 
+  filter(Group == "All households",
+         !is.na(Group)) %>% 
+  select(-Group) %>% 
+  mutate(across(where(is.numeric), as.character)) %>% 
+  pivot_longer(-c(Area_name, Total), names_to = "Tenure", values_to = "Data") %>% 
+  filter(Tenure %in% c("Owned: Owned outright", 
+                       "Owned: Owned with a mortgage or loan or shared ownership",
+                       "Social rented: Total",
+                       "Private rented or living rent free: Total")) %>% 
+  mutate(Tenure = factor(Tenure, 
+                         levels = c("Owned: Owned outright", 
+                                    "Owned: Owned with a mortgage or loan or shared ownership",
+                                    "Social rented: Total",
+                                    "Private rented or living rent free: Total"),
+                         labels = c("Owned outright",
+                                    "Buying with a mortgage",
+                                    "Social rented",
+                                    "Private rented"),
+                         ordered = TRUE),
+         Data = as.integer(Data) / as.integer(Total), 
+         Area_type = ifelse(Area_name == "Scotland", "Country", "SP Constituency"),
+         Region = const_name_to_region(Area_name),
+         Subject = "Housing",
+         Measure = paste("Tenure:", Tenure),
+         TimePeriod = 2011,
+         Year = TimePeriod,
+         Month = NA,
+         Sex = "All",
+         Age = "All",
+         CTBand = "All",
+         Lower = NA,
+         Upper = NA) %>% 
+  
+  select(Area_name, Area_type, Region, Subject, Measure, TimePeriod, Year, Month, 
+         Sex, Age, CTBand, Data, Lower, Upper) %>% 
+  arrange(Year, Region, Area_type, Area_name) 
 
 # council tax data -------------------------------------------------------------
+
+ct_files <- list.files("data/counciltax_data")
 
 # remove DZ-level files from list, read in data, only keep S16 geographies (SPC)
 # and Scotland
@@ -20,7 +65,7 @@ ct_data <- paste0("data/counciltax_data/", ct_files[!grepl("DZ", ct_files)]) %>%
          !grepl("Bands", Council.Tax.Band)) %>% 
   mutate(Area_name = Geography_Name,
          Area_name = case_when(Area_name == "Perthshire South and Kinross-shire" ~ "Perthshire South and Kinrossshire",
-                                  TRUE ~ Area_name),
+                               TRUE ~ Area_name),
          Region = const_name_to_region(Area_name),
          Area_type = case_when(Geography_Code == "S92000003" ~"Country",
                                TRUE ~ "SP Constituency"),
@@ -91,7 +136,8 @@ hp_data_la <- hp_data$la %>%
 
 saveRDS(rbind(hp_data_spc,
               hp_data_la,
-              ct_data) %>% 
+              ct_data,
+              tenure_tidy) %>% 
           distinct(),
         "data/tidy_housing_data.rds")
 

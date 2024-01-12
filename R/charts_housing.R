@@ -40,7 +40,8 @@ house_prices_ts <- lapply(seq_along(regions), function(x) {
   
   data_hp2 %>% 
     filter(Region == regions[x] | Area_name == "Scotland") %>% 
-    make_house_prices_chart_ts()
+    make_house_prices_chart_ts() %>% 
+    hc_title(text = paste0("Median house prices in ", regions[x]))
 })
 
 names(house_prices_ts) <- regions
@@ -89,7 +90,8 @@ affordability <- lapply(
     afford %>% 
       filter(Area_name %in% c("Scotland", region_council_lookup[[x]])) %>% 
       make_housing_affordability_chart() %>% 
-      hc_title(text = paste("Median house price relative to median pay per year,", year(max(afford$TimePeriod))))
+      hc_title(text = "How many years' worth of average pay to buy an average house?") %>% 
+      hc_subtitle(text = paste("Median house price relative to median pay per year in council areas within the", regions[x]," region,", year(max(afford$TimePeriod))))
   })
 
 names(affordability) <- names(region_council_lookup)
@@ -110,29 +112,39 @@ tenure_data <- data %>%
 tenure <- lapply(seq_along(regions), function(x) {
   
   tenure_data %>% 
-  filter(Region == regions[x] | Area_name == "Scotland") %>% 
-    make_tenure_chart()
+    filter(Region == regions[x] | Area_name == "Scotland") %>% 
+    make_tenure_chart() %>% 
+    hc_title(text = paste0("Share of households in each housing tenure in ", regions[x], ", ", max(tenure_data$Year)))
 })
 
+names(tenure) <- names(region_council_lookup)
 
 # council tax mix --------------------------------------------------------------
 
 ct_data <- data %>% 
-  filter(Measure == "Dwellings by council tax band")
+  filter(Measure == "Dwellings by council tax band",
+         TimePeriod == max(TimePeriod)) %>% 
+  select(Region, Area_name, Area_type, Year, CTBand, Data) %>% 
+  filter(CTBand != "Total Dwellings") %>% 
+  group_by(Area_name) %>% 
+  mutate(Data = Data/sum(Data)) %>% 
+  rename(Measure = CTBand)
 
-
-
-tenure <- lapply(seq_along(regions), function(x) {
+counciltax <- lapply(seq_along(regions), function(x) {
   
-  tenure_data %>% 
+  ct_data %>% 
     filter(Region == regions[x] | Area_name == "Scotland") %>% 
-    make_tenure_chart()
+    make_tenure_chart() %>% 
+    hc_title(text = paste0("Share of dwellings in each council tax band in ", regions[x], ", ", ct_data$Year[1]))
   
 })
+
+names(counciltax) <- names(region_council_lookup)
 
 # save all ---------------------------------------------------------------------
 
 saveRDS(list(house_prices = house_prices,
              house_prices_ts = house_prices_ts,
              affordability = affordability,
-             tenure_mix = tenure), "data/charts_housing.rds")
+             tenure_mix = tenure,
+             counciltax = counciltax), "data/charts_housing.rds")

@@ -3,7 +3,7 @@ title: "Housing"
 output: 
   flexdashboard::flex_dashboard:
     vertical_layout: scroll
-    orientation: columns
+    orientation: rows
 ---
   
 ```{r setup, include = FALSE}
@@ -27,35 +27,50 @@ charts_housing <- readRDS("data/charts_housing.rds")
 
 #### Housing statistics
 
-- Median house prices
-- Housing affordability
-- Council tax mix
-- Tenure mix
+- [Median house prices data is from Registers of Scotland](https://statistics.gov.scot/resource?uri=http%3A%2F%2Fstatistics.gov.scot%2Fdata%2Fresidential-properties-sales-and-price)
+- Housing affordability uses the house price data above alongside [weekly median gross employee earnings data from the Annual Survey of Hours and Earnings](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/annualsurveyofhoursandearningsasheguidetotables) 
+- [Council tax data is from National Records of Scotland](https://statistics.gov.scot/data/dwellings-by-council-tax-band-detailed-current-geographic-boundaries)
+- Tenure data is from the [Scottish Census 2011](https://www.scotlandscensus.gov.uk/search-the-census#/)
+
+Further data: overcrowding (Census); social housing waitlists; house builidng; EPC data
 
 # Central Scotland
 
-## Column 1
+## Row 1 {data-height=500}
 
-### Median house prices {data-height=400}
+### Median house prices
 
 ```{r}
 charts_housing$house_prices[["Central Scotland"]]
 ```
 
-### Median house prices over time {data-height=400}
+### Housing affordability
+
+```{r}
+charts_housing$affordability[["Central Scotland"]]
+```
+
+## Row 2 {data-height=350}
+
+### Tenure mix
+
+```{r}
+charts_housing$tenure_mix[["Central Scotland"]]
+```
+
+### Council tax mix
+
+```{r}
+charts_housing$counciltax[["Central Scotland"]]
+```
+
+## Row 3
+
+### Median house prices over time
 
 ```{r}
 charts_housing$house_prices_ts[["Central Scotland"]]
 ```
-
-### Housing affordability {data-height=400}
-
-## Column 2
-
-### Tenure mix {data-height=600}
-
-### Council tax mix {data-height=600}
-
 
 # Glasgow
 

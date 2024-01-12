@@ -3,7 +3,7 @@ title: "Pay"
 output: 
   flexdashboard::flex_dashboard:
     vertical_layout: scroll
-    orientation: columns
+    orientation: rows
 ---
   
 ```{r setup, include = FALSE}
@@ -24,6 +24,7 @@ library(highcharter)
 charts_n <- readRDS("data/charts_earnings.rds")[["regions"]][["nominal"]]
 charts_r <- readRDS("data/charts_earnings.rds")[["regions"]][["real"]]
 charts_l <- readRDS("data/charts_earnings.rds")[["regions"]][["latest"]]
+regions <- names(charts_n)
 
 ```
 
@@ -33,44 +34,16 @@ The charts show median gross earnings of employees (without adjusting for inflat
 
 Data is available on a council-area level, but not on Scottish Parliament constituency or region level. This page includes council areas that are within or overlap with the selected Scottish Parliament region.
 
-# Central Scotland
+```{r, results='asis'}
 
-## Column
+# add layout and charts by looping through regions
 
-### Latest estimates {data-height=400}
+src = lapply(seq_along(regions), function(x) {
+  x <- regions[x]
+  knitr::knit_expand('dashboard/_layouts/earnings_layout.Rmd')
+})
 
-```{r}
-charts_l[["Central Scotland"]]
+res = knitr::knit_child(text = unlist(src), quiet = TRUE)
+cat(res, sep = '\n')
+
 ```
-
-## Column
-
-### Nominal pay {data-height=400}
-
-```{r}
-charts_n[["Central Scotland"]]
-```
-
-## Column
-
-### Real pay {data-height=400}
-
-```{r}
-charts_r[["Central Scotland"]]
-```
-
-
-# Glasgow
-
-# Highlands & Islands
-
-# Lothian
-
-# Mid Scotland & Fife
-
-# North East Scotland
-
-# South Scotland
-
-# West Scotland
-

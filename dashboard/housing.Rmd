@@ -41,7 +41,7 @@ Further data: overcrowding (Census); social housing waitlists; house builidng; E
 
 src = lapply(seq_along(regions), function(x) {
   x <- regions[x]
-  knitr::knit_expand('dashboard/layouts/housing_layout.Rmd')
+  knitr::knit_expand('dashboard/_layouts/housing_layout.Rmd')
 })
 
 res = knitr::knit_child(text = unlist(src), quiet = TRUE)

@@ -41,7 +41,7 @@ The data is updated quarterly by the Office for National Statistics via the [Lab
 
 src = lapply(seq_along(regions), function(x) {
   x <- regions[x]
-  knitr::knit_expand('dashboard/layouts/labourmarket_layout.Rmd')
+  knitr::knit_expand('dashboard/_layouts/labourmarket_layout.Rmd')
 })
 
 res = knitr::knit_child(text = unlist(src), quiet = TRUE)

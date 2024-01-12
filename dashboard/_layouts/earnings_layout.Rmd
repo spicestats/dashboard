@@ -1,0 +1,21 @@
+# `r stringr::str_replace("{{x}}", " and ", " & ")`
+
+## Row  {data-height=350}
+
+### Latest estimates
+
+```{r}
+charts_l[["{{x}}"]]
+```
+
+### Nominal pay
+
+```{r}
+charts_n[["{{x}}"]]
+```
+
+### Real pay
+
+```{r}
+charts_r[["{{x}}"]]
+```

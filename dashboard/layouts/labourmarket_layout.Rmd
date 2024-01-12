@@ -1,0 +1,120 @@
+# `r stringr::str_replace("{{x}}", " and ", " & ")`
+
+## Row 1 {data-height=350}
+
+### {{x}} region {.first-box}
+
+```{r}
+charts_r[["{{x}}"]]
+```
+
+### {{x}} constituencies  - Employment {.first-box}
+
+```{r}
+charts_emp[["{{x}}"]]
+```
+
+### {{x}} constituencies - Inactivity {.first-box}
+
+```{r}
+charts_inact[["{{x}}"]]
+```
+
+## Row 2 {data-height=300}
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[1]]
+```
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[2]]
+```
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[3]]
+```
+
+## Row 3 {data-height=300}
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[4]]
+```
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[5]]
+```
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[6]]
+```
+
+## Row 4 {data-height=300}
+
+```{r}
+
+# Regions have either 8, 9 or 10 constituencies - this determines layout
+number_of_consts <- length(charts_c[["{{x}}"]])
+
+is8 <- number_of_consts == 8
+is9 <- number_of_consts == 9
+is10 <- number_of_consts == 10
+
+```
+
+```{r conditional_block1, eval=is8, results = 'asis'}
+
+region <- {{x}}
+out <- knitr::knit_expand(text = "### Constituency {.no-title} \n 
+                          {{charts_c[[region]][[7]]}}  \n
+                          ### Constituency {.no-title}  \n
+                          {{charts_c[[region]][[8]]}}  \n
+                          ### Constituency {.no-title}")
+
+res = knitr::knit_child(text = out, quiet = TRUE)
+cat(res, sep = '\n')
+
+```
+
+```{r conditional_block2, eval=is9, results = 'asis'}
+region <- {{x}}
+out <- knitr::knit_expand(text = "### Constituency {.no-title} \n 
+                          {{charts_c[[region]][[7]]}}  \n
+                          ### Constituency {.no-title}  \n
+                          {{charts_c[[region]][[8]]}}  \n
+                          ### Constituency {.no-title} \n
+                          {{charts_c[[region]][[9]]}}")
+                          
+res = knitr::knit_child(text = out, quiet = TRUE)
+cat(res, sep = '\n')
+
+```
+
+```{r conditional_block3, eval=is10, results = 'asis'}
+region <- {{x}}
+out <- knitr::knit_expand(text = "### Constituency {.no-title} \n 
+                          {{charts_c[[region]][[7]]}}  \n
+                          ### Constituency {.no-title}  \n
+                          {{charts_c[[region]][[8]]}}  \n
+                          ### Constituency {.no-title} \n
+                          {{charts_c[[region]][[9]]}} \n
+                          ## Row 5 {data-height=300} \n
+                          ### Constituency {data-width=1 .no-title} \n
+                          {{charts_c[[region]][[10]] \n
+                          ### Empty box {data-width=2 .no-title}")
+
+res = knitr::knit_child(text = out, quiet = TRUE)
+cat(res, sep = '\n')
+
+```

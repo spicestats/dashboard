@@ -105,8 +105,8 @@ tenure_data <- data %>%
          Measure = factor(Measure, 
                           levels = c("Owned outright",
                                      "Buying with a mortgage",
-                                     "Social rented",
-                                     "Private rented"),
+                                     "Private rented",
+                                     "Social rented"),
                           ordered = TRUE))
 
 tenure <- lapply(seq_along(regions), function(x) {

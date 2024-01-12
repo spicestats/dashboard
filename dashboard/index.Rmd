@@ -18,7 +18,7 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 ### Labour Market & Earnings / Pay
 
-#### Scottish Parliament Regions
+#### Scottish Parliament Regions & Constituencies
 
 -   [Employment, Unemployment & Inactivity rates](labourmarket.html)
 -   [Pay](earnings.html)
@@ -29,11 +29,18 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 ### Housing
 
-- [House prices](housing.html)
+#### Scottish Parliament Regions & Constituencies
+
+- [House prices, affordability, tenure and council tax bands](housing.html)
+
+#### UK nations
 
 ### Health
+
+#### Scottish Parliament Regions & Constituencies
 
 - Life expectancy
 - Health
 
+#### UK nations
 

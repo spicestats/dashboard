@@ -1,0 +1,94 @@
+# `r stringr::str_replace("{{x}}", " and ", " & ")`
+
+## Row 1 {data-height=350}
+
+### {{x}} region {.first-box}
+
+```{r}
+charts_r[["{{x}}"]]
+```
+
+### {{x}} constituencies  - Employment {.first-box}
+
+```{r}
+charts_emp[["{{x}}"]]
+```
+
+### {{x}} constituencies - Inactivity {.first-box}
+
+```{r}
+charts_inact[["{{x}}"]]
+```
+
+## Row 2 {data-height=300}
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[1]]
+```
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[2]]
+```
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[3]]
+```
+
+## Row 3 {data-height=300}
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[4]]
+```
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[5]]
+```
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[6]]
+```
+
+## Row 4 {data-height=300}
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[7]]
+```
+
+### Constituency {.no-title}
+
+```{r}
+charts_c[["{{x}}"]][[8]]
+```
+
+### Constituency {.no-title}
+
+```{r}
+# using the try function means the code keeps running when we run out of constituencies in this region
+try(charts_c[["{{x}}"]][[9]], silent = TRUE)
+```
+
+## Row 5 {data-height=300}
+
+### Constituency {data-width=1}
+
+```{r}
+# using the try function means the code keeps running when we run out of constituencies in this region
+try(charts_c[["{{x}}"]][[10]], silent = TRUE)
+
+```
+
+### Empty box {data-width=2 .no-title}

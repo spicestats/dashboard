@@ -5,4 +5,4 @@ output:
     css: styles.css
     navbar: 
       - { title: "Home", icon: "ion-android-folder", href: "index.html", align: "left" }
-exclude: ["data", "R"]
+exclude: ["data", "R", "dashboard/layouts"]

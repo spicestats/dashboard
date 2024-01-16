@@ -10,6 +10,36 @@ library(rvest)
 
 # Note that Census data download isn't automated as it doesn't get updated often
 
+# EPC data ---------------------------------------------------------------------
+
+url_epc <- "http://statistics.gov.scot/data/domestic-energy-performance-certificates"
+
+session <- polite::bow(url_epc)
+urls_epc_on_site <- polite::scrape(session) %>% 
+  html_nodes("a") %>% 
+  html_attr("href")
+
+download_url_epc <- urls_epc_on_site[grepl(".zip", urls_epc_on_site)][1]
+
+## download and unpack zipfile
+
+
+# big file - need to increase default timeout period (60s) to ensure download 
+# isn't aborted
+options(timeout=300)
+
+download.file(download_url_epc, "data/epc.zip")
+
+# reset
+options(timeout=60)
+
+unzip("data/epc.zip", exdir = "data/epc_data")
+
+data_latest_quarter_epc <- list.files("data/epc_data") %>% 
+  str_split_i(".csv", 1) %>% 
+  tail(2) %>% 
+  head(1)
+
 # NRS Dwellings by Council Tax Band --------------------------------------------
 
 url <- "https://statistics.gov.scot/data/dwellings-by-council-tax-band-detailed-current-geographic-boundaries"
@@ -21,7 +51,7 @@ urls_on_site <- polite::scrape(session) %>%
 
 download_url <- urls_on_site[grepl("Detailed", urls_on_site)][1]
 
-## download and unpack zipfile -------------------------------------------------
+## download and unpack zipfile 
 
 download.file(download_url, "data/counciltax.zip")
 unzip("data/counciltax.zip", exdir = "data/counciltax_data")
@@ -51,7 +81,7 @@ data_scot <- ods_dataset("residential-properties-sales-and-price",
                        measureType = "median",
                        refArea = "S92000003")
 
-## save dataset ----------------------------------------------------------------
+# save datasets ----------------------------------------------------------------
 
 saveRDS(list(la = data_la,
              spc = data_spc,
@@ -62,7 +92,10 @@ message1 <- paste("Council tax data downloaded from statistics.gov.scot - latest
                   max(data_year))
 message2 <- paste("House prices data downloaded from statistics.gov.scot - latest data from",
                  max(data_spc$refPeriod))
-cat(message1, message2, fill = TRUE)
+message3 <- paste("EPC data downloaded from statistics.gov.scot - latest data from",
+                  data_latest_quarter_epc)
+
+cat(message1, message2, message3, fill = TRUE)
 
 rm(list = ls())
 

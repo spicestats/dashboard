@@ -85,6 +85,7 @@ my_theme <- highcharter::hc_theme(
   tooltip = list(
     useHTML = TRUE,
     backgroundColor = "white",
+    outside = TRUE,
     style = list(color = "grey30")),
   
   # * legend ----
@@ -193,6 +194,28 @@ make_labourmarket_chart <- function(df){
                pointFormatter = JS('function () {return Highcharts.dateFormat("%b %Y", this.x)  + ": " + Highcharts.numberFormat(this.y * 100, 1) + "%";}'))
 }
 
+make_labourmarket_errorbar_chart <- function(df) {
+  df %>% 
+    hchart("scatter", hcaes(x = Area_name, y = Data), 
+           name = paste(month.abb[df$Month[1]], year(df$Year[1]))) %>% 
+    hc_add_series(type = "errorbar", 
+                  data = df, 
+                  hcaes(x = Area_name, low = Lower, high = Upper),
+                  enableMouseTracking = FALSE) %>% 
+    hc_chart(inverted = TRUE) %>% 
+    hc_colors(colors = unname(spcols)) %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "",
+             labels = list(
+               formatter = JS('function () {
+                              return Math.round(this.value*100, 0) + "%";} ')),
+             accessibility = list(description = "Rate")) %>% 
+    hc_add_theme(my_theme) %>%
+    hc_tooltip(pointFormatter = JS(
+      'function () {return Highcharts.numberFormat(this.y * 100, 1) + "%";}'
+    ))
+}
+
 make_house_prices_chart <- function(df){
   
   df %>% 
@@ -280,23 +303,4 @@ make_earnings_errorbar_chart <- function(df) {
     hc_add_theme(my_theme)
 }
 
-make_labourmarket_errorbar_chart <- function(df) {
-  df %>% 
-    hchart("scatter", hcaes(x = Area_name, y = Data), 
-           name = paste(month.abb[df$Month[1]], year(df$Year[1]))) %>% 
-    hc_add_series(type = "errorbar", 
-                  data = df, 
-                  hcaes(x = Area_name, low = Lower, high = Upper),
-                  enableMouseTracking = FALSE) %>% 
-    hc_chart(inverted = TRUE) %>% 
-    hc_colors(colors = unname(spcols)) %>% 
-    hc_xAxis(title = NULL) %>% 
-    hc_yAxis(title = "",
-             labels = list(
-               formatter = JS('function () {
-                              return Math.round(this.value*100, 0) + "%";} ')),
-             accessibility = list(description = "Rate")) %>% 
-    hc_add_theme(my_theme) %>%
-    hc_tooltip(pointFormatter = JS('function () {return Highcharts.numberFormat(this.y * 100, 1) + "%";}'))
-  
-}
+

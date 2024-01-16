@@ -28,12 +28,12 @@ regions <- names(charts_housing$house_prices)
 
 #### Housing statistics
 
-- [Median house prices data is from Registers of Scotland](https://statistics.gov.scot/resource?uri=http%3A%2F%2Fstatistics.gov.scot%2Fdata%2Fresidential-properties-sales-and-price)
-- Housing affordability uses the house price data above alongside [weekly median gross employee earnings data from the Annual Survey of Hours and Earnings](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/annualsurveyofhoursandearningsasheguidetotables) 
-- [Council tax data is from National Records of Scotland](https://statistics.gov.scot/data/dwellings-by-council-tax-band-detailed-current-geographic-boundaries)
-- Tenure data is from the [Scottish Census 2011](https://www.scotlandscensus.gov.uk/search-the-census#/)
+- [Median house prices data](https://statistics.gov.scot/resource?uri=http%3A%2F%2Fstatistics.gov.scot%2Fdata%2Fresidential-properties-sales-and-price) is from Registers of Scotland
+- Housing affordability uses the house price data above alongside weekly median gross [employee earnings data](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/annualsurveyofhoursandearningsasheguidetotables) from the Annual Survey of Hours and Earnings
+- [Household population by council tax band data](https://statistics.gov.scot/data/dwellings-by-council-tax-band-detailed-current-geographic-boundaries) is from National Records of Scotland
+- [Tenure data](https://www.scotlandscensus.gov.uk/search-the-census#/) is from the Scottish Census 2011
 
-Further data: overcrowding (Census); social housing waitlists; house builidng; EPC data
+Further data: overcrowding (Census); house builidng; EPC data
 
 ```{r, results='asis'}
 

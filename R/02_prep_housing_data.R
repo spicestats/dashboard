@@ -6,6 +6,51 @@ library(tidyverse)
 source("R/functions/f_get_region.R")
 source("R/functions/f_get_council.R")
 
+# EPC data ---------------------------------------------------------------------
+epc_files <- list.files("data/epc_data/", full.names = TRUE)
+epc_files <- epc_files[!grepl("Extract", epc_files)]
+
+# import all into list
+epc_list <- lapply(epc_files, function(x) {
+  read_csv(x, skip = 1)})
+
+# keep selected variables and combine all in single data frame
+epc_df <- lapply(seq_along(epc_list), function(x) {
+  
+  filename <- epc_files[x] %>%  
+    str_split_i( "epc_data/", 2) %>% 
+    str_split_i(".csv", 1)
+  
+  epc_list[[x]] %>% 
+    select(Property_UPRN, Postcode, "Date of Assessment", "Date of Certificate",
+           "Current energy efficiency rating", "Current energy efficiency rating band",
+           "Data Zone") %>% 
+    rename(id = Property_UPRN,
+           assessed = "Date of Assessment",
+           certified = "Date of Certificate",
+           rating = "Current energy efficiency rating",
+           band = "Current energy efficiency rating band",
+           datazone = "Data Zone") %>% 
+    mutate(file = filename,
+           datazone = str_split_i(datazone, " ", 1))
+    
+}) %>% 
+  bind_rows() 
+
+epc_tidy <- epc_df %>% 
+  distinct() %>% 
+  
+  # format dates properly using fasttime package which is faster than lubridate
+  mutate(certified = as.Date(fasttime::fastPOSIXct(certified)),
+         assessed = as.Date(fasttime::fastPOSIXct(assessed)),
+         Area_name = dz_code_to_const(datazone),
+         Area_type = "SP Constituency",
+         Region = dz_code_to_region(datazone))
+
+
+
+
+
 # Census tenure data ----------------------------------------------------------- 
 
 tenure <- read_csv("data/DC4427SC.csv", skip = 4)

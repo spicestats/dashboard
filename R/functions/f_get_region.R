@@ -5,6 +5,7 @@
 # functions to convert the S16 codes for constituencies into the constituency
 # names; and the names to regions
 
+# function to get SP constituency and region from Datazone code
 
 lookup <- readxl::read_excel("data/region_lookup.xlsx", skip = 1) %>% 
   rename(region = 2,
@@ -15,6 +16,32 @@ lookup <- readxl::read_excel("data/region_lookup.xlsx", skip = 1) %>%
                                   ~ "Perthshire South and Kinrossshire",
                                   TRUE ~ constituency)) %>% 
   arrange(const_code)
+
+
+dz_aggregator_file <- list.files("data", pattern = ".xlsx")[grepl("Datazone", list.files("data", pattern = ".xlsx"))]
+
+dz_aggregator <- readxl::read_excel(paste0("data/", dz_aggregator_file), sheet = "datazonelist") %>% 
+  select(DataZoneCode, ScottishParliamentaryConstituencyName, ScottishParliamentaryRegionName)
+
+# constituency S16 code to constituency name
+dz_code_to_const <- function(x) {
+  
+  sapply(x, function(y) {
+    dz_aggregator %>% 
+      filter(tolower(DataZoneCode) == tolower(y)) %>% 
+      pull(ScottishParliamentaryConstituencyName)
+  })
+}
+
+# constituency S16 code to region name
+dz_code_to_region <- function(x) {
+  
+  sapply(x, function(y) {
+    dz_aggregator %>% 
+      filter(tolower(DataZoneCode) == tolower(y)) %>% 
+      pull(ScottishParliamentaryRegionName)
+  })
+}
 
 # constituency S16 code to constituency name
 const_code_to_name <- function(x) {

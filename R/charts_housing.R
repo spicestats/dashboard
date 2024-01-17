@@ -122,8 +122,8 @@ names(tenure) <- names(region_council_lookup)
 # council tax mix --------------------------------------------------------------
 
 ct_data <- data %>% 
-  filter(Measure == "Dwellings by council tax band",
-         TimePeriod == max(TimePeriod)) %>% 
+  filter(Measure == "Dwellings by council tax band") %>% 
+  filter(TimePeriod == max(TimePeriod)) %>% 
   select(Region, Area_name, Area_type, Year, CTBand, Data) %>% 
   filter(CTBand != "Total Dwellings") %>% 
   group_by(Area_name) %>% 

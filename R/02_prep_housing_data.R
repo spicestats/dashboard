@@ -2,19 +2,20 @@
 # load -------------------------------------------------------------------------
 
 library(tidyverse)
+library(naniar)
 
 source("R/functions/f_get_region.R")
 source("R/functions/f_get_council.R")
 
 # EPC data ---------------------------------------------------------------------
-epc_files <- list.files("data/epc_data/", full.names = TRUE)
-epc_files <- epc_files[!grepl("Extract", epc_files)]
+epc_files <- list.files("data/epc_data/", full.names = TRUE, pattern = "csv")
 
 # import all into list
 epc_list <- lapply(epc_files, function(x) {
   read_csv(x, skip = 1)})
 
 # keep selected variables and combine all in single data frame
+# note: data zone is 2001 data zones (!) - use postcodes instead
 epc_df <- lapply(seq_along(epc_list), function(x) {
   
   filename <- epc_files[x] %>%  
@@ -22,32 +23,32 @@ epc_df <- lapply(seq_along(epc_list), function(x) {
     str_split_i(".csv", 1)
   
   epc_list[[x]] %>% 
-    select(Property_UPRN, Postcode, "Date of Assessment", "Date of Certificate",
-           "Current energy efficiency rating", "Current energy efficiency rating band",
-           "Data Zone") %>% 
+    select(Property_UPRN, Postcode, "Date of Certificate",
+           "Current energy efficiency rating", "Current energy efficiency rating band") %>% 
     rename(id = Property_UPRN,
-           assessed = "Date of Assessment",
            certified = "Date of Certificate",
            rating = "Current energy efficiency rating",
-           band = "Current energy efficiency rating band",
-           datazone = "Data Zone") %>% 
-    mutate(file = filename,
-           datazone = str_split_i(datazone, " ", 1))
-    
+           band = "Current energy efficiency rating band") %>% 
+    mutate(file = filename)
+  
 }) %>% 
   bind_rows() 
+
+# remove big file to make space 
+rm(epc_list)
+
 
 epc_tidy <- epc_df %>% 
   distinct() %>% 
   
   # format dates properly using fasttime package which is faster than lubridate
   mutate(certified = as.Date(fasttime::fastPOSIXct(certified)),
-         assessed = as.Date(fasttime::fastPOSIXct(assessed)),
-         Area_name = dz_code_to_const(datazone),
+         Area_name = postcode_to_const(Postcode),
+         Area_name = case_when(Area_name == "Perthshire South and Kinross-shire" 
+                               ~ "Perthshire South and Kinrossshire",
+                               TRUE ~ Area_name),
          Area_type = "SP Constituency",
-         Region = dz_code_to_region(datazone))
-
-
+         Region = const_name_to_region(Area_name))
 
 
 

@@ -5,8 +5,6 @@
 # functions to convert the S16 codes for constituencies into the constituency
 # names; and the names to regions
 
-# function to get SP constituency and region from Datazone code
-
 lookup <- readxl::read_excel("data/region_lookup.xlsx", skip = 1) %>% 
   rename(region = 2,
          const_code = 3,
@@ -17,31 +15,6 @@ lookup <- readxl::read_excel("data/region_lookup.xlsx", skip = 1) %>%
                                   TRUE ~ constituency)) %>% 
   arrange(const_code)
 
-
-dz_aggregator_file <- list.files("data", pattern = ".xlsx")[grepl("Datazone", list.files("data", pattern = ".xlsx"))]
-
-dz_aggregator <- readxl::read_excel(paste0("data/", dz_aggregator_file), sheet = "datazonelist") %>% 
-  select(DataZoneCode, ScottishParliamentaryConstituencyName, ScottishParliamentaryRegionName)
-
-# constituency S16 code to constituency name
-dz_code_to_const <- function(x) {
-  
-  sapply(x, function(y) {
-    dz_aggregator %>% 
-      filter(tolower(DataZoneCode) == tolower(y)) %>% 
-      pull(ScottishParliamentaryConstituencyName)
-  })
-}
-
-# constituency S16 code to region name
-dz_code_to_region <- function(x) {
-  
-  sapply(x, function(y) {
-    dz_aggregator %>% 
-      filter(tolower(DataZoneCode) == tolower(y)) %>% 
-      pull(ScottishParliamentaryRegionName)
-  })
-}
 
 # constituency S16 code to constituency name
 const_code_to_name <- function(x) {
@@ -100,3 +73,36 @@ const_name_to_region <- function(x) {
   map_vec(a, ~ifelse(is.null(.x), NA, .x))
 }
 
+# function to get SP constituency and region from Datazone code
+# currently only includes new datazone codes (from 2011)
+
+dz_aggregator_file <- list.files("data", pattern = ".xlsx")[grepl("Datazone", list.files("data", pattern = ".xlsx"))]
+
+dz_aggregator <- readxl::read_excel(paste0("data/", dz_aggregator_file), sheet = "datazonelist") %>% 
+  select(DataZoneCode, ScottishParliamentaryConstituencyName, ScottishParliamentaryRegionName)
+
+# constituency S16 code to constituency name
+dz_code_to_const <- function(x) {
+  
+  sapply(x, function(y) {
+    dz_aggregator %>% 
+      filter(tolower(DataZoneCode) == tolower(y)) %>% 
+      pull(ScottishParliamentaryConstituencyName)
+  })
+}
+
+
+# postcode to const
+
+postcode_file <- list.files("data", pattern = ".xlsx")[grepl("Postcode_lookup", list.files("data", pattern = ".xlsx"))]
+
+postcode_lookup <- readxl::read_excel(paste0("data/", postcode_file), sheet = "allpostcodes") %>% 
+  select(Postcode, ScottishParliamentaryConstituencyName)
+
+postcode_to_const <- function(x) {
+  sapply(x, function(y) {
+    postcode_lookup %>% 
+      filter(tolower(Postcode) == tolower(y)) %>% 
+      pull(ScottishParliamentaryConstituencyName)
+  })
+}

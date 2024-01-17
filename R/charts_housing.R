@@ -15,8 +15,8 @@ regions <- regions[!is.na(regions)]
 
 data_hp1 <- data %>% 
   filter(Area_type == "SP Constituency" | Area_name == "Scotland",
-         Measure == "Median house price",
-         Year == max(Year))
+         Measure == "Median house price") %>% 
+  filter(Year == max(Year))
 
 house_prices <- lapply(seq_along(regions), function(x) {
   
@@ -50,13 +50,13 @@ names(house_prices_ts) <- regions
 
 data_hp3 <- data %>% 
   filter(Area_type == "Council" | Area_name == "Scotland",
-         Measure == "Median house price",
-         Year == max(Year))
+         Measure == "Median house price") %>% 
+  filter(Year == max(Year))
 
 afford <- earnings_data %>% 
   filter(Area_type == "Council" | Area_name == "Scotland",
-         Measure == "Median weekly employee earnings",
-         Year == data_hp3$Year[1]) %>% 
+         Measure == "Median weekly employee earnings") %>%
+  filter(Year == data_hp3$Year[1]) %>% 
   left_join(data_hp3 %>% select(Area_name, Data) %>% rename(HousePrice = Data),
             by = "Area_name") %>% 
   mutate(Data = HousePrice / (Data * 52)) %>% 
@@ -141,10 +141,29 @@ counciltax <- lapply(seq_along(regions), function(x) {
 
 names(counciltax) <- names(region_council_lookup)
 
+# EPC mix ----------------------------------------------------------------------
+
+epc_data <- data %>% 
+  filter(grepl("EPC", Measure)) %>% 
+  select(Region, Area_name, Area_type, Measure, Data, Year) %>% 
+  mutate(Data = Data/sum(Data), .by = "Area_name") 
+
+epc <- lapply(seq_along(regions), function(x) {
+  
+  epc_data %>% 
+    filter(Region == regions[x] | Area_name == "Scotland") %>% 
+    make_tenure_chart() %>% 
+    hc_title(text = paste0("Share of dwellings in each EPC band in ", regions[x], ", ", epc_data$Year[1]))
+  
+})
+
+names(epc) <- regions
+
 # save all ---------------------------------------------------------------------
 
 saveRDS(list(house_prices = house_prices,
              house_prices_ts = house_prices_ts,
              affordability = affordability,
              tenure_mix = tenure,
-             counciltax = counciltax), "data/charts_housing.rds")
+             counciltax = counciltax,
+             epc = epc), "data/charts_housing.rds")

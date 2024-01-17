@@ -73,6 +73,13 @@ epc_tidy <- epc_df %>%
          Sex, Age, CTBand, Data, Lower, Upper) %>% 
   arrange(Year, Region, Area_type, Area_name, Measure) 
 
+epc_Scot <- epc_tidy %>% 
+  mutate(Data = sum(Data), .by = Measure)  %>% 
+  head(7L) %>% 
+  mutate(Region = NA,
+         Area_name = "Scotland",
+         Area_type = "Country")
+
 ## check data quality ----------------------------------------------------------
 # check number of dwellings to assess coverage by comparing to dwellings by council
 # tax data
@@ -110,9 +117,6 @@ dwellings_check <- paste0("data/counciltax_data/", ct_files[!grepl("DZ", ct_file
 
 # -> overall coverage is 58% with small differences across regions (55%-61%)
 # and constituencies (47%-68%)
-
-epc_tidy_shares <- epc_tidy %>% 
-  mutate(Data = Data/sum(Data), .by = c(Area_name))
 
 # Census tenure data ----------------------------------------------------------- 
 
@@ -246,7 +250,7 @@ saveRDS(rbind(hp_data_spc,
               hp_data_la,
               ct_data,
               tenure_tidy,
-              epc = epc_tidy_shares) %>% 
+              rbind(epc_tidy, epc_Scot)) %>% 
           distinct(),
         "data/tidy_housing_data.rds")
 

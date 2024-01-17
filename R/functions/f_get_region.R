@@ -1,77 +1,60 @@
-# note this is a bit inelegant - maybe refactor;
+# note this is a bit inelegant and slow - maybe refactor;
+
 # main thing is to combine const. codes from lookup and gss file to cover all
 # codes (including decommissioned ones)
 
 # functions to convert the S16 codes for constituencies into the constituency
 # names; and the names to regions
 
-lookup <- readxl::read_excel("data/region_lookup.xlsx", skip = 1) %>% 
+# 1 get lookup file from SPC to SPR
+const_region_lookup <- readxl::read_excel("data/region_lookup.xlsx", skip = 1) %>% 
   rename(region = 2,
          const_code = 3,
          constituency = 4) %>% 
   select(region, const_code, constituency) %>% 
-  mutate(constituency = case_when(constituency == "Perthshire South and Kinross-shire" 
-                                  ~ "Perthshire South and Kinrossshire",
-                                  TRUE ~ constituency)) %>% 
   arrange(const_code)
 
-
-# constituency S16 code to constituency name
-const_code_to_name <- function(x) {
-  
-  sapply(x, function(y) {
-    lookup %>% 
-      filter(tolower(const_code) == tolower(y)) %>% 
-      pull(constituency)
-  })
-}
-
-# constituency name to region
-const_name_to_region <- function(x) {
-  
-  a <- lapply(x, function(y) {
-    lookup %>% 
-      filter(tolower(constituency) == tolower(y)) %>% 
-      pull(region)
-  }) 
-    
-  map_vec(a, ~ifelse(is.null(.x), NA, .x))
-}
-
-# GSS area codes
-
+# 2 get full list of SPC codes and names from GSS file
 gss_codes <- readxl::read_excel("data/gss_codes.xlsx",
-                                sheet = "S16_SPC") %>% select(InstanceCode, InstanceName) %>% 
+                                sheet = "S16_SPC") %>% 
+  select(InstanceCode, InstanceName) %>% 
   rename(const_code = InstanceCode,
-         constituency = InstanceName) %>% 
-  mutate(region = const_name_to_region(constituency)) %>% 
-  filter(!is.na(region))
+         constituency = InstanceName)
 
-lookup <- lookup %>% 
-  rbind(gss_codes) %>% 
-  distinct()
+# 3 add region name to it
+lookup <- gss_codes %>% 
+  left_join(const_region_lookup %>% 
+              select(constituency, region),
+            by = "constituency") %>% 
+  mutate(constituency = case_when(constituency == "Perthshire South and Kinross-shire" 
+                                  ~ "Perthshire South and Kinrossshire",
+                                  TRUE ~ constituency))
 
 # constituency S16 code to constituency name
 const_code_to_name <- function(x) {
   
-  sapply(x, function(y) {
-    lookup %>% 
-      filter(tolower(const_code) == tolower(y)) %>% 
-      pull(constituency)
-  })
+  data.frame(input = x) %>% 
+    left_join(lookup %>% 
+                select(constituency, const_code), 
+              by = c(input = "const_code")) %>% 
+    select(constituency) %>% 
+    pull()
+
 }
 
 # constituency name to region
 const_name_to_region <- function(x) {
   
-  a <- lapply(x, function(y) {
-    lookup %>% 
-      filter(tolower(constituency) == tolower(y)) %>% 
-      pull(region)
-  }) 
-  
-  map_vec(a, ~ifelse(is.null(.x), NA, .x))
+  data.frame(input = x) %>% 
+    left_join(lookup %>% 
+                select(region, constituency) %>% 
+                distinct() , 
+              by = c(input = "constituency")) %>% 
+    select(region) %>% 
+    pull()
+
 }
+
 
 # function to get SP constituency and region from Datazone code
 # currently only includes new datazone codes (from 2011)
@@ -84,13 +67,12 @@ dz_aggregator <- readxl::read_excel(paste0("data/", dz_aggregator_file), sheet =
 # constituency S16 code to constituency name
 dz_code_to_const <- function(x) {
   
-  sapply(x, function(y) {
-    dz_aggregator %>% 
-      filter(tolower(DataZoneCode) == tolower(y)) %>% 
-      pull(ScottishParliamentaryConstituencyName)
-  })
+  data.frame(input = x) %>% 
+    left_join(dz_aggregator, by = c(input = "DataZoneCode")) %>% 
+    select(ScottishParliamentaryConstituencyName) %>% 
+    pull()
+  
 }
-
 
 # postcode to const
 
@@ -99,10 +81,12 @@ postcode_file <- list.files("data", pattern = ".xlsx")[grepl("Postcode_lookup", 
 postcode_lookup <- readxl::read_excel(paste0("data/", postcode_file), sheet = "allpostcodes") %>% 
   select(Postcode, ScottishParliamentaryConstituencyName)
 
+
 postcode_to_const <- function(x) {
-  sapply(x, function(y) {
-    postcode_lookup %>% 
-      filter(tolower(Postcode) == tolower(y)) %>% 
-      pull(ScottishParliamentaryConstituencyName)
-  })
+  
+  data.frame(input = x) %>% 
+    left_join(postcode_lookup, by = c(input = "Postcode")) %>% 
+    select(ScottishParliamentaryConstituencyName) %>% 
+    pull()
+    
 }

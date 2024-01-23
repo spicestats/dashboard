@@ -29,7 +29,8 @@ rents <- rent_data %>%
          Age = "All",
          CTBand = NA, 
          Lower = NA, 
-         Upper = NA) %>% 
+         Upper = NA,
+         Data = as.numeric(Data)) %>% 
   select(Area_name, Area_type, Region, Subject, Measure, TimePeriod, Year, Month, 
          Sex, Age, CTBand, Data, Lower, Upper) %>% 
   arrange(Year, Region, Area_type, Area_name)
@@ -274,13 +275,12 @@ hp_data_la <- hp_data$la %>%
 
 # save all ---------------------------------------------------------------------
 
-saveRDS(rbind(hp_data_spc,
-              hp_data_la,
-              ct_data,
-              tenure_tidy,
-              rbind(epc_tidy, epc_Scot),
-              rents) %>% 
-          distinct(),
+saveRDS(list(house_prices_spc = hp_data_spc,
+              house_prices_la = hp_data_la,
+              counciltax = ct_data,
+              tenure = tenure_tidy,
+              epc = rbind(epc_tidy, epc_Scot),
+              rents = rents),
         "data/tidy_housing_data.rds")
 
 rm(list = ls())

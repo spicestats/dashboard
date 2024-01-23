@@ -29,6 +29,7 @@ regions <- names(charts_housing$house_prices)
 #### Housing statistics
 
 - [Median house prices data](https://statistics.gov.scot/resource?uri=http%3A%2F%2Fstatistics.gov.scot%2Fdata%2Fresidential-properties-sales-and-price) is from Registers of Scotland
+- [Rent data](https://www.ons.gov.uk/peoplepopulationandcommunity/housing/articles/redevelopmentofprivaterentalpricesstatisticsimpactanalysisuk/latest) is from the Office for National Statistics' Price Index of Private Rents (PIPR). Scotland rents data are mainly for advertised new lets. The Cost of Living (Tenant Protection) Scotland Act has capped in-tenancy rental price increases in Scotland since late 2022. Advertised lets are not subject to the recent price cap, so the cap will be less reflected in these statistics. This is likely to lead to over-estimation in stock prices and indices for Scotland since late 2022. 
 - Housing affordability uses the house price data above alongside weekly median gross [employee earnings data](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/annualsurveyofhoursandearningsasheguidetotables) from the Annual Survey of Hours and Earnings
 - [Household population by council tax band data](https://statistics.gov.scot/data/dwellings-by-council-tax-band-detailed-current-geographic-boundaries) is from National Records of Scotland
 - [Tenure data](https://www.scotlandscensus.gov.uk/search-the-census#/) is from the Scottish Census 2011

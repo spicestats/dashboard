@@ -2,11 +2,34 @@
 
 ## Row 1 {data-height=500}
 
-### Median house prices - Scottish Parliament constituencies
+### House prices - Scottish Parliament constituencies
 
 ```{r}
 charts_housing$house_prices[["{{x}}"]]
 ```
+
+### Private rents - Broad Rental Market Areas
+
+```{r}
+charts_housing$rents_bar[["{{x}}"]]
+```
+
+## Row 2  {data-height=500}
+
+### House prices over time - Scottish Parliament constituencies
+
+```{r}
+charts_housing$house_prices_ts[["{{x}}"]]
+```
+
+### Private rents over time - Broad Rental Market Areas
+
+```{r}
+charts_housing$rents_line[["{{x}}"]]
+```
+
+## Row 3 {data-height=400}
+
 
 ### Housing affordability - council areas
 
@@ -14,13 +37,6 @@ charts_housing$house_prices[["{{x}}"]]
 charts_housing$affordability[["{{x}}"]]
 ```
 
-## Row 2 {data-height=400}
-
-### Tenure mix - Scottish Parliament constituencies
-
-```{r}
-charts_housing$tenure_mix[["{{x}}"]]
-```
 
 ### Council tax mix - Scottish Parliament constituencies
 
@@ -28,12 +44,13 @@ charts_housing$tenure_mix[["{{x}}"]]
 charts_housing$counciltax[["{{x}}"]]
 ```
 
+
 ## Row 3
 
-### Median house prices over time - Scottish Parliament constituencies
+### Tenure mix - Scottish Parliament constituencies
 
 ```{r}
-charts_housing$house_prices_ts[["{{x}}"]]
+charts_housing$tenure_mix[["{{x}}"]]
 ```
 
 ### Energy Performance Certificates - Scottish Parliament constituencies

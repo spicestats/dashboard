@@ -221,7 +221,7 @@ make_house_prices_chart <- function(df){
   df %>% 
     arrange(desc(Data)) %>% 
     hchart("bar", hcaes(x = Area_name, y = Data),
-           name = data_hp1$Year[1]) %>% 
+           name = df$Year[1]) %>% 
     hc_colors(colors = unname(spcols)) %>% 
     hc_xAxis(title = NULL) %>% 
     hc_yAxis(title = "", 
@@ -237,8 +237,8 @@ make_house_prices_chart_ts <- function(df){
   spcols <- spcols[1:length(unique(df$Area_name))]
   
   df %>% 
-    arrange(Year, desc(Data)) %>% 
-    hchart("line", hcaes(x = Year, y = Data, group = Area_name)) %>% 
+    arrange(TimePeriod, desc(Data)) %>% 
+    hchart("line", hcaes(x = TimePeriod, y = Data, group = Area_name)) %>% 
     hc_colors(colors = unname(spcols)) %>% 
     hc_xAxis(title = NULL) %>% 
     hc_yAxis(title = "", 

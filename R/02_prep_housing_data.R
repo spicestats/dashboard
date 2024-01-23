@@ -7,6 +7,34 @@ library(data.table)
 source("R/functions/f_get_region.R")
 source("R/functions/f_get_council.R")
 
+# Rent data --------------------------------------------------------------------
+
+rent_data <- readxl::read_xlsx("data/rent.xlsx", sheet = "Table 1", skip = 2)
+
+rents <- rent_data %>% 
+  rename(TimePeriod = "Time period",
+         Area_name = "Area name",
+         Area_type = "Region or country name",
+         Data = "Rental price") %>% 
+  select(TimePeriod, Area_name, Area_type, Data) %>% 
+  filter(Area_name == "Scotland" | Area_type == "Scotland") %>% 
+  mutate(Year = year(TimePeriod),
+         Month = month(TimePeriod),
+         Area_type = case_when(Area_name == "Scotland" ~ "Country",
+                               TRUE ~ "Broad Rental Market Area"),
+         Region = NA,
+         Subject = "Housing",
+         Measure = "Rents",
+         Sex = "All",
+         Age = "All",
+         CTBand = NA, 
+         Lower = NA, 
+         Upper = NA) %>% 
+  select(Area_name, Area_type, Region, Subject, Measure, TimePeriod, Year, Month, 
+         Sex, Age, CTBand, Data, Lower, Upper) %>% 
+  arrange(Year, Region, Area_type, Area_name)
+
+
 # EPC data ---------------------------------------------------------------------
 epc_files <- list.files("data/epc_data/", full.names = TRUE, pattern = "csv")
 
@@ -250,7 +278,8 @@ saveRDS(rbind(hp_data_spc,
               hp_data_la,
               ct_data,
               tenure_tidy,
-              rbind(epc_tidy, epc_Scot)) %>% 
+              rbind(epc_tidy, epc_Scot),
+              rents) %>% 
           distinct(),
         "data/tidy_housing_data.rds")
 

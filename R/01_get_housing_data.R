@@ -10,6 +10,20 @@ library(rvest)
 
 # Note that Census data download isn't automated as it doesn't get updated often
 
+# Rent data --------------------------------------------------------------------
+
+url_rent <- "https://www.ons.gov.uk/peoplepopulationandcommunity/housing/datasets/redevelopmentofprivaterentalpricesstatisticsukimpactanalysisdata"
+
+session <- polite::bow(url_rent)
+urls_rent_on_site <- polite::scrape(session) %>% 
+  html_nodes("a") %>% 
+  html_attr("href")
+
+download_url_rent <- urls_rent_on_site[grepl(".xlsx", urls_rent_on_site)]
+
+download.file(paste0("https://www.ons.gov.uk", download_url_rent), 
+              "data/rent.xlsx", mode = "wb")
+
 # EPC data ---------------------------------------------------------------------
 
 url_epc <- "http://statistics.gov.scot/data/domestic-energy-performance-certificates"
@@ -22,7 +36,6 @@ urls_epc_on_site <- polite::scrape(session) %>%
 download_url_epc <- urls_epc_on_site[grepl(".zip", urls_epc_on_site)][1]
 
 ## download and unpack zipfile
-
 
 # big file - need to increase default timeout period (60s) to ensure download 
 # isn't aborted
@@ -94,8 +107,9 @@ message2 <- paste("House prices data downloaded from statistics.gov.scot - lates
                  max(data_spc$refPeriod))
 message3 <- paste("EPC data downloaded from statistics.gov.scot - latest data from",
                   data_latest_quarter_epc)
+message4 <- paste("Rent data downloaded from www.ons.gov.uk/")
 
-cat(message1, message2, message3, fill = TRUE)
+cat(message1, message2, message3, message4, fill = TRUE)
 
 rm(list = ls())
 

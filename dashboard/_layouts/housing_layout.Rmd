@@ -1,6 +1,4 @@
-# `r stringr::str_replace("{{x}}", " and ", " & ")`
-
-## Row 1 {data-height=500}
+## Row 1
 
 ### House prices - Scottish Parliament constituencies
 
@@ -14,7 +12,7 @@ charts_housing$house_prices[["{{x}}"]]
 charts_housing$rents_bar[["{{x}}"]]
 ```
 
-## Row 2  {data-height=500}
+## Row 2
 
 ### House prices over time - Scottish Parliament constituencies
 
@@ -28,8 +26,7 @@ charts_housing$house_prices_ts[["{{x}}"]]
 charts_housing$rents_line[["{{x}}"]]
 ```
 
-## Row 3 {data-height=400}
-
+## Row 3
 
 ### Housing affordability - council areas
 

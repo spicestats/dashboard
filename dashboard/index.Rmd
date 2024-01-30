@@ -44,3 +44,15 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 #### UK nations
 
+### Data by region
+
+- [Central Scotland](central_scotland.html)
+- Glasgow
+- Highlands and Islands
+- Lothian
+- Mid Scotland and Fife
+- North East Scotland
+- South Scotland
+- West Scotland
+
+

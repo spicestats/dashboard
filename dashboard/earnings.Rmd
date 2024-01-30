@@ -28,22 +28,24 @@ regions <- names(charts_n)
 
 ```
 
-#### Earnings data
-
-The charts show median gross earnings of employees (without adjusting for inflation). Data is collected by the Office for National Statistics each April via the [Annual Survey of Hours and Earnings](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/latest). The statistics cover employees only and exclude self-employed earnings.
-
-Data is available on a council-area level, but not on Scottish Parliament constituency or region level. This page includes council areas that are within or overlap with the selected Scottish Parliament region.
-
 ```{r, results='asis'}
 
-# add layout and charts by looping through regions
+# add content by looping through regions
+# sidebar text is in dashboard/_sidebar_text
+# charts are in dashboard/_layouts
 
-src = lapply(seq_along(regions), function(x) {
+sidebar <- paste0("# Sidebar {.sidebar}\n",
+                  knitr::knit_expand("dashboard/_sidebar_text/earnings_text.Rmd"))
+
+layout = lapply(seq_along(regions), function(x) {
   x <- regions[x]
-  knitr::knit_expand('dashboard/_layouts/earnings_layout.Rmd')
+  region <- stringr::str_replace(x, ' and ', ' & ')
+  paste0("# ", region, "\n", 
+         knitr::knit_expand('dashboard/_layouts/earnings_layout.Rmd'))
 })
 
-res = knitr::knit_child(text = unlist(src), quiet = TRUE)
-cat(res, sep = '\n')
+sidebar <- knitr::knit_child(text = unlist(sidebar), quiet = TRUE)
+layout = knitr::knit_child(text = unlist(layout), quiet = TRUE)
+cat(sidebar, layout, sep = '\n')
 
 ```

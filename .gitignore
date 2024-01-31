@@ -6,6 +6,7 @@
 data/*.rds
 data/**
 output/**
+dashboard/_site
 dashboard/_site/**
 
 MaikeW.github.io/**

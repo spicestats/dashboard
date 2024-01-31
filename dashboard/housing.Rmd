@@ -1,9 +1,5 @@
 ---
 title: "Housing"
-output: 
-  flexdashboard::flex_dashboard:
-    vertical_layout: scroll
-    orientation: rows
 ---
 
 ```{r setup, include = FALSE}

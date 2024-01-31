@@ -1,4 +1,4 @@
-## Row  {data-height=350}
+## Col
 
 ### Latest estimates
 
@@ -6,13 +6,15 @@
 charts_l[["{{x}}"]]
 ```
 
-### Nominal pay
+## Col  {.tabset}
+
+### Nominal pay over time
 
 ```{r}
 charts_n[["{{x}}"]]
 ```
 
-### Real pay
+### Real pay over time
 
 ```{r}
 charts_r[["{{x}}"]]

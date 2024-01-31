@@ -2,8 +2,7 @@
 title: "Pay"
 output: 
   flexdashboard::flex_dashboard:
-    vertical_layout: scroll
-    orientation: rows
+    orientation: columns
 ---
   
 ```{r setup, include = FALSE}

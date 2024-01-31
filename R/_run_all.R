@@ -21,5 +21,12 @@ source("R/02_prep_socialsecurity_data.R")
 
 # 03 present data --------------------------------------------------------------
 
-source("R/charts_earnings.R")
-source("R/charts_labourmarket.R")
+source("R/03_charts_earnings.R")
+source("R/03_charts_housing.R")
+source("R/03_charts_labourmarket.R")
+
+# 04 create website ------------------------------------------------------------
+
+source("R/04_website.R")
+
+

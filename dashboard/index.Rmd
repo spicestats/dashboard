@@ -11,48 +11,151 @@ knitr::opts_chunk$set(
 )
 
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+source("../R/functions/f_make_charts.R")
 
 ```
 
-## Row {rowheight=100}
+## Row 1 - by region
 
-### Labour Market & Earnings / Pay
+### Statistics
 
-#### Scottish Parliament Regions & Constituencies
+```{r}
+flexdashboard::valueBox("Central Scotland", icon = "ion-stats-bars", 
+                        color = spcols[7], href = "central_scotland.html")
+```
 
--   [Employment, Unemployment & Inactivity rates](labourmarket.html)
--   [Pay](earnings.html)
+### Statistics
 
-#### UK nations
+```{r}
+flexdashboard::valueBox("Glasgow", icon = "ion-stats-bars", color = spcols[7],
+                        href = "glasgow.html")
+```
 
--   [Pay](earnings_nations.html)
+### Statistics
 
-### Housing
+```{r}
+flexdashboard::valueBox("Highlands & Islands", color = spcols[7], 
+                        icon = "ion-stats-bars",
+                        href = "highlands_and_islands.html")
+```
 
-#### Scottish Parliament Regions & Constituencies
+### Statistics
 
-- [House prices, affordability, tenure and council tax bands](housing.html)
+```{r}
+flexdashboard::valueBox("Lothian", color = spcols[7], icon = "ion-stats-bars",
+                        href = "lothian.html")
+```
 
-#### UK nations
+## Row 2 - by region
 
-### Health
+### Statistics
 
-#### Scottish Parliament Regions & Constituencies
+```{r}
+flexdashboard::valueBox("Mid Scotland & Fife", color = spcols[7],
+         icon = "ion-stats-bars", href = "mid_scotland_and_fife.html")
+```
 
-- Life expectancy
-- Health
+### Statistics
 
-#### UK nations
+```{r}
+flexdashboard::valueBox("North East Scotland", color = spcols[7],
+         icon = "ion-stats-bars", href = "north_east_scotland.html")
+```
 
-### Data by region
+### Statistics
 
-- [Central Scotland](central_scotland.html)
-- Glasgow
-- Highlands and Islands
-- Lothian
-- Mid Scotland and Fife
-- North East Scotland
-- South Scotland
-- West Scotland
+```{r}
+flexdashboard::valueBox("South Scotland", color = spcols[7],
+         icon = "ion-stats-bars", href = "south_scotland.html")
+```
+
+### Statistics
+
+```{r}
+flexdashboard::valueBox("West Scotland", color = spcols[7],
+         icon = "ion-stats-bars", href = "west_scotland.html")
+```
+
+## Row 3 - by topic
+
+### Employment, Unemployment & Inactivity rates
+
+```{r}
+flexdashboard::valueBox("Labour market",
+         color = spcols[2],
+         icon = "ion-stats-bars",
+         href = "labourmarket.html")
+```
+
+### Employee earnings
+
+```{r}
+flexdashboard::valueBox("Pay",
+         color = spcols[2],
+         icon = "ion-stats-bars",
+         href = "earnings.html")
+```
+
+
+### House prices, affordability, tenure and council tax bands
+
+```{r}
+flexdashboard::valueBox("Housing",
+         color = spcols[2],
+         icon = "ion-stats-bars",
+         href = "housing.html")
+```
+
+### Health and life expectancy
+
+```{r}
+flexdashboard::valueBox("Health",
+         color = spcols[2],
+         icon = "ion-stats-bars")
+```
+
+## Row 4 - UK nations
+
+### UK nations
+
+```{r}
+flexdashboard::valueBox("Pay",
+         color = spcols[4],
+         icon = "ion-stats-bars",
+         href = "earnings_nations.html")
+```
+
+### UK nations
+
+```{r}
+flexdashboard::valueBox("Pay",
+         color = spcols[4],
+         icon = "ion-stats-bars",
+         href = "earnings_nations.html")
+```
+
+### UK nations
+
+```{r}
+flexdashboard::valueBox("Pay",
+         color = spcols[4],
+         icon = "ion-stats-bars",
+         href = "earnings_nations.html")
+```
+
+### UK nations
+
+```{r}
+flexdashboard::valueBox("Pay",
+         color = spcols[4],
+         icon = "ion-stats-bars",
+         href = "earnings_nations.html")
+```
+
+
+
+
+
+
 
 

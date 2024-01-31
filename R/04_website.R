@@ -17,5 +17,5 @@ files <- list.files("dashboard", pattern = ".Rmd")
 files <- files[files != "regions.Rmd"]
 files <- paste0("dashboard/", files)
 
-lapply(files, rmarkdown::render, output_dir = "_site")
+lapply(files, rmarkdown::render, output_dir = "dashboard/_site")
 

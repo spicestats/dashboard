@@ -5,6 +5,8 @@ library(tidyverse)
 library(statxplorer)
 library(jsonlite)
 
+# CiLIF (child poverty) --------------------------------------------------------
+
 # set key (available from StatXplore account)
 statxplorer::load_api_key("data/API_key.txt")
 
@@ -49,6 +51,7 @@ if (!inherits(check_error, "try-error")) {
 # load the queries from a file - query is easiest created in StatXplore
 
 cilif_data <- fetch_table(filename = "data/cilif_query.json")
+cilif_data <- add_codes_for_field(cilif_data, field = "National - Regional - LA - OAs (GB)", colname = "DZ")
 
 # save data --------------------------------------------------------------------
 

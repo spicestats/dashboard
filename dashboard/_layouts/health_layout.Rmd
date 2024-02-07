@@ -1,0 +1,14 @@
+## Row
+
+### Life expectancy
+
+```{r}
+charts_l[["{{x}}"]]
+```
+
+### People receiving disability benefits
+
+```{r}
+charts_n[["{{x}}"]]
+```
+

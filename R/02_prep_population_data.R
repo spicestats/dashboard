@@ -22,14 +22,15 @@ pop <- pop_data %>%
                          Sex == "Males" ~ "Male",
                          Sex == "Persons" ~ "All"),
          Age = as.numeric(str_sub(Age, 4, 6)),
-         agegroup = case_when(Age < 16 ~ "Under 16",
+         agegroup = case_when(Age <= 4 ~ "0 to 4",
+                              Age <= 10 ~ "5 to 10",
+                              Age <= 15 ~ "11 to 15",
                                   Age <= 24 ~ "16 to 24",
                                   Age <= 49 ~ "25 to 49",
                                   Age <= 64 ~ "50 to 64",
                                   Age <= 84 ~ "65 to 84",
                                   TRUE ~ "85 and over"),
-         agegroup = factor(agegroup, ordered = TRUE),
-         agegroup = fct_relevel(agegroup, "Under 16", after = 0L)) %>% 
+         agegroup = factor(agegroup, ordered = TRUE)) %>% 
   group_by(Year, Area_name, Sex, agegroup) %>% 
   summarise(Total = Total[1],
             population = sum(population),

@@ -303,4 +303,60 @@ make_earnings_errorbar_chart <- function(df) {
     hc_add_theme(my_theme)
 }
 
+make_povertyrate_chart <- function(df) {
+  
+  ids <- unique(df$Area_name)
+  
+  df %>% 
+    hchart("line", hcaes(x = Year, y = Data, group = Area_name),
+           marker = list(enabled = FALSE),
+           id = ids) %>% 
+    hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "",
+             labels = list(
+               formatter = JS('function () {
+                              return Math.round(this.value*100, 0) + "%";} ')),
+             accessibility = list(description = "Rate")) %>% 
+    hc_add_theme(my_theme) %>%
+    hc_tooltip(headerFormat = '<b> {point.key} </b><br>',
+               pointFormatter = JS('function () {return this.series.name  + ": " + Highcharts.numberFormat(this.y * 100, 0) + "%";}')) 
+}
+
+make_povertynumber_chart <- function(df) {
+  
+  ids <- unique(df$Area_name)
+  
+  df %>% 
+    hchart("line", hcaes(x = Year, y = Data, group = Area_name),
+           marker = list(enabled = FALSE),
+           id = ids) %>% 
+    hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "", 
+             labels = list(format = '{value: ,f}')) %>% 
+    hc_add_theme(my_theme)
+}
+
+make_povertyrate_age_chart <- function(x) {
+  
+  ids <- unique(df$Age)
+  
+  df %>% 
+    hchart("line", hcaes(x = Year, y = Data, group = Age),
+           marker = list(enabled = FALSE),
+           id = ids) %>% 
+    hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "",
+             labels = list(
+               formatter = JS('function () {
+                              return Math.round(this.value*100, 0) + "%";} ')),
+             accessibility = list(description = "Rate")) %>% 
+    hc_add_theme(my_theme) %>%
+    hc_tooltip(headerFormat = '<b> {point.key} </b><br>',
+               pointFormatter = JS('function () {return this.series.name  + ": " + Highcharts.numberFormat(this.y * 100, 0) + "%";}')) 
+  
+}
+
 

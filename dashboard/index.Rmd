@@ -83,7 +83,7 @@ flexdashboard::valueBox("West Scotland", color = spcols[7],
 ```{r}
 flexdashboard::valueBox("Labour market",
          color = spcols[2],
-         icon = "ion-stats-bars",
+         icon = "ion-android-train",
          href = "labourmarket.html")
 ```
 
@@ -92,7 +92,7 @@ flexdashboard::valueBox("Labour market",
 ```{r}
 flexdashboard::valueBox("Pay",
          color = spcols[2],
-         icon = "ion-stats-bars",
+         icon = "ion-card",
          href = "earnings.html")
 ```
 
@@ -102,16 +102,27 @@ flexdashboard::valueBox("Pay",
 ```{r}
 flexdashboard::valueBox("Housing",
          color = spcols[2],
-         icon = "ion-stats-bars",
+         icon = "ion-home",
          href = "housing.html")
 ```
 
-### Health and life expectancy
+### Poverty
+
+```{r}
+flexdashboard::valueBox("Poverty",
+         color = spcols[2],
+         icon = "ion-ios-cart",
+         href = "poverty.html")
+```
+
+
+### Health, disability and life expectancy
 
 ```{r}
 flexdashboard::valueBox("Health",
          color = spcols[2],
-         icon = "ion-stats-bars")
+         icon = "ion-ios-medkit",
+         href = "health.html")
 ```
 
 ## Row 4 - UK nations
@@ -119,10 +130,9 @@ flexdashboard::valueBox("Health",
 ### UK nations
 
 ```{r}
-flexdashboard::valueBox("Pay",
+flexdashboard::valueBox("Labour market",
          color = spcols[4],
-         icon = "ion-stats-bars",
-         href = "earnings_nations.html")
+         icon = "ion-android-train")
 ```
 
 ### UK nations
@@ -130,27 +140,35 @@ flexdashboard::valueBox("Pay",
 ```{r}
 flexdashboard::valueBox("Pay",
          color = spcols[4],
-         icon = "ion-stats-bars",
+         icon = "ion-card",
          href = "earnings_nations.html")
 ```
 
 ### UK nations
 
 ```{r}
-flexdashboard::valueBox("Pay",
+flexdashboard::valueBox("Housing",
          color = spcols[4],
-         icon = "ion-stats-bars",
-         href = "earnings_nations.html")
+         icon = "ion-home")
 ```
 
 ### UK nations
 
 ```{r}
-flexdashboard::valueBox("Pay",
+flexdashboard::valueBox("Poverty",
          color = spcols[4],
-         icon = "ion-stats-bars",
-         href = "earnings_nations.html")
+         icon = "ion-ios-cart")
 ```
+
+### UK nations
+
+```{r}
+flexdashboard::valueBox("Health",
+         color = spcols[4],
+         icon = "ion-ios-medkit")
+```
+
+
 
 
 

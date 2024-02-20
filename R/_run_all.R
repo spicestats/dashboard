@@ -19,6 +19,10 @@ source("R/02_prep_lifeexpectancy_data.R")
 source("R/02_prep_population_data.R")
 source("R/02_prep_socialsecurity_data.R")
 
+# 03 spreadsheet for powerBI ---------------------------------------------------
+
+source("R/03_spreadsheet_powerbi.R")
+
 # 03 present data --------------------------------------------------------------
 
 source("R/03_charts_earnings.R")

@@ -9,29 +9,14 @@ library(nomisr)
 
 # nomis datasets ---------------------------------------------------------------
 
-# find APS / labour market datasets
-#nomis_search(keywords = c("employment", "unemployment", "inactivity")) %>% view()
-
+## APS query -------------------------------------------------------------------
 # APS dataset (residence based)
-#APS_metadata <- nomis_get_metadata(id = "NM_17_5")
 
-last_updated <- nomis_overview(id = "NM_17_5") %>% 
+last_updated_aps <- nomis_overview(id = "NM_17_5") %>% 
   filter(name == "lastupdated") %>% 
   unnest(value) %>% 
   pull(value)
 
-# run these to understand what's in the datasets
-#nomis_get_metadata(id = "NM_17_5", concept = "GEOGRAPHY")
-#nomis_get_metadata(id = "NM_17_5", concept = "GEOGRAPHY", type = "TYPE499") %>% view()
-#nomis_get_metadata(id = "NM_17_5", concept = "TIME")
-#nomis_get_metadata(id = "NM_17_5", concept = "MEASURES")
-#nomis_get_metadata(id = "NM_17_5", concept = "FREQ")
-#nomis_get_metadata(id = "NM_17_5", concept = "VARIABLE") %>% view()
-
-
-# nomis queries ----------------------------------------------------------------
-
-# APS rates
 nomis_aps <- nomis_get_data(
   
   id = "NM_17_5", 
@@ -56,10 +41,59 @@ nomis_aps <- nomis_get_data(
 
 names(nomis_aps) <- tolower(names(nomis_aps))
 
+## claimant count query --------------------------------------------------------
+
+last_updated_cc <- nomis_overview(id = "NM_162_1") %>% 
+  filter(name == "lastupdated") %>% 
+  unnest(value) %>% 
+  pull(value)
+
+# nomis query
+nomis_cc <- nomis_get_data(
+  
+  # APS dataset with rates
+  id = "NM_162_1", 
+  
+  # monthly data for the last few years (add lines as needed)
+  time = 
+    c(paste0(2024, "-", c(paste0("0", 1:9), 10:12)),
+      paste0(2023, "-", c(paste0("0", 1:9), 10:12)),
+      paste0(2022, "-", c(paste0("0", 1:9), 10:12)),
+      paste0(2022, "-", c(paste0("0", 1:9), 10:12)),
+      paste0(2020, "-", c(paste0("0", 1:9), 10:12))
+    ),
+  
+  # Scotland, SP constituencies (SP regions have no data)
+  geography = c("2092957701", "TYPE458"), 
+  
+  # annual data
+  freq = "M", 
+  
+  # rates only
+  measures = 20100, 
+  
+  # Claimants as a proportion of economically active residents aged 16+
+  measure = 3,
+  
+  # all genders, all ages (16+) (further breakdowns have no data)
+  gender = 0,
+  age = 0
+  
+)
+
+names(nomis_cc) <- tolower(names(nomis_cc))
+
+
 # save data --------------------------------------------------------------------
 
-saveRDS(nomis_aps, "data/labourmarketdata.rds")
-# write message
+saveRDS(list(APS = nomis_aps, 
+             CC = nomis_cc), "data/labourmarketdata.rds")
 
-cat("APS data downloaded from NOMIS - data last updated on NOMIS on", day(last_updated), 
-    month.name[month(last_updated)], year(last_updated), fill = TRUE)
+# write message
+message1 <- paste("APS data downloaded from NOMIS - data last updated on NOMIS on", 
+                  day(last_updated_aps), month.name[month(last_updated_aps)], 
+                  year(last_updated_aps))
+message2 <- paste("Claimant count data downloaded from NOMIS - data last updated on NOMIS on", 
+                  day(last_updated_cc), month.name[month(last_updated_cc)], 
+                  year(last_updated_cc))
+cat(message1, message2, fill = TRUE)

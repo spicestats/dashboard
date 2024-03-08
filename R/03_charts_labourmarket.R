@@ -9,6 +9,7 @@ source("R/functions/f_make_charts.R")
 spcols <- c("#B884CB", "#568125", "#E87722")
 
 all_data <- readRDS("data/tidy_labourmarket_data.rds") %>% 
+  filter(Measure %in% c("Unemployment", "Inactivity", "Employment")) %>% 
   arrange(Year, Month, Measure)
 
 latest_quarter <- tail(all_data$Month, 1)
@@ -41,7 +42,7 @@ for (i in regions) {
     function(x) {
       
       df <- data %>% 
-        filter(Measure != "Unemployment",
+        filter(Measure %in% c("Employment", "Inactivity"),
                Region == Region_selected,
                Area_name == constituencies[x])
       

@@ -3,14 +3,15 @@
 
 library(tidyverse)
 
-# load rounding function
+# load functions
 source("R/functions/f_round2.R")
 source("R/functions/f_get_region.R")
 
 labourmarket <- readRDS("data/labourmarketdata.rds")
 
-# tidy labour market dataset
-tidy_lm <- labourmarket %>% 
+# tidy APS dataset -------------------------------------------------------------
+
+tidy_aps <- labourmarket$APS %>% 
   filter(geography_name != "Great Britain",
          geography_name != "England and Wales") %>% 
   select(date, date_name, geography_name, geography_type, variable_name,
@@ -26,8 +27,8 @@ tidy_lm <- labourmarket %>%
          Region = case_when(geography_type == "scottish parliamentary regions" ~ geography_name,
                             TRUE ~ Region),
          Sex = case_when(grepl(" males", variable_name) ~ "Male",
-                            grepl(" female", variable_name) ~ "Female",
-                            TRUE ~ "All"),
+                         grepl(" female", variable_name) ~ "Female",
+                         TRUE ~ "All"),
          variable_name = case_when(grepl("Unemployment", variable_name) ~ "Unemployment",
                                    grepl("Employment", variable_name) ~ "Employment",
                                    TRUE ~ "Inactivity"),
@@ -38,18 +39,16 @@ tidy_lm <- labourmarket %>%
          Upper = Data + Data * Confidence * 1.96) %>% 
   select(-Confidence, -Variable)
 
-
 # for earlier data, aggregate constituency estimates to regions
-aggregated_rates <- tidy_lm %>% 
+aggregated_rates <- tidy_aps %>% 
   filter(date < "2012-12",
          grepl("scottish parliamentary constituencies", geography_type)) %>% 
   select(-geography_type) %>% 
   group_by(date, Region, variable_name, Sex) %>% 
   summarise(rate_aggr = round2(sum(Numerator)/sum(Denominator), 3))
-  
 
 # combine aggregated estimates with all data
-tidy_lm_combined <- tidy_lm %>% 
+tidy_aps_combined <- tidy_aps %>% 
   left_join(aggregated_rates, by = c("date", "Region", "variable_name", "Sex")) %>% 
   mutate(Data = case_when(date < "2012-12" & geography_type == "scottish parliamentary regions" ~ rate_aggr,
                           TRUE ~ Data),
@@ -69,11 +68,46 @@ tidy_lm_combined <- tidy_lm %>%
          Sex, Age, CTBand, Data, Lower, Upper) %>% 
   arrange(Year, Month, Region, Area_type, Area_name)
 
+# tidy claimant count dataset --------------------------------------------------
+
+unique(labourmarket$CC$geography_name)
+names(labourmarket$CC)
+
+
+tidy_cc <- labourmarket$CC %>% 
+  select(date, date_name, geography_name, geography_type, obs_value, obs_status, obs_status_name) %>% 
+  
+  # only keep reliable estimates; mark unreliable as missing
+  mutate(obs_value = case_when(obs_status == "A" ~ obs_value)) %>% 
+  select(-obs_status_name, -obs_status) %>% 
+  
+  # get region for each constituency
+  mutate(Region = const_name_to_region(geography_name)         ,
+         Sex = "All",
+         Data = obs_value / 100,
+         Lower = NA,
+         Upper = NA,
+         Year = year(ym(date)),
+         Month = month(ym(date)),
+         Area_name = case_when(geography_type == "scottish parliamentary regions" ~ Region,
+                               TRUE ~ geography_name),
+         Area_type = case_when(geography_type == "countries" ~ "Country",
+                               grepl("scottish parliamentary constituencies", geography_type) ~ "SP Constituency"),
+         Subject = "Labour market",
+         Measure = "Unemployment (claimant count)",
+         TimePeriod = date_name,
+         Age = "All",
+         CTBand = "All") %>% 
+  select(Area_name, Area_type, Region, Subject, Measure, TimePeriod, Year, Month, 
+         Sex, Age, CTBand, Data, Lower, Upper) %>% 
+  arrange(Year, Month, Region, Area_type, Area_name)
+
 # save tidy data ---------------------------------------------------------------
 
-saveRDS(tidy_lm_combined, "data/tidy_labourmarket_data.rds")
+saveRDS(rbind(tidy_aps_combined, tidy_cc), "data/tidy_labourmarket_data.rds")
 
 rm(list = ls())
+
 cat("Labour market data prepped", fill = TRUE)
 
 

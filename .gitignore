@@ -6,7 +6,8 @@
 data/*.rds
 data/**
 output/**
-
+.github/**
+.github
 
 MaikeW.github.io/**
 MaikeW.github.io

@@ -15,7 +15,7 @@ urls_on_site <- polite::scrape(session) %>%
 
 download_url <- urls_on_site[grepl("xls", urls_on_site)]
 
-download.file(paste0("https://www.nrscotland.gov.uk/", download_url), 
+download.file(paste0("https://www.nrscotland.gov.uk", download_url), 
               "data/spc_population.xlsx",
               mode = "wb")
 

@@ -39,7 +39,7 @@ download_url_epc <- urls_epc_on_site[grepl(".zip", urls_epc_on_site)][1]
 
 # big file - need to increase default timeout period (60s) to ensure download 
 # isn't aborted
-options(timeout=300)
+options(timeout=500)
 
 download.file(download_url_epc, "data/epc.zip")
 

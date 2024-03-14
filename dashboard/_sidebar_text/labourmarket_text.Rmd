@@ -4,4 +4,6 @@
 - **Unemployment rate** - The proportion of 16+ year-olds who are currently unemployed, i.e. they are looking for work
 - **Inactivity rate** - The proportion of 16-65 year-olds who are currently not employed or self-employed and are not actively looking for work.
 
-The data is updated quarterly by the Office for National Statistics via the [Labour Force Survey](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/bulletins/regionallabourmarket/september2023). The shaded areas show measurement uncertainty (where available). Missing data is shown as gaps. Due to small numbers, unemployment rates are not available on a constituency-level.
+Employment and Inactivity data is updated quarterly by the Office for National Statistics via the [Labour Force Survey](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/bulletins/regionallabourmarket/september2023). The shaded areas and error bars show measurement uncertainty (the 95% confidence interval) where available. Missing data is shown as gaps. Due to small numbers, constituency-level unemployment rates are not available using this data source.
+
+Unemployment (claimant count) estimates are updated monthly by the Office for National Statistics via the [nomis data portal](https://www.nomisweb.co.uk/datasets/ucjsa). This experimental series counts the number of people claiming Jobseeker's Allowance plus those who claim Universal Credit and are required to seek work and be available for work.

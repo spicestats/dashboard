@@ -11,7 +11,7 @@ lapply(regions, function(x){
                     output_file = output_file)
 })
 
-# Topics -----------------------------------------------------------------------
+# Topics pages -----------------------------------------------------------------
 
 files <- list.files("dashboard", pattern = ".Rmd")
 files <- files[files != "regions.Rmd"]

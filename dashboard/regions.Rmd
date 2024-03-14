@@ -67,6 +67,7 @@ layout2 = knitr::knit_child(text = unlist(layout2), quiet = TRUE)
 
 charts_r <- readRDS("data/charts_labourmarket.rds")[["regions"]]
 charts_c <- readRDS("data/charts_labourmarket.rds")[["constituencies"]]
+charts_unemp <- readRDS("data/charts_labourmarket.rds")[["regions_unemp"]]
 charts_emp <- readRDS("data/charts_labourmarket.rds")[["regions_emp"]]
 charts_inact <- readRDS("data/charts_labourmarket.rds")[["regions_inact"]]
 

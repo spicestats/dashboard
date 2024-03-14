@@ -97,7 +97,7 @@ flexdashboard::valueBox("West Scotland", color = spcols[7],
 
 ```{r}
 flexdashboard::valueBox("Labour market",
-         color = spcols[2],
+         color = spcols[11],
          icon = "ion-android-train",
          href = "labourmarket.html")
 ```
@@ -106,7 +106,7 @@ flexdashboard::valueBox("Labour market",
 
 ```{r}
 flexdashboard::valueBox("Pay",
-         color = spcols[2],
+         color = spcols[11],
          icon = "ion-card",
          href = "earnings.html")
 ```
@@ -116,7 +116,7 @@ flexdashboard::valueBox("Pay",
 
 ```{r}
 flexdashboard::valueBox("Housing",
-         color = spcols[2],
+         color = spcols[11],
          icon = "ion-home",
          href = "housing.html")
 ```
@@ -125,7 +125,7 @@ flexdashboard::valueBox("Housing",
 
 ```{r}
 flexdashboard::valueBox("Poverty",
-         color = spcols[2],
+         color = spcols[11],
          icon = "ion-ios-cart",
          href = "poverty.html")
 ```
@@ -135,7 +135,7 @@ flexdashboard::valueBox("Poverty",
 
 ```{r}
 flexdashboard::valueBox("Health",
-         color = spcols[2],
+         color = spcols[11],
          icon = "ion-ios-medkit",
          href = "health.html")
 ```
@@ -148,7 +148,7 @@ flexdashboard::valueBox("Health",
 
 ```{r}
 flexdashboard::valueBox("Labour market",
-         color = spcols[4],
+         color = spcols[3],
          icon = "ion-android-train")
 ```
 
@@ -156,7 +156,7 @@ flexdashboard::valueBox("Labour market",
 
 ```{r}
 flexdashboard::valueBox("Pay",
-         color = spcols[4],
+         color = spcols[3],
          icon = "ion-card",
          href = "earnings_nations.html")
 ```
@@ -165,7 +165,7 @@ flexdashboard::valueBox("Pay",
 
 ```{r}
 flexdashboard::valueBox("Housing",
-         color = spcols[4],
+         color = spcols[3],
          icon = "ion-home")
 ```
 
@@ -173,7 +173,7 @@ flexdashboard::valueBox("Housing",
 
 ```{r}
 flexdashboard::valueBox("Poverty",
-         color = spcols[4],
+         color = spcols[3],
          icon = "ion-ios-cart")
 ```
 
@@ -181,7 +181,7 @@ flexdashboard::valueBox("Poverty",
 
 ```{r}
 flexdashboard::valueBox("Health",
-         color = spcols[4],
+         color = spcols[3],
          icon = "ion-ios-medkit")
 ```
 

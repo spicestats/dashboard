@@ -60,7 +60,14 @@ nomis_cc <- nomis_get_data(
       paste0(2023, "-", c(paste0("0", 1:9), 10:12)),
       paste0(2022, "-", c(paste0("0", 1:9), 10:12)),
       paste0(2022, "-", c(paste0("0", 1:9), 10:12)),
-      paste0(2020, "-", c(paste0("0", 1:9), 10:12))
+      paste0(2020, "-", c(paste0("0", 1:9), 10:12)),
+      paste0(2019, "-", c(paste0("0", 1:9), 10:12)),
+      paste0(2018, "-", c(paste0("0", 1:9), 10:12)),
+      paste0(2017, "-", c(paste0("0", 1:9), 10:12)),
+      paste0(2016, "-", c(paste0("0", 1:9), 10:12)),
+      paste0(2015, "-", c(paste0("0", 1:9), 10:12)),
+      paste0(2014, "-", c(paste0("0", 1:9), 10:12)),
+      paste0(2013, "-", c(paste0("0", 1:9), 10:12))
     ),
   
   # Scotland, SP constituencies (SP regions have no data)

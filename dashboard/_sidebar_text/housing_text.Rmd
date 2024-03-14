@@ -1,4 +1,4 @@
-#### Housing data
+#### **Housing data**
 
 [**Median house prices data**](https://statistics.gov.scot/resource?uri=http%3A%2F%2Fstatistics.gov.scot%2Fdata%2Fresidential-properties-sales-and-price) is from Registers of Scotland.
 

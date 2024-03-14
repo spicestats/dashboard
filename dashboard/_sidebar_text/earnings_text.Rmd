@@ -1,4 +1,4 @@
-#### Earnings data
+#### **Earnings data**
 
 The charts show median gross earnings of employees (without adjusting for inflation). Data is collected by the Office for National Statistics each April via the [Annual Survey of Hours and Earnings](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/latest). The statistics cover employees only and exclude self-employed earnings.
 

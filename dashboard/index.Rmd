@@ -1,5 +1,8 @@
 ---
 title: "SPICe statistics"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
 ---
 
 ```{r setup, include = FALSE}
@@ -13,9 +16,21 @@ knitr::opts_chunk$set(
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 source("../R/functions/f_make_charts.R")
 
+date <- paste(lubridate::day(Sys.Date()),
+              month.name[lubridate::month(Sys.Date())], 
+              lubridate::year(Sys.Date()))
+
 ```
 
-## Row 1 - by region
+## Sidebar {.sidebar}
+
+Explore statistics by topic, Scottish Parliament region, or compare statistics across UK nations.
+
+Page last updated on `r date`.
+
+## Col 1 - by region
+
+####  **BY REGION**
 
 ### Statistics
 
@@ -46,8 +61,6 @@ flexdashboard::valueBox("Lothian", color = spcols[7], icon = "ion-stats-bars",
                         href = "lothian.html")
 ```
 
-## Row 2 - by region
-
 ### Statistics
 
 ```{r}
@@ -76,7 +89,9 @@ flexdashboard::valueBox("West Scotland", color = spcols[7],
          icon = "ion-stats-bars", href = "west_scotland.html")
 ```
 
-## Row 3 - by topic
+## Col 2 - by topic
+
+#### **BY TOPIC**
 
 ### Employment, Unemployment & Inactivity rates
 
@@ -125,7 +140,9 @@ flexdashboard::valueBox("Health",
          href = "health.html")
 ```
 
-## Row 4 - UK nations
+## Col 3 - UK nations
+
+#### **UK COMPARISONS**
 
 ### UK nations
 

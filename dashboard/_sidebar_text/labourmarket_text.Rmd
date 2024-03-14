@@ -1,4 +1,4 @@
-#### Labour market data
+#### **Labour market data**
 
 - **Employment rate** - The proportion of 16-65 year-olds who are employed or self-employed
 - **Unemployment rate** - The proportion of 16+ year-olds who are currently unemployed, i.e. they are looking for work

@@ -4,13 +4,15 @@
 library(tidyverse)
 library(statxplorer)
 library(jsonlite)
+library(opendatascot)
+
 
 # CiLIF (child poverty) --------------------------------------------------------
 
 # set key (available from StatXplore account)
 statxplorer::load_api_key("data/API_key.txt")
 
-# check for new data -----------------------------------------------------------
+## check for new data -----------------------------------------------------------
 # check if Statxplore has new data and update json files accordingly
 
 # import existing json query
@@ -47,17 +49,29 @@ if (!inherits(check_error, "try-error")) {
   cat("CiLIF - no updates available", fill = TRUE)
 }
 
-# import data ------------------------------------------------------------------
+## import data ------------------------------------------------------------------
 # load the queries from a file - query is easiest created in StatXplore
 
 cilif_data <- fetch_table(filename = "data/cilif_query.json")
 cilif_data <- add_codes_for_field(cilif_data, field = "National - Regional - LA - OAs (GB)", colname = "DZ")
 
+# SIMD -------------------------------------------------------------------------
+
+simd_data <- ods_dataset("scottish-index-of-multiple-deprivation",
+                         measureType = "decile",
+                         simdDomain = c("simd", "income", "employment", 
+                                        "housing", "health", 
+                                        "education-skills-and-training",
+                                        "crime"))
+
+
 # save data --------------------------------------------------------------------
 
 saveRDS(cilif_data, "data/cilif_data.rds")
+saveRDS(simd_data, "data/simd_data.rds")
 
-message <- paste("Child poverty (CiLIF) data downloaded from StatXplore - latest data from",
+message1 <- paste("Child poverty (CiLIF) data downloaded from StatXplore - latest data from",
                  last_yr)
+message2 <- paste("SIMD data downloaded from statistics.gov.scot - data from", simd_data$refPeriod[1])
 
-cat(message, fill = TRUE)
+cat(message1, message2, sep = "\n", fill = TRUE)

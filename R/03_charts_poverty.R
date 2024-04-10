@@ -3,6 +3,7 @@
 # sort out population for 2021/22 - see Cilif report for what they used
 # (no pop estimates available)
 # sort out chart titles
+# single year bar charts better?
 
 
 # load -------------------------------------------------------------------------
@@ -17,7 +18,8 @@ cilif <- readRDS("data/tidy_poverty_data.rds")
 regions <- unique(cilif$Region)
 regions <- regions[!is.na(regions)]
 
-# Numbers ----------------------------------------------------------------------
+# cilif ------------------------------------------------------------------------
+## Numbers ---------------------------------------------------------------------
 
 charts_povertynumbers <- lapply(regions, function(x) {
   
@@ -28,7 +30,7 @@ charts_povertynumbers <- lapply(regions, function(x) {
     make_povertynumber_chart()
 })
 
-# Rates ------------------------------------------------------------------------
+## Rates -----------------------------------------------------------------------
 
 charts_povertyrates <- lapply(regions, function(x) {
   
@@ -38,7 +40,7 @@ charts_povertyrates <- lapply(regions, function(x) {
     make_povertyrate_chart()
 })
 
-# Ages -------------------------------------------------------------------------
+## Ages ------------------------------------------------------------------------
 
 charts_povertyrates_age <- lapply(regions, function(x) {
 

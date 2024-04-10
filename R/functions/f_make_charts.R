@@ -309,7 +309,6 @@ make_povertyrate_chart <- function(df) {
   
   df %>% 
     hchart("line", hcaes(x = Year, y = Data, group = Area_name),
-           marker = list(enabled = FALSE),
            id = ids) %>% 
     hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
     hc_xAxis(title = NULL) %>% 
@@ -329,7 +328,6 @@ make_povertynumber_chart <- function(df) {
   
   df %>% 
     hchart("line", hcaes(x = Year, y = Data, group = Area_name),
-           marker = list(enabled = FALSE),
            id = ids) %>% 
     hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
     hc_xAxis(title = NULL) %>% 
@@ -338,13 +336,12 @@ make_povertynumber_chart <- function(df) {
     hc_add_theme(my_theme)
 }
 
-make_povertyrate_age_chart <- function(x) {
+make_povertyrate_age_chart <- function(df) {
   
   ids <- unique(df$Age)
   
   df %>% 
     hchart("line", hcaes(x = Year, y = Data, group = Age),
-           marker = list(enabled = FALSE),
            id = ids) %>% 
     hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
     hc_xAxis(title = NULL) %>% 

@@ -11,6 +11,7 @@ population <- readRDS("data/tidy_population_data.rds")
 # Scotland's DZs or SPCs (Scotland-level and council-level only)
 
 # child population -------------------------------------------------------------
+# data goes up to 2020/21 only
 
 child_pop <- population %>% 
   ungroup() %>% 

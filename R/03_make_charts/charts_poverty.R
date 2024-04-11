@@ -50,8 +50,6 @@ charts_povertyrates <- lapply(regions, function(x) {
     make_povertyrate_barchart()
 })
 
-charts_povertyrates[[1]]
-
 ## Ages ------------------------------------------------------------------------
 
 charts_povertyrates_age_ts <- lapply(regions, function(x) {

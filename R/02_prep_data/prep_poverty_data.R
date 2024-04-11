@@ -52,7 +52,7 @@ cilif <- cilif_data$dfs[[1]] %>%
   left_join(rbind(child_pop, child_pop_Scotland, pop22), by = c("Area_name", "TimePeriod", "Age")) %>% 
   mutate(Region = const_name_to_region(Area_name),
          Age = ifelse(Age == "Total", "All", Age),
-         Age = factor(Age, levels = c("0-4", "5-10", "11-15"), ordered = TRUE),
+         Age = factor(Age, levels = c("0-4", "5-10", "11-15", "16-19", "All", "Unknown or missing"), ordered = TRUE),
          Measure = 'Children in relative poverty',
          Subject = "Poverty",
          Year = TimePeriod,

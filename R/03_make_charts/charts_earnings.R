@@ -6,10 +6,7 @@ library(highcharter)
 
 source("R/functions/f_make_charts.R")
 
-#spcols <- c("#B884CB", "#568125", "#007DBA", "#E87722")
-
 data <- readRDS("data/tidy_earnings_data.rds")
-
 inflators <- readRDS("data/inflators.rds")
 
 data_countries <- data %>% 
@@ -167,7 +164,7 @@ region_council_lookup <- list(
                       "East Renfrewshire", "Inverclyde", "North Ayrshire", 
                       "Renfrewshire", "West Dunbartonshire"))
 
-## bar chart ------------------------------------------------------------------
+## errorbar charts -------------------------------------------------------------
 
 charts_earnings$regions$latest <- lapply(
   seq_along(region_council_lookup), function(x) {

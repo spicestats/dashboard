@@ -32,7 +32,7 @@ cc_data <- all_data %>%
   mutate(Year = lubridate::my(paste(Month, Year))) %>% 
   arrange(Year, Month)
 
-# Constituencies ---------------------------------------------------------------
+# Constituency charts ----------------------------------------------------------
 
 # Inactivity & Employment only
 
@@ -71,21 +71,8 @@ for (i in regions) {
   names(charts_labourmarket_constituencies[[i]]) <- constituencies
 }
 
-# Regions ----------------------------------------------------------------------
+# Errorbar charts ----------------------------------------------------------------------
 # Inactivity, Unemployment & Employment
-
-## line charts -----------------------------------------------------------------
-# not used
-
-charts_labourmarket_regions <- lapply(regions, function(x) {
-  
-  df <- data %>% filter(Region == x, Area_type == "SP Region")
-  make_labourmarket_chart(df) %>% hc_title(text = x)
-})
-
-names(charts_labourmarket_regions) <- regions
-
-## errorbar charts -------------------------------------------------------------
 
 charts_labourmarket_regions_unemployment_errorbar <- lapply(regions, function(x) {
   
@@ -130,8 +117,7 @@ names(charts_labourmarket_regions_inactivity_errorbar) <- regions
 
 # save all ---------------------------------------------------------------------
 
-saveRDS(list(regions = charts_labourmarket_regions,
-             constituencies = charts_labourmarket_constituencies,
+saveRDS(list(constituencies = charts_labourmarket_constituencies,
              regions_unemp = charts_labourmarket_regions_unemployment_errorbar,
              regions_emp = charts_labourmarket_regions_employment_errorbar,
              regions_inact = charts_labourmarket_regions_inactivity_errorbar), 

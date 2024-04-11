@@ -1,4 +1,4 @@
-## Row 1 
+## Row 1 {.tabset}
 
 ### Latest house prices
 
@@ -12,7 +12,7 @@ charts_housing$house_prices[["{{x}}"]]
 charts_housing$house_prices_ts[["{{x}}"]]
 ```
 
-## Row 2 
+## Row 2 {.tabset}
 
 ### Latest private rents
 

@@ -211,8 +211,9 @@ make_labourmarket_errorbar_chart <- function(df) {
                               return Math.round(this.value*100, 0) + "%";} ')),
              accessibility = list(description = "Rate")) %>% 
     hc_add_theme(my_theme) %>%
-    hc_tooltip(pointFormatter = JS(
-      'function () {return Highcharts.numberFormat(this.y * 100, 1) + "%";}'
+    hc_tooltip(headerFormat = '<b> {point.key} </b><br>',
+               pointFormatter = JS(
+      'function () {return this.series.name  + ": " + Highcharts.numberFormat(this.y * 100, 1) + "%";}'
     ))
 }
 
@@ -303,7 +304,7 @@ make_earnings_errorbar_chart <- function(df) {
     hc_add_theme(my_theme)
 }
 
-make_povertyrate_chart <- function(df) {
+make_povertyrate_ts_chart <- function(df) {
   
   ids <- unique(df$Area_name)
   
@@ -322,7 +323,31 @@ make_povertyrate_chart <- function(df) {
                pointFormatter = JS('function () {return this.series.name  + ": " + Highcharts.numberFormat(this.y * 100, 0) + "%";}')) 
 }
 
-make_povertynumber_chart <- function(df) {
+make_povertyrate_barchart <- function(df) {
+  
+  df %>% 
+    arrange(desc(Data)) %>% 
+    hchart("bar", hcaes(x = Area_name, y = Data),
+           name = df$Year[1]) %>% 
+    hc_chart(inverted = TRUE) %>% 
+    hc_add_series("errorbar", data = df, hcaes(low = Lower, high = Upper),
+                  enableMouseTracking = FALSE) %>% 
+    hc_colors(colors = unname(spcols)) %>% 
+    hc_xAxis(title = NULL) %>% 
+    hc_yAxis(title = "",
+             labels = list(
+               formatter = JS('function () {
+                              return Math.round(this.value*100, 0) + "%";} ')),
+             accessibility = list(description = "Rate")) %>% 
+    hc_tooltip(headerFormat = '<b> {point.key} </b><br>',
+               pointFormatter = JS(
+                 'function () {return this.series.name  + ": " + Highcharts.numberFormat(this.y * 100, 1) + "%";}'
+               )) %>%
+    hc_add_theme(my_theme)
+  
+}
+
+make_povertynumber_ts_chart <- function(df) {
   
   ids <- unique(df$Area_name)
   
@@ -336,7 +361,8 @@ make_povertynumber_chart <- function(df) {
     hc_add_theme(my_theme)
 }
 
-make_povertyrate_age_chart <- function(df) {
+
+make_povertyrate_ts_age_chart <- function(df) {
   
   ids <- unique(df$Age)
   

@@ -30,7 +30,7 @@ child_pop_Scotland <- child_pop %>%
   summarise(Area_name = "Scotland",
             Pop = sum(Pop))
 
-# add another table with 2021 data and call this 2022 data (DWP methodology)
+# add another table with 2021 data and call this 2022 data (=DWP methodology)
 
 pop22 <- rbind(child_pop, child_pop_Scotland) %>% 
   filter(TimePeriod == "2021/22") %>% 
@@ -71,12 +71,9 @@ cilif_number <- cilif %>% select(-Pop)
 
 cilif_rate_age <- cilif %>% 
   filter(Age %in% c("0-4", "5-10", "11-15")) %>% 
-  group_by(TimePeriod, Region, Age) %>% 
+  group_by(TimePeriod, Area_name, Age) %>% 
   mutate(Data = sum(Data)/sum(Pop)) %>% 
-  slice_head(n = 1) %>% 
-  mutate(Area_name = Region, 
-         Area_type = "SP Region",
-         Measure = "Child poverty rate by age") %>% 
+  mutate(Measure = "Child poverty rate by age") %>% 
   select(-Pop)
 
 cilif_rate <- cilif %>% 

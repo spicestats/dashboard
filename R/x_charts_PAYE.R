@@ -7,21 +7,14 @@ data <- readRDS("data/tidy_paye_data.rds")
 
 data$paye %>% 
   filter(Age == "All",
-         SIC == "All",
-         is.na(LA)) %>% 
-  hchart("line", hcaes(x = Date, y = Pay, group = Region))
-
-data$paye %>% 
-  filter(SIC == "All",
-         is.na(LA),
-         Region == "Scotland") %>% 
-  hchart("line", hcaes(x = Date, y = Pay, group = Age))
+         Area_name != "Scotland") %>% 
+  hchart("line", hcaes(x = TimePeriod, y = Data, group = Area_name))
 
 data$paye %>% 
   filter(Age == "All",
-         is.na(LA),
-         Region == "Scotland") %>% 
-  hchart("line", hcaes(x = Date, y = Pay, group = SIC))
+         Area_name == "Scotland") %>% 
+  distinct() %>% 
+  hchart("line", hcaes(x = TimePeriod, y = Data))
 
 data$paye %>% 
   filter(Age == "All",

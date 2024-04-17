@@ -1,3 +1,8 @@
+# TO DO ----
+
+#- check latest spreadsheets; somethings going wrong, maybe columns have moved
+
+
 # Note that PAYE local data is available on LAU1 (41), and NUTS3-level (23), but 
 # not on any sensible geographic (SPR, SPC or council) level
 

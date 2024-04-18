@@ -28,7 +28,7 @@ regions <- names(charts_housing$house_prices)
 # sidebar text is in dashboard/_sidebar_text
 # charts are in dashboard/_layouts
 
-sidebar <-  paste0("# Sidebar {.sidebar}\n",
+sidebar <- paste0("# Sidebar {.sidebar}\n",
                   knitr::knit_expand("dashboard/_sidebar_text/housing_text.Rmd"))
 
 layout = lapply(seq_along(regions), function(x) {

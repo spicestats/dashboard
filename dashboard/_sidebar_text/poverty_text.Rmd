@@ -1,0 +1,5 @@
+#### **Poverty data**
+
+The charts show child poverty estimates from the [Children in Low Income Families statistics](https://www.gov.uk/government/collections/children-in-low-income-families-local-area-statistics). Data is collected annually by the Department for Work and Pensions using administrative data and calibrating it to official poverty statistics.
+
+Local data is available down to a Data Zone level. Here, estimates were aggregated to Scottish Parliament constituency-level.

@@ -1,0 +1,27 @@
+## Row 1 {.tabset}
+
+### Latest child poverty rates
+
+```{r}
+charts_poverty$povertyrates[["{{x}}"]]
+```
+
+### Child poverty rates over time
+
+```{r}
+charts_poverty$povertyrates_ts[["{{x}}"]]
+```
+
+### Child poverty numbers
+
+```{r}
+charts_poverty$povertynumbers[["{{x}}"]]
+```
+
+## Row 2
+
+### Child poverty rates by age
+
+```{r}
+charts_poverty$povertyrates_age[["{{x}}"]]
+```

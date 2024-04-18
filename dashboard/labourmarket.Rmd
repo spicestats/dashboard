@@ -17,12 +17,11 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```{r prep_data}
 
 library(highcharter)
-charts_r <- readRDS("data/charts_labourmarket.rds")[["regions"]]
 charts_c <- readRDS("data/charts_labourmarket.rds")[["constituencies"]]
 charts_unemp <- readRDS("data/charts_labourmarket.rds")[["regions_unemp"]]
 charts_emp <- readRDS("data/charts_labourmarket.rds")[["regions_emp"]]
 charts_inact <- readRDS("data/charts_labourmarket.rds")[["regions_inact"]]
-regions <- names(charts_r)
+regions <- names(charts_unemp)
 
 ```
 

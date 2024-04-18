@@ -61,7 +61,8 @@ house_prices <- lapply(seq_along(regions), function(x) {
   data_hp1 %>% 
     filter(Region == regions[x] | Area_name == "Scotland") %>% 
     make_house_prices_chart() %>% 
-    hc_title(text = paste0("Median house prices in ", regions[x], ", ", data_hp1$Year[1]))
+    hc_title(text = paste0("Median house prices in ", regions[x], 
+                           " constituencies, ", data_hp1$Year[1]))
 })
 
 names(house_prices) <- regions
@@ -78,7 +79,7 @@ house_prices_ts <- lapply(seq_along(regions), function(x) {
   data_hp2 %>% 
     filter(Region == regions[x] | Area_name == "Scotland") %>% 
     make_house_prices_chart_ts() %>% 
-    hc_title(text = paste0("Median house prices in ", regions[x]))
+    hc_title(text = paste0("Median house prices in ", regions[x], " constituencies"))
 })
 
 names(house_prices_ts) <- regions

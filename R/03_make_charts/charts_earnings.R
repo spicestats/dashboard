@@ -42,7 +42,7 @@ charts_earnings$countries$weekly_PT <- data_countries %>%
   make_earnings_chart() %>% 
   hc_title(text = "Part-time employees")
 
-### annual ----------------------------------------------------------------------
+### annual ---------------------------------------------------------------------
 
 charts_earnings$countries$annual_all <- data_countries %>% 
   filter(Measure == "Median annual employee earnings") %>% 
@@ -59,7 +59,7 @@ charts_earnings$countries$annual_PT <- data_countries %>%
   make_earnings_chart() %>% 
   hc_title(text = "Part-time employees")
 
-### hourly ----------------------------------------------------------------------
+### hourly ---------------------------------------------------------------------
 
 charts_earnings$countries$hourly_all <- data_countries %>% 
   filter(Measure == "Median hourly employee earnings") %>% 
@@ -80,9 +80,9 @@ charts_earnings$countries$hourly_PT <- data_countries %>%
   hc_title(text = "Part-time employees")
 
 
-## real -------------------------------------------------------------------------
+## real ------------------------------------------------------------------------
 
-### weekly ----------------------------------------------------------------------
+### weekly ---------------------------------------------------------------------
 
 data_countries_real <- data_countries %>% 
   left_join(inflators, by = c(Year = "year")) %>% 
@@ -174,7 +174,7 @@ charts_earnings$regions$latest <- lapply(
       arrange(desc(Data)) %>% 
       filter(Area_name %in% c("Scotland", region_council_lookup[[x]])) %>% 
       make_earnings_errorbar_chart() %>% 
-      hc_title(text = paste("Weekly median gross employee pay,", year(max(data_councils$TimePeriod))))
+      hc_title(text = paste0("Weekly median gross employee pay in ", region_council_lookup[[x]], ", ", year(max(data_councils$TimePeriod))))
   })
 
 names(charts_earnings$regions$latest) <- names(region_council_lookup)
@@ -189,7 +189,7 @@ charts_earnings$regions$nominal <- lapply(
   function(x) {
     make_region_earnings_chart(df = data_councils, 
                                council_list = c("Scotland", region_council_lookup[[x]])) %>% 
-      hc_title(text = "Weekly median gross employee pay")
+      hc_title(text = paste0("Weekly median gross employee pay in ", region_council_lookup[[x]]))
   })
 
 names(charts_earnings$regions$nominal) <- names(region_council_lookup)
@@ -207,7 +207,7 @@ charts_earnings$regions$real <- lapply(
   function(x) {
     make_region_earnings_chart(df = data_councils_real, 
                                council_list = c("Scotland", region_council_lookup[[x]])) %>% 
-      hc_title(text = "Weekly median gross employee pay in real terms")
+      hc_title(text = paste0("Weekly median gross employee pay in real terms in ", region_council_lookup[[x]]))
   })
 
 names(charts_earnings$regions$real) <- names(region_council_lookup)

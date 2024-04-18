@@ -6,7 +6,8 @@ options(highcharter.lang = hcoptslang)
 
 # colors -----------------------------------------------------------------------
 
-spcols <- c(darkblue = "#003057",
+spcols <- c(purple = "#500778",
+            darkblue = "#003057",
             midblue = "#007DBA",
             brightblue = "#00A9E0",
             jade = "#108765",
@@ -129,7 +130,7 @@ make_earnings_chart <- function(df){
                   data = df, 
                   hcaes(x = TimePeriod, low = Lower, high = Upper, group = Area_name),
                   linkedTo = ids,
-                  fillOpacity = 0.3,
+                  opacity = 0.2,
                   enableMouseTracking = FALSE,
                   lineColor = "transparent",
                   showInLegend = FALSE) %>% 
@@ -161,14 +162,18 @@ make_region_earnings_chart <- function(df, council_list) {
 
 make_earnings_errorbar_chart <- function(df) {
   
-  df %>% 
-    hchart("scatter", hcaes(x = Area_name, y = Data),
-           name = paste(month.abb[df$Month[1]], df$Year[1])) %>% 
-    hc_chart(inverted = TRUE) %>% 
+  highchart() %>%
+    hc_add_series(df, "scatter", hcaes(x = Area_name, y = Data), showInLegend = FALSE,
+                  zIndex = 2, name = paste(month.abb[df$Month[1]], df$Year[1])) %>% 
+    hc_add_series(df %>% mutate(Data = ifelse(Area_name == "Scotland", Data * 1.1, NA)), 
+                  "column", hcaes(x = Area_name, y = Data), 
+                  color = spcols[3], enableMouseTracking = FALSE,
+                  zIndex = 1, opacity = 0.5, showInLegend = FALSE) %>% 
     hc_add_series("errorbar", data = df, hcaes(low = Lower, high = Upper),
-                  enableMouseTracking = FALSE) %>% 
+                  enableMouseTracking = FALSE, showInLegend = FALSE) %>% 
+    hc_chart(inverted = TRUE) %>% 
     hc_colors(colors = unname(spcols)) %>% 
-    hc_xAxis(title = NULL) %>% 
+    hc_xAxis(title = NULL, type = "category") %>% 
     hc_yAxis(title = "", 
              labels = list(format = '\u00A3{value: ,f}')) %>% 
     hc_tooltip(valueDecimals = 0,
@@ -183,7 +188,7 @@ make_earnings_errorbar_chart <- function(df) {
 make_labourmarket_chart <- function(df){
   
   ids <- unique(df$Measure)
-  
+
   df %>% 
     hchart("line", hcaes(x = Year, y = Data*100, group = Measure),
            marker = list(enabled = FALSE),
@@ -192,12 +197,12 @@ make_labourmarket_chart <- function(df){
                   data = df, 
                   hcaes(x = Year, low = Lower*100, high = Upper*100, group = Measure),
                   linkedTo = ids,
-                  fillOpacity = 0.3,
+                  opacity = 0.3,
                   enableMouseTracking = FALSE,
                   lineColor = "transparent",
                   marker = list(enabled = FALSE),
                   showInLegend = FALSE) %>% 
-    hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
+    hc_colors(colors = unname(spcols[c(3, 6, 7)])) %>% 
     hc_legend(verticalAlign = "top",
               align = "right",
               floating = TRUE,
@@ -217,16 +222,21 @@ make_labourmarket_chart <- function(df){
 }
 
 make_labourmarket_errorbar_chart <- function(df) {
-  df %>% 
-    hchart("scatter", hcaes(x = Area_name, y = Data*100), 
-           name = paste(month.abb[df$Month[1]], year(df$Year[1]))) %>% 
-    hc_add_series(type = "errorbar", 
-                  data = df, 
+  
+  highchart() %>%
+    hc_add_series(df, "scatter", hcaes(x = Area_name, y = Data*100, group = Age),
+                  zIndex = 2, name = paste(month.abb[df$Month[1]], year(df$Year[1])), 
+                  showInLegend = FALSE) %>% 
+    hc_add_series(df %>% mutate(Data = ifelse(Area_name == "Scotland", Data * 1.1, NA)), 
+                  "column", hcaes(x = Area_name, y = Data*100), 
+                  color = spcols[3], enableMouseTracking = FALSE,
+                  zIndex = 1, opacity = 0.5, showInLegend = FALSE) %>% 
+    hc_add_series(df, "errorbar",  
                   hcaes(x = Area_name, low = Lower*100, high = Upper*100),
-                  enableMouseTracking = FALSE) %>% 
+                  enableMouseTracking = FALSE, showInLegend = FALSE) %>% 
     hc_chart(inverted = TRUE) %>% 
     hc_colors(colors = unname(spcols)) %>% 
-    hc_xAxis(title = NULL) %>% 
+    hc_xAxis(title = NULL, type = "category") %>% 
     hc_yAxis(title = "",
              labels = list(format = "{value}%")) %>% 
     hc_add_theme(my_theme) %>%
@@ -240,9 +250,9 @@ make_house_prices_chart <- function(df){
   
   df %>% 
     arrange(desc(Data)) %>% 
-    hchart("bar", hcaes(x = Area_name, y = Data),
-           name = df$Year[1]) %>% 
-    hc_colors(colors = unname(spcols)) %>% 
+    mutate(mycols = ifelse(Area_name == "Scotland", "#007DBA", spcols[1])) %>% 
+    hchart("bar", hcaes(x = Area_name, y = Data, color = mycols),
+           name = df$Year[1], opacity = 0.8) %>% 
     hc_xAxis(title = NULL) %>% 
     hc_yAxis(title = "", 
              labels = list(format = '\u00A3{value: ,f}')) %>% 
@@ -277,9 +287,9 @@ make_housing_affordability_chart <- function(df){
   
   df %>% 
     arrange(desc(Data)) %>% 
-    hchart("bar", hcaes(x = Area_name, y = Data),
-           name = df$Year[1]) %>% 
-    hc_colors(colors = unname(spcols)) %>% 
+    mutate(mycols = ifelse(Area_name == "Scotland", "#007DBA", spcols[1])) %>% 
+    hchart("bar", hcaes(x = Area_name, y = Data, color = mycols),
+           name = df$Year[1], opacity = 0.8) %>% 
     hc_xAxis(title = NULL) %>% 
     hc_yAxis(title = "") %>% 
     hc_tooltip(valueDecimals = 1,
@@ -290,7 +300,8 @@ make_housing_affordability_chart <- function(df){
 make_tenure_chart <- function(df) {
   df %>%    
     arrange(Measure, desc(Data)) %>% 
-    hchart("bar", hcaes(x = Area_name, y = Data*100, group = Measure)) %>% 
+    hchart("bar", hcaes(x = Area_name, y = Data*100, group = Measure), 
+           opacity = 0.8) %>% 
     hc_colors(colors = unname(spcols)) %>% 
     hc_plotOptions(bar = list(stacking = "normal")) %>% 
     hc_xAxis(title = NULL) %>% 
@@ -326,12 +337,10 @@ make_povertyrate_barchart <- function(df) {
   
   df %>% 
     arrange(desc(Data)) %>% 
-    hchart("bar", hcaes(x = Area_name, y = Data*100),
-           name = df$Year[1]) %>% 
+    mutate(mycols = ifelse(Area_name == "Scotland", "#007DBA", spcols[1])) %>% 
+    hchart("bar", hcaes(x = Area_name, y = Data*100, color = mycols), 
+           name = df$Year[1], opacity = 0.8) %>% 
     hc_chart(inverted = TRUE) %>% 
-    hc_add_series("errorbar", data = df, hcaes(low = Lower, high = Upper),
-                  enableMouseTracking = FALSE) %>% 
-    hc_colors(colors = unname(spcols)) %>% 
     hc_xAxis(title = NULL) %>% 
     hc_yAxis(title = "",
              labels = list(format = '{value}%'),
@@ -342,35 +351,59 @@ make_povertyrate_barchart <- function(df) {
   
 }
 
-make_povertynumber_ts_chart <- function(df) {
-  
-  ids <- unique(df$Area_name)
+make_povertynumber_barchart <- function(df) {
   
   df %>% 
-    hchart("line", hcaes(x = Year, y = Data, group = Area_name),
-           id = ids) %>% 
-    hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
+    arrange(desc(Data)) %>% 
+    mutate(mycols = ifelse(Area_name == "Scotland", "#007DBA", spcols[1])) %>% 
+    hchart("bar", hcaes(x = Area_name, y = Data, color = mycols), 
+           name = df$Year[1], opacity = 0.8) %>% 
     hc_xAxis(title = NULL) %>% 
     hc_yAxis(title = "", 
              labels = list(format = '{value: ,f}')) %>% 
+    hc_tooltip(headerFormat = '<b> {point.key} </b><br>',
+               pointFormat = '{series.name}: <b>{point.y} children</b>') %>%
     hc_add_theme(my_theme)
 }
 
-make_povertyrate_ts_age_chart <- function(df) {
+make_povertyrate_age_chart <- function(df) {
   
   ids <- unique(df$Age)
   
-  df %>% 
-    hchart("line", hcaes(x = Year, y = Data*100, group = Age),
-           id = ids) %>% 
+  highchart() %>%
+    hc_add_series(df, "scatter", hcaes(x = Area_name, y = Data*100, group = Age),
+                  id = ids, zIndex = 2) %>% 
+    hc_add_series(df %>% mutate(Data = ifelse(Area_name == "Scotland" & Age == max(Age), Data * 1.1, NA)), 
+                  "column", hcaes(x = Area_name, y = Data*100), 
+                  color = spcols[3], enableMouseTracking = FALSE,
+                  zIndex = 1, opacity = 0.5, showInLegend = FALSE) %>% 
+    hc_chart(inverted = TRUE) %>% 
     hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
-    hc_xAxis(title = NULL) %>% 
+    hc_xAxis(title = NULL, type = "category") %>% 
     hc_yAxis(title = "",
              labels = list(format = '{value}%'),
              accessibility = list(description = "Rate")) %>% 
     hc_add_theme(my_theme) %>%
     hc_tooltip(headerFormat = '<b> {point.key} </b><br>',
-               pointFormat = '{series.name}: <b>{point.y:.1f}%</b>') 
+               pointFormat = '{series.name} year-olds: <b>{point.y:.1f}%</b>') 
 }
+
+add_recessionbar <- function(hc) {
+  
+  hc %>%
+    hc_xAxis(
+      plotBands = list(
+        
+        # COVID recession Q1-Q2 2020 (2019/20 - 2020/21)
+        list(
+          label = list(
+            text = "COVID-19",
+            style = list(fontSize = "small")),
+          from = 5.6,
+          to = 6.4,
+          color = "#F2F2F2")
+      ))
+}
+
 
 

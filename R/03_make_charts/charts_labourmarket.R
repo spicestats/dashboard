@@ -6,8 +6,6 @@ library(highcharter)
 
 source("R/functions/f_make_charts.R")
 
-spcols <- c("#B884CB", "#568125", "#E87722")
-
 all_data <- readRDS("data/tidy_labourmarket_data.rds")
 regions <- unique(all_data$Region)
 regions <- regions[!is.na(regions)]
@@ -33,8 +31,6 @@ cc_data <- all_data %>%
   arrange(Year, Month)
 
 # Constituency charts ----------------------------------------------------------
-
-# Inactivity & Employment only
 
 charts_labourmarket_constituencies <- list()
 
@@ -82,10 +78,8 @@ charts_labourmarket_regions_unemployment_errorbar <- lapply(regions, function(x)
     filter(Month == max(Month)) %>% 
     arrange(desc(Data)) %>% 
     make_labourmarket_errorbar_chart() %>% 
-    hc_title(text = "Proportion of 16+ year olds who are unemployed")
+    hc_title(text = paste0("Proportion of 16+ year-olds in ", x, " constituencies who are unemployed"))
 })
-
-charts_labourmarket_regions_unemployment_errorbar[[1]]
 
 charts_labourmarket_regions_employment_errorbar <- lapply(regions, function(x) {
   
@@ -96,7 +90,7 @@ charts_labourmarket_regions_employment_errorbar <- lapply(regions, function(x) {
            Measure == "Employment") %>% 
     arrange(desc(Data)) %>% 
     make_labourmarket_errorbar_chart() %>% 
-    hc_title(text = "Proportion of 16-65 year olds who are employed or self-employed")
+    hc_title(text = paste0("Proportion of 16-65 year-olds in ", x, " constituencies who are employed or self-employed"))
 })
 
 charts_labourmarket_regions_inactivity_errorbar <- lapply(regions, function(x) {
@@ -108,7 +102,7 @@ charts_labourmarket_regions_inactivity_errorbar <- lapply(regions, function(x) {
            Measure == "Inactivity") %>% 
     arrange(desc(Data)) %>% 
     make_labourmarket_errorbar_chart() %>% 
-    hc_title(text = "Proportion of 16-65 year olds who are economically inactive")
+    hc_title(text = paste0("Proportion of 16-65 year-olds in ", x, " constituencies who are economically inactive"))
 })
 
 names(charts_labourmarket_regions_unemployment_errorbar) <- regions

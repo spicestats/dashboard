@@ -1,8 +1,7 @@
 # TODO -------
 
 # sort out chart titles
-# mark 20/21 data grey
-# single year bar charts better?
+
 
 # load -------------------------------------------------------------------------
 
@@ -20,25 +19,20 @@ regions <- regions[!is.na(regions)]
 # cilif ------------------------------------------------------------------------
 ## Numbers ---------------------------------------------------------------------
 
-# time series
-charts_povertynumbers_ts <- lapply(regions, function(x) {
+# snapshot
+charts_povertynumbers <- lapply(regions, function(x) {
   
   cilif %>% 
     filter(Measure == "Children in low income families",
            Age == "All",
-           Region == x) %>% 
-    make_povertynumber_ts_chart()
+           Region == x,
+           TimePeriod == max(TimePeriod)) %>% 
+    make_povertynumber_barchart() %>% 
+    hc_title(text = paste0("Number of children (aged 0-19) in ", x, " constituencies who are in relative poverty before housing costs, ",
+                           max(cilif$TimePeriod)))
 })
 
 ## Rates -----------------------------------------------------------------------
-
-charts_povertyrates_ts <- lapply(regions, function(x) {
-  
-  cilif %>% 
-    filter(Measure == "Child poverty rate (0-15)",
-           Region == x | Area_type == "Country") %>% 
-    make_povertyrate_ts_chart()
-})
 
 # snapshot
 charts_povertyrates <- lapply(regions, function(x) {
@@ -47,45 +41,49 @@ charts_povertyrates <- lapply(regions, function(x) {
     filter(Measure == "Child poverty rate (0-15)",
            Region == x | Area_type == "Country",
            TimePeriod == max(TimePeriod)) %>% 
-    make_povertyrate_barchart()
+    make_povertyrate_barchart() %>% 
+    hc_title(text = paste0("Proportion of children (aged 0-15) in ", x, " constituencies who are in relative poverty before housing costs, ",
+                           max(cilif$TimePeriod)))
+})
+
+# time series
+charts_povertyrates_ts <- lapply(regions, function(x) {
+  
+  cilif %>% 
+    filter(Measure == "Child poverty rate (0-15)",
+           Region == x | Area_type == "Country") %>% 
+    make_povertyrate_ts_chart() %>% 
+    add_recessionbar() %>% 
+    hc_title(text = paste0("Proportion of children (aged 0-15) in ", x, " constituencies who are in relative poverty before housing costs"))
 })
 
 ## Ages ------------------------------------------------------------------------
 
-charts_povertyrates_age_ts <- lapply(regions, function(x) {
-  
-  
+charts_povertyrates_age <- lapply(regions, function(x) {
+
   ids <- unique(cilif$Age)[1:3]
-  
-  scot <- cilif %>% 
-    filter(Measure == "Child poverty rate by age",
-           Region == x | Area_type == "Country",
-           Year == max(Year)) %>% 
-    mutate(Data = ifelse(Area_name == "Scotland", max(Data) * 1.2, NA))
   
   cilif %>% 
     filter(Measure == "Child poverty rate by age",
            Region == x | Area_type == "Country",
            Year == max(Year)) %>% 
     arrange(desc(Data)) %>% 
-    hchart("scatter", hcaes(x = Area_name, y = Data*100, group = Age),
-           id = ids, zIndex = 2, marker = list(symbol = c('circle', 'square','diamond'))) %>% 
-    hc_add_series(type = "column", data = scot, hcaes(x = Area_name, y = Data*100), 
-                  color = spcols["midblue"], enableMouseTracking = FALSE,
-                  zIndex = 1, opacity = 0.2, showInLegend = FALSE) %>% 
-    
-    hc_chart(inverted = TRUE) %>% 
-    hc_colors(colors = unname(spcols[1:length(ids)])) %>% 
-    hc_xAxis(title = NULL) %>% 
-    hc_yAxis(title = "",
-             labels = list(format = '{value}%'),
-             accessibility = list(description = "Rate")) %>% 
-    hc_add_theme(my_theme) %>%
-    hc_tooltip(headerFormat = '<b> {point.key} </b><br>',
-               pointFormat = '{series.name} year-olds: <b>{point.y:.1f}%</b>') 
-  
+    make_povertyrate_age_chart() %>% 
+    hc_title(text = paste0("Proportion of children (aged 0-15) in ", x, " constituencies who are in relative poverty before housing costs, ",
+                           max(cilif$TimePeriod)))
 })
 
-highchart() %>%
-  hc_add_series(data = abs(rnorm(5)), type = "column") %>%
-  hc_add_series(data = purrr::map(0:4, function(x) list(x, x)), type = "scatter", color = "orange")
+names(charts_povertynumbers) <- regions
+names(charts_povertyrates) <- regions
+names(charts_povertyrates_ts) <- regions
+names(charts_povertyrates_age) <- regions
+
+# save all ---------------------------------------------------------------------
+
+saveRDS(list(povertynumbers = charts_povertynumbers,
+             povertyrates = charts_povertyrates,
+             povertyrates_ts = charts_povertyrates_ts,
+             povertyrates_age = charts_povertyrates_age), 
+        "data/charts_poverty.rds")
+
+rm(list = ls())

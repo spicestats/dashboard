@@ -1,18 +1,18 @@
 ## Row 1 {data-height=350}
 
-### {{x}} constituencies - Unemployment (claimant count) {.first-box}
+### Unemployment (claimant count) {.first-box}
 
 ```{r}
 charts_unemp[["{{x}}"]]
 ```
 
-### {{x}} constituencies  - Employment {.first-box}
+### Employment {.first-box}
 
 ```{r}
 charts_emp[["{{x}}"]]
 ```
 
-### {{x}} constituencies - Inactivity {.first-box}
+### Inactivity {.first-box}
 
 ```{r}
 charts_inact[["{{x}}"]]

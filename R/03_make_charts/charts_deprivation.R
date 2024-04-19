@@ -40,18 +40,36 @@ ranks <- simd$ranks %>%
   filter(simdDomain == "SIMD") %>% 
   select()
 
+# SPC shapefile
 shp_SPC <- sf::st_read("C:/Users/s910140/Downloads/bdline_essh_gb/Data/GB/scotland_and_wales_const_region.shp") %>% 
   filter(AREA_CODE == "SPC") %>% 
   mutate(Constituency = const_code_to_name(CODE),
          Region = const_name_to_region(Constituency)) %>% 
-  select(Region, Constituency, POLYGON_ID, UNIT_ID, CODE, geometry)
+  select(Region, Constituency, geometry)
 
-highchart(type = "map") %>% 
-  hc_add_series(mapData = sf_geojson(shp_SPC %>% filter(Region == x)), 
+# DZ shapefile
+shp_DZ <- sf::st_read("C:/Users/s910140/Downloads/SG_DataZoneBdry_2011/SG_DataZone_Bdry_2011.shp") %>% 
+  mutate(Constituency = dz_code_to_const(DataZone),
+         Region = const_name_to_region(Constituency)) %>% 
+  select(Region, Constituency, DataZone, geometry)
+
+# create Region map with constituency boundaries
+
+# TO DO ----------------
+
+# see https://jkunst.com/highcharter/articles/maps.html
+
+region_map <- highchart(type = "map") %>% 
+  hc_add_series(mapData = sf_geojson(shp_SPC %>% filter(Region == x, Constituency == y)), 
+                showInLegend = FALSE)
+  
+region_map  %>% 
+  hc_add_series(mapData = sf_geojson(shp_DZ %>% filter(Region == x, Constituency == y)), 
+                data = ranks,
+                joinBy = c("DataZone", "refArea"),
+                value = "rank",
                 showInLegend = FALSE,
                 dataLabels = list(enabled = TRUE))
-
-str(shp_SPC)
 
 # save all ---------------------------------------------------------------------
 

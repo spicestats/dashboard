@@ -1,0 +1,50 @@
+## Row 1 {.tabset}
+
+### SIMD overall
+
+```{r}
+charts_deprivation$simd_shares[["SIMD"]][["{{x}}"]]
+```
+
+### Income domain
+
+```{r}
+charts_deprivation$simd_shares[["Income"]][["{{x}}"]]
+```
+
+### Employment domain
+
+```{r}
+charts_deprivation$simd_shares[["Employment"]][["{{x}}"]]
+```
+
+### Health domain
+
+```{r}
+charts_deprivation$simd_shares[["Health"]][["{{x}}"]]
+```
+
+### Education domain
+
+```{r}
+charts_deprivation$simd_shares[["Education, Skills and Training"]][["{{x}}"]]
+```
+
+### Housing domain
+
+```{r}
+charts_deprivation$simd_shares[["Housing"]][["{{x}}"]]
+```
+
+### Crime domain
+
+```{r}
+charts_deprivation$simd_shares[["Crime"]][["{{x}}"]]
+```
+
+### Access domain
+
+```{r}
+charts_deprivation$simd_shares[["Access to Services"]][["{{x}}"]]
+```
+

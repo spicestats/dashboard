@@ -1,7 +1,3 @@
-# TODO -------
-
-# sort out chart titles
-
 
 # load -------------------------------------------------------------------------
 
@@ -10,9 +6,7 @@ library(highcharter)
 
 source("R/functions/f_make_charts.R")
 
-cilif <- readRDS("data/tidy_poverty_data.rds")
-simd <- readRDS("data/tidy_simd_data.rds")
-
+cilif <- readRDS("data/tidy_cilif_data.rds")
 regions <- unique(cilif$Region)
 regions <- regions[!is.na(regions)]
 
@@ -60,7 +54,7 @@ charts_povertyrates_ts <- lapply(regions, function(x) {
 ## Ages ------------------------------------------------------------------------
 
 charts_povertyrates_age <- lapply(regions, function(x) {
-
+  
   ids <- unique(cilif$Age)[1:3]
   
   cilif %>% 

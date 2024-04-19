@@ -130,6 +130,15 @@ flexdashboard::valueBox("Poverty",
          href = "poverty.html")
 ```
 
+### Area deprivation
+
+```{r}
+flexdashboard::valueBox("Deprivation",
+         color = spcols[12],
+         icon = "ion-ios-cart",
+         href = "deprivation.html")
+```
+
 
 ### Health, disability and life expectancy
 

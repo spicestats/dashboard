@@ -62,16 +62,33 @@ const_name_to_region <- function(x) {
 dz_aggregator_file <- list.files("data", pattern = ".xlsx")[grepl("Datazone", list.files("data", pattern = ".xlsx"))]
 
 dz_aggregator <- readxl::read_excel(paste0("data/", dz_aggregator_file), sheet = "datazonelist") %>% 
-  select(DataZoneCode, ScottishParliamentaryConstituencyName, ScottishParliamentaryRegionName)
+  select(DataZoneCode, DataZoneName, IntermediateZoneName, ScottishParliamentaryConstituencyName, ScottishParliamentaryRegionName)
 
-# constituency S16 code to constituency name
+# DZ code to constituency name
 dz_code_to_const <- function(x) {
   
   data.frame(input = x) %>% 
     left_join(dz_aggregator, by = c(input = "DataZoneCode")) %>% 
     select(ScottishParliamentaryConstituencyName) %>% 
     pull()
+}
+
+# DZ code to DZ name
+dz_code_to_name <- function(x) {
   
+  data.frame(input = x) %>% 
+    left_join(dz_aggregator, by = c(input = "DataZoneCode")) %>% 
+    select(DataZoneName) %>% 
+    pull()
+}
+
+# DZ code to IZ name
+dz_code_to_iz <- function(x) {
+  
+  data.frame(input = x) %>% 
+    left_join(dz_aggregator, by = c(input = "DataZoneCode")) %>% 
+    select(IntermediateZoneName) %>% 
+    pull()
 }
 
 # postcode to const

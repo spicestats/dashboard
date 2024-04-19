@@ -160,7 +160,7 @@ tenure <- lapply(seq_along(regions), function(x) {
   tenure_data %>% 
     filter(Region == regions[x] | Area_name == "Scotland") %>% 
     make_tenure_chart() %>% 
-    hc_title(text = paste0("Share of households in each housing tenure in ", regions[x], ", ", max(tenure_data$Year)))
+    hc_title(text = paste0("Share of households in each housing tenure in ", regions[x], " constituencies, ", max(tenure_data$Year)))
 })
 
 names(tenure) <- names(region_council_lookup)
@@ -180,7 +180,7 @@ counciltax <- lapply(seq_along(regions), function(x) {
   ct_data %>% 
     filter(Region == regions[x] | Area_name == "Scotland") %>% 
     make_tenure_chart() %>% 
-    hc_title(text = paste0("Share of dwellings in each council tax band in ", regions[x], ", ", ct_data$Year[1]))
+    hc_title(text = paste0("Share of dwellings in each council tax band in ", regions[x], " constituencies, ", ct_data$Year[1]))
   
 })
 
@@ -197,7 +197,7 @@ epc <- lapply(seq_along(regions), function(x) {
   epc_data %>% 
     filter(Region == regions[x] | Area_name == "Scotland") %>% 
     make_tenure_chart() %>% 
-    hc_title(text = paste0("Share of dwellings in each EPC band in ", regions[x], ", ", epc_data$Year[1]))
+    hc_title(text = paste0("Share of dwellings in each EPC band in ", regions[x], " constituencies, ", epc_data$Year[1]))
   
 })
 

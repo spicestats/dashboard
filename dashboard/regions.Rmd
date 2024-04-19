@@ -101,11 +101,30 @@ layout4 = knitr::knit_child(text = unlist(layout4), quiet = TRUE)
 
 ```
 
+```{r deprivation}
+
+# Housing
+
+charts_deprivation <- readRDS("data/charts_deprivation.rds")
+
+# add layout and charts by looping through regions
+title5 <- "# Deprivation"
+sidebar5 <- paste0("## Sidebar {.sidebar}\n",
+                  knitr::knit_expand("dashboard/_sidebar_text/deprivation_text.Rmd"))
+layout5 <- knitr::knit_expand('dashboard/_layouts/deprivation_layout.Rmd')
+
+title5 = knitr::knit_child(text = unlist(title5), quiet = TRUE)
+sidebar5 <- knitr::knit_child(text = unlist(sidebar5), quiet = TRUE)
+layout5 = knitr::knit_child(text = unlist(layout5), quiet = TRUE)
+
+```
+
 ```{r output, results='asis'}
 cat(title1, sidebar1, layout1,
     title2, sidebar2, layout2, 
     title3, sidebar3, layout3, 
-    title4, sidebar4, layout4, sep = '\n')
+    title4, sidebar4, layout4, 
+    title5, sidebar5, layout5, sep = '\n')
 
 ```
 

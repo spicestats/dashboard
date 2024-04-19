@@ -1,0 +1,9 @@
+#### **SIMD data**
+
+SIMD is the Scottish Government's [Scottish Index of Multiple Deprivation](https://www.gov.scot/collections/scottish-index-of-multiple-deprivation-2020/), a measure which identifies local areas where multiple deprivation is concentrated.
+
+The charts show the area deprivation profile of each constituency. Constituencies are made up of small areas called "Data Zones", which are all ranked across Scotland from most to least deprived. The deprivation measure is based on a range of indicators in the seven SIMD domains, Income, Employment, Health, Education, Housing, Crime, and Access to Services (= rurality).
+
+Charts show SIMD deprivation overall, and deprivation in each of the seven SIMD domains.
+
+The next SIMD update is expected in 2026.

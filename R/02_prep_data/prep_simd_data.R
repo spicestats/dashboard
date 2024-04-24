@@ -21,6 +21,8 @@ shares <- simd_data %>%
   filter(measureType == "decile") %>% 
   rename(decile = value) %>% 
   mutate(Area_name = dz_code_to_const(refArea),
+         Area_name = ifelse(Area_name == "Perthshire South and Kinross-shire", 
+                            "Perthshire South and Kinrossshire", Area_name),
          Region = const_name_to_region(Area_name),
          Measure = case_when(decile <= 2 ~ "In most deprived fifth",
                              decile <= 4 ~ "In 2nd most deprived fifth", 
@@ -34,8 +36,14 @@ shares <- simd_data %>%
                                               "In least deprived fifth"), ordered = TRUE)) %>% 
   summarise(dzs = n(),
             .by = c(Region, Area_name, simdDomain, Measure)) %>% 
-  mutate(Data = dzs/sum(dzs),
+  group_by(Region) %>% 
+  
+  # ensure all SIMD groups are in dataset, even those with no DZs
+  complete(Area_name, simdDomain, Measure) %>% 
+  ungroup() %>% 
+  mutate(Data = dzs/sum(dzs, na.rm = TRUE),
          .by = c(Region, Area_name, simdDomain)) %>% 
+  replace_na(list(Data = 0)) %>% 
   arrange(Region, Area_name, simdDomain, Measure)
 
 shares_Scot <- simd_data %>% 

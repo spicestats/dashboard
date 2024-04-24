@@ -56,14 +56,14 @@ charts_localshare <- lapply(unique(simd$shares$simdDomain), function(x) {
     filter(simdDomain == x,
            Measure == "In most deprived fifth") %>% 
     rename(Constituency = Area_name) %>% 
-    mutate(Data = Data * 100,
-           simdDomain = ifelse(simdDomain == "SIMD", simdDomain, paste(simdDomain, "domain")))
+    mutate(Data = Data * 100)
   
   out <- lapply(regions, function(y) {
     
     make_localshare_map(sf = shp_SPC %>% filter(Region == y),
                         df = localshares %>% filter(Region == y)) %>% 
-      hc_title(text = paste0("Where ", x, " deprivation is concentrated in ", y)) %>% 
+      hc_title(text = ifelse(x == "SIMD", paste0("Where ", x, " deprivation is concentrated in ", y),
+                             paste0("Where ", x, " domain deprivation is concentrated in ", y))) %>% 
       hc_subtitle(text = "Constituencies' share of Scotland's 20% most deprived areas (Data Zones)")
   })
   names(out) <- regions
@@ -89,8 +89,7 @@ charts_deciles <- lapply(unique(simd$shares$simdDomain), function(d) {
   ranks <- simd$ranks %>% 
     filter(simdDomain == d) %>% 
     rename(DataZoneName = DataZone,
-           DataZone = refArea) %>% 
-    mutate(simdDomain = ifelse(simdDomain == "SIMD", simdDomain, paste(simdDomain, "domain")))
+           DataZone = refArea)
   
   # loop over regions
   out <- lapply(regions, function(r) {
@@ -102,7 +101,8 @@ charts_deciles <- lapply(unique(simd$shares$simdDomain), function(d) {
       
       make_decile_map(sf = shp_DZ %>% filter(Region == r, Constituency == c), 
                       df = ranks %>%  filter(Region == r, Constituency == c)) %>% 
-        hc_title(text = paste0("Where ", d, " deprivation is concentrated in ", c)) %>% 
+        hc_title(text = ifelse(d == "SIMD", paste0("Where ", d, " deprivation is concentrated in ", c),
+                               paste0("Where ", d, " domain deprivation is concentrated in ", c))) %>% 
         hc_subtitle(text = "Deprivation decile in each Data Zone")
     })
     

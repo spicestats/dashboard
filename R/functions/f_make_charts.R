@@ -419,18 +419,14 @@ make_localshare_map <- function(sf, df){
                       joinBy = "Constituency", 
                       tooltip = list(
                         enabled = TRUE,
-                        pointFormat = "{point.Constituency}: {point.value:.0f}%")
+                        pointFormat = "{point.Constituency}: {point.value:.1f}%")
     ) %>%
     hc_colorAxis(
       min = 0,
       max = 100,
-      stops = list(c(0, unname(spcols["green"])),
-                   c(0.199, "#eef2e9"),
-                   c(0.201, "#ede6f1"),
-                   c(1, unname(spcols["purple"]))),
+      maxColor = unname(spcols["purple"]),
       labels = list(format = "{text}%",
-                    step = 2),
-      max = 100) %>% 
+                    step = 2)) %>% 
     hc_legend(title = list(
       text = "Local share of the most deprived 20% areas in Scotland"))
 }

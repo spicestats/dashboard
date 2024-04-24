@@ -1,100 +1,181 @@
-## Row 1 {.tabset}
+## Row {.tabset}
 
 ### SIMD overall
 
+<div style='display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;'>
+<div>
+
 ```{r}
+
+# flexbox code from https://github.com/rstudio/flexdashboard/issues/265
+
 charts_deprivation$barchart[["SIMD"]][["{{x}}"]]
 ```
 
-### Income domain
-
-```{r}
-charts_deprivation$barchart[["Income"]][["{{x}}"]]
-```
-
-### Employment domain
-
-```{r}
-charts_deprivation$barchart[["Employment"]][["{{x}}"]]
-```
-
-### Health domain
-
-```{r}
-charts_deprivation$barchart[["Health"]][["{{x}}"]]
-```
-
-### Education domain
-
-```{r}
-charts_deprivation$barchart[["Education, Skills and Training"]][["{{x}}"]]
-```
-
-### Housing domain
-
-```{r}
-charts_deprivation$barchart[["Housing"]][["{{x}}"]]
-```
-
-### Crime domain
-
-```{r}
-charts_deprivation$barchart[["Crime"]][["{{x}}"]]
-```
-
-### Access domain
-
-```{r}
-charts_deprivation$barchart[["Access to Services"]][["{{x}}"]]
-```
-
-## Row 2 {.tabset}
-
-### SIMD overall
+</div>
+<div>
 
 ```{r}
 charts_deprivation$region_maps[["SIMD"]][["{{x}}"]]
 ```
 
+</div>
+</div>
+
 ### Income domain
+
+<div style='display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;'>
+<div>
+
+```{r}
+charts_deprivation$barchart[["Income"]][["{{x}}"]]
+```
+
+</div>
+<div>
 
 ```{r}
 charts_deprivation$region_maps[["Income"]][["{{x}}"]]
 ```
 
+</div>
+</div>
+
 ### Employment domain
+
+<div style='display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;'>
+<div>
+
+```{r}
+charts_deprivation$barchart[["Employment"]][["{{x}}"]]
+```
+
+</div>
+<div>
 
 ```{r}
 charts_deprivation$region_maps[["Employment"]][["{{x}}"]]
 ```
 
+</div>
+</div>
+
 ### Health domain
+
+<div style='display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;'>
+<div>
+
+```{r}
+charts_deprivation$barchart[["Health"]][["{{x}}"]]
+```
+
+</div>
+<div>
 
 ```{r}
 charts_deprivation$region_maps[["Health"]][["{{x}}"]]
 ```
 
+</div>
+</div>
+
 ### Education domain
+
+<div style='display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;'>
+<div>
+
+```{r}
+charts_deprivation$barchart[["Education, Skills and Training"]][["{{x}}"]]
+```
+
+</div>
+<div>
 
 ```{r}
 charts_deprivation$region_maps[["Education, Skills and Training"]][["{{x}}"]]
 ```
 
+</div>
+</div>
+
 ### Housing domain
+
+<div style='display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;'>
+<div>
+
+```{r}
+charts_deprivation$barchart[["Housing"]][["{{x}}"]]
+```
+
+</div>
+<div>
 
 ```{r}
 charts_deprivation$region_maps[["Housing"]][["{{x}}"]]
 ```
 
+</div>
+</div>
+
 ### Crime domain
+
+<div style='display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;'>
+<div>
+
+```{r}
+charts_deprivation$barchart[["Crime"]][["{{x}}"]]
+```
+
+</div>
+<div>
 
 ```{r}
 charts_deprivation$region_maps[["Crime"]][["{{x}}"]]
 ```
 
+</div>
+</div>
+
 ### Access domain
+
+<div style='display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;'>
+<div>
+
+```{r}
+charts_deprivation$barchart[["Access to Services"]][["{{x}}"]]
+```
+
+</div>
+<div>
 
 ```{r}
 charts_deprivation$region_maps[["Access to Services"]][["{{x}}"]]
 ```
+
+</div>
+</div>
+
+## Row {data-height=300}
+
+### Constituency {.no-title}
+
+### Constituency {.no-title}
+
+### Constituency {.no-title}
+
+## Row {data-height=300}
+
+### Constituency {.no-title}
+
+### Constituency {.no-title}
+
+### Constituency {.no-title}
+
+## Row {data-height=300}
+
+### Constituency {.no-title}
+
+### Constituency {.no-title}
+
+### Constituency {.no-title}
 

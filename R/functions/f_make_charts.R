@@ -405,5 +405,65 @@ add_recessionbar <- function(hc) {
       ))
 }
 
+# deprivation ------------------------------------------------------------------
+
+make_localshare_map <- function(sf, df){
+  
+  region_map <- jsonlite::fromJSON(sf_geojson(sf), simplifyVector = FALSE)
+  
+  highchart() %>%
+    hc_add_series_map(map = region_map, 
+                      name = "SIMD 2020 local share", 
+                      df = df, 
+                      value = "Data", 
+                      joinBy = "Constituency", 
+                      tooltip = list(
+                        enabled = TRUE,
+                        pointFormat = "{point.Constituency}: {point.value:.0f}%")
+    ) %>%
+    hc_colorAxis(
+      min = 0,
+      max = 100,
+      stops = list(c(0, unname(spcols["green"])),
+                   c(0.199, "#eef2e9"),
+                   c(0.201, "#ede6f1"),
+                   c(1, unname(spcols["purple"]))),
+      labels = list(format = "{text}%",
+                    step = 2),
+      max = 100) %>% 
+    hc_legend(title = list(
+      text = "Local share of the most deprived 20% areas in Scotland"))
+}
+
+make_decile_map <- function(sf, df) {
+  
+  local_map <- jsonlite::fromJSON(sf_geojson(sf), simplifyVector = FALSE)
+  
+  highchart() %>%
+    hc_add_series_map(map = local_map, 
+                      name = "SIMD 2020", 
+                      df = df, 
+                      value = "decile", 
+                      joinBy = "DataZone", 
+                      allAreas = FALSE,
+                      tooltip = list(
+                        enabled = TRUE,
+                        pointFormat = "{point.DataZoneName}: Decile {point.value} (Rank {point.rank})")
+    ) %>%
+    hc_colorAxis(min = 1, 
+                 max = 10,
+                 startOnTick = FALSE,
+                 tickInterval = 1,
+                 stops = list(c(0, unname(spcols["purple"])),
+                              c(0.499, "#ede6f1"),
+                              c(0.501, "#eef2e9"),
+                              c(1, unname(spcols["green"]))),
+                 labels = list(step = 1)
+    ) %>%
+    hc_mapNavigation(enabled = TRUE) %>% 
+    hc_legend(title = list(
+      text = "Deprivation decile (1 = most deprived)"))
+}
+
 
 

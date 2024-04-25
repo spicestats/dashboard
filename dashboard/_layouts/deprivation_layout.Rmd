@@ -1,176 +1,28 @@
-## Row {.tabset data-height=500}
+## SIMD  {data-height=350}
 
-### SIMD overall
-
-<div class="two_row">
-<div>
-
+### {{x}} SIMD overview {.first-box}
 ```{r}
-
-# flexbox code from https://github.com/rstudio/flexdashboard/issues/265
-
 charts_deprivation$barchart$SIMD[["{{x}}"]]
 ```
 
-</div>
-<div>
-
+### {{x}} SIMD map {.first-box}
 ```{r}
 charts_deprivation$region_maps$SIMD[["{{x}}"]]
 ```
 
-</div>
-</div>
-
-### Income domain
-
-<div class="two_row">
-<div>
-
-```{r}
-charts_deprivation$barchart[["Income"]][["{{x}}"]]
-```
-
-</div>
-<div>
-
-```{r}
-charts_deprivation$region_maps[["Income"]][["{{x}}"]]
-```
-
-</div>
-</div>
-
-### Employment domain
-
-<div class="two_row">
-<div>
-
-```{r}
-charts_deprivation$barchart[["Employment"]][["{{x}}"]]
-```
-
-</div>
-<div>
-
-```{r}
-charts_deprivation$region_maps[["Employment"]][["{{x}}"]]
-```
-
-</div>
-</div>
-
-### Health domain
-
-<div class="two_row">
-<div>
-
-```{r}
-charts_deprivation$barchart[["Health"]][["{{x}}"]]
-```
-
-</div>
-<div>
-
-```{r}
-charts_deprivation$region_maps[["Health"]][["{{x}}"]]
-```
-
-</div>
-</div>
-
-### Education domain
-
-<div class="two_row">
-<div>
-
-```{r}
-charts_deprivation$barchart[["Education, Skills and Training"]][["{{x}}"]]
-```
-
-</div>
-<div>
-
-```{r}
-charts_deprivation$region_maps[["Education, Skills and Training"]][["{{x}}"]]
-```
-
-</div>
-</div>
-
-### Housing domain
-
-<div class="two_row">
-<div>
-
-```{r}
-charts_deprivation$barchart[["Housing"]][["{{x}}"]]
-```
-
-</div>
-<div>
-
-```{r}
-charts_deprivation$region_maps[["Housing"]][["{{x}}"]]
-```
-
-</div>
-</div>
-
-### Crime domain
-
-<div class="two_row">
-<div>
-
-```{r}
-charts_deprivation$barchart[["Crime"]][["{{x}}"]]
-```
-
-</div>
-<div>
-
-```{r}
-charts_deprivation$region_maps[["Crime"]][["{{x}}"]]
-```
-
-</div>
-</div>
-
-### Access domain
-
-<div class="two_row">
-<div>
-
-```{r}
-charts_deprivation$barchart[["Access to Services"]][["{{x}}"]]
-```
-
-</div>
-<div>
-
-```{r}
-charts_deprivation$region_maps[["Access to Services"]][["{{x}}"]]
-```
-
-</div>
-</div>
-
 ## Row {data-height=300}
 
 ### Constituency {.no-title}
-
 ```{r}
 charts_deprivation$const_maps$SIMD[["{{x}}"]][[1]]
 ```
 
 ### Constituency {.no-title}
-
 ```{r}
 charts_deprivation$const_maps$SIMD[["{{x}}"]][[2]]
 ```
 
 ### Constituency {.no-title}
-
 ```{r}
 charts_deprivation$const_maps$SIMD[["{{x}}"]][[3]]
 ```
@@ -178,19 +30,16 @@ charts_deprivation$const_maps$SIMD[["{{x}}"]][[3]]
 ## Row {data-height=300}
 
 ### Constituency {.no-title}
-
 ```{r}
 charts_deprivation$const_maps$SIMD[["{{x}}"]][[4]]
 ```
 
 ### Constituency {.no-title}
-
 ```{r}
 charts_deprivation$const_maps$SIMD[["{{x}}"]][[5]]
 ```
 
 ### Constituency {.no-title}
-
 ```{r}
 charts_deprivation$const_maps$SIMD[["{{x}}"]][[6]]
 ```
@@ -198,19 +47,16 @@ charts_deprivation$const_maps$SIMD[["{{x}}"]][[6]]
 ## Row {data-height=300}
 
 ### Constituency {.no-title}
-
 ```{r}
 charts_deprivation$const_maps$SIMD[["{{x}}"]][[7]]
 ```
 
 ### Constituency {.no-title}
-
 ```{r}
 charts_deprivation$const_maps$SIMD[["{{x}}"]][[8]]
 ```
 
 ### Constituency {.no-title}
-
 ```{r}
 try(charts_deprivation$const_maps$SIMD[["{{x}}"]][[9]], silent = TRUE)
 ```
@@ -231,3 +77,4 @@ res = knitr::knit_child(text = unlist(out), quiet = TRUE)
 cat(res, sep = '\n')
 
 ```
+

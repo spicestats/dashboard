@@ -426,9 +426,8 @@ make_localshare_map <- function(sf, df){
       max = 100,
       maxColor = unname(spcols["purple"]),
       labels = list(format = "{text}%",
-                    step = 2)) %>% 
-    hc_legend(title = list(
-      text = "Local share of the most deprived 20% areas in Scotland"))
+                    step = 1)) %>% 
+    hc_add_theme(my_theme)
 }
 
 make_decile_map <- function(sf, df) {
@@ -457,8 +456,7 @@ make_decile_map <- function(sf, df) {
                  labels = list(step = 1)
     ) %>%
     hc_mapNavigation(enabled = TRUE) %>% 
-    hc_legend(title = list(
-      text = "Deprivation decile (1 = most deprived)"))
+    hc_add_theme(my_theme)
 }
 
 

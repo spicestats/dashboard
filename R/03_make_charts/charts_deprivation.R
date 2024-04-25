@@ -64,7 +64,7 @@ charts_localshare <- lapply(unique(simd$shares$simdDomain), function(x) {
                         df = localshares %>% filter(Region == y)) %>% 
       hc_title(text = ifelse(x == "SIMD", paste0("Where ", x, " deprivation is concentrated in ", y),
                              paste0("Where ", x, " domain deprivation is concentrated in ", y))) %>% 
-      hc_subtitle(text = "Constituencies' share of Scotland's 20% most deprived areas (Data Zones)")
+      hc_subtitle(text = "Constituencies' share of Scotland's 20% most deprived Data Zones")
   })
   names(out) <- regions
   return(out)
@@ -103,7 +103,7 @@ charts_deciles <- lapply(unique(simd$shares$simdDomain), function(d) {
                       df = ranks %>%  filter(Region == r, Constituency == c)) %>% 
         hc_title(text = ifelse(d == "SIMD", paste0("Where ", d, " deprivation is concentrated in ", c),
                                paste0("Where ", d, " domain deprivation is concentrated in ", c))) %>% 
-        hc_subtitle(text = "Deprivation decile in each Data Zone")
+        hc_subtitle(text = "Deprivation decile in each Data Zone (1 = most deprived)")
     })
     
     names(const) <- constituencies

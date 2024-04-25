@@ -24,3 +24,10 @@ body {
 .sidebar {
   background-color: #5007780F !important; 
 }
+
+.two_row {
+  display:flex; 
+  flex-direction:row; 
+  justify-content:space-evenly; 
+  align-items:center;
+}

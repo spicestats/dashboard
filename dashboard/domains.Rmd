@@ -21,7 +21,7 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 library(highcharter)
 d <- params$domain
-ds <- params$domain_short
+s <- params$domain_short
 
 charts_deprivation <- readRDS("data/charts_deprivation.rds")
 regions <- names(charts_deprivation[[1]][[1]])

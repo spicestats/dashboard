@@ -1,5 +1,3 @@
-ts1 <- Sys.time()
-
 # Regions pages ----------------------------------------------------------------
 
 regions <- c("Central Scotland", "Glasgow", "Highlands and Islands", "Lothian",
@@ -35,7 +33,3 @@ files <- files[files != "regions.Rmd"]
 files <- paste0("dashboard/", files)
 
 lapply(files, rmarkdown::render, output_dir = "dashboard/_site")
-
-ts2 <- Sys.time()
-
-cat("Code ran for ", ts2-ts1, "seconds")

@@ -1,11 +1,11 @@
-## SIMD {{ds}} domain  {data-height=350}
+## SIMD {{d}} domain  {data-height=350}
 
-### {{x}} SIMD {{d}} domain overview {.first-box}
+### {{x}} SIMD {{s}} domain overview {.first-box}
 ```{r}
 charts_deprivation$barchart[["{{d}}"]][["{{x}}"]]
 ```
 
-### {{x}} SIMD {{d}} domain map {.first-box}
+### {{x}} SIMD {{s}} domain map {.first-box}
 ```{r}
 charts_deprivation$region_maps[["{{d}}"]][["{{x}}"]]
 ```

@@ -1,0 +1,81 @@
+## SIMD {{ds}} domain  {data-height=350}
+
+### {{x}} SIMD {{d}} domain overview {.first-box}
+```{r}
+charts_deprivation$barchart[["{{d}}"]][["{{x}}"]]
+```
+
+### {{x}} SIMD {{d}} domain map {.first-box}
+```{r}
+charts_deprivation$region_maps[["{{d}}"]][["{{x}}"]]
+```
+
+## Row {data-height=300}
+
+### Constituency {.no-title}
+```{r}
+charts_deprivation$const_maps[["{{d}}"]][["{{x}}"]][[1]]
+```
+
+### Constituency {.no-title}
+```{r}
+charts_deprivation$const_maps[["{{d}}"]][["{{x}}"]][[2]]
+```
+
+### Constituency {.no-title}
+```{r}
+charts_deprivation$const_maps[["{{d}}"]][["{{x}}"]][[3]]
+```
+
+## Row {data-height=300}
+
+### Constituency {.no-title}
+```{r}
+charts_deprivation$const_maps[["{{d}}"]][["{{x}}"]][[4]]
+```
+
+### Constituency {.no-title}
+```{r}
+charts_deprivation$const_maps[["{{d}}"]][["{{x}}"]][[5]]
+```
+
+### Constituency {.no-title}
+```{r}
+charts_deprivation$const_maps[["{{d}}"]][["{{x}}"]][[6]]
+```
+
+## Row {data-height=300}
+
+### Constituency {.no-title}
+```{r}
+charts_deprivation$const_maps[["{{d}}"]][["{{x}}"]][[7]]
+```
+
+### Constituency {.no-title}
+```{r}
+charts_deprivation$const_maps[["{{d}}"]][["{{x}}"]][[8]]
+```
+
+### Constituency {.no-title}
+
+```{r}
+try(charts_deprivation$const_maps[["{{d}}"]][["{{x}}"]][[9]], silent = TRUE)
+```
+
+```{r}
+# Some regions have 10 constituencies and need another row for charts 
+is10 <- length(charts_deprivation$const_maps[["{{d}}"]][["{{x}}"]]) == 10
+```
+
+```{r eval=is10, results = 'asis'}
+
+out <- list(knitr::knit_expand(text = "## Row 5 {data-height=300} \n"),
+            knitr::knit_expand(text = "### Constituency {data-width=1 .no-title} \n"),
+            knitr::knit_expand(text = "`r charts_deprivation$const_maps[['{{d}}']][['{{x}}']][[10]]` \n"),
+            knitr::knit_expand(text = "### Empty box {data-width=2 .no-title .empty-box}"))
+
+res = knitr::knit_child(text = unlist(out), quiet = TRUE)
+cat(res, sep = '\n')
+
+```
+

@@ -18,16 +18,19 @@ regions <- regions[!is.na(regions)]
 # local shares -----------------------------------------------------------------
 
 charts_simd <- lapply(unique(simd$shares$simdDomain), function(x) {
+  
   out <- lapply(regions, function(y) {
+  
+    title <- case_when(x == "SIMD" ~ paste0("SIMD deprivation in ", y, " constituencies, ", simd$ranks$refPeriod[1]),
+                       x == "Education, Skills and Training" ~ paste0("Education domain deprivation in ", y, " constituencies, ", simd$ranks$refPeriod[1]),
+                       x == "Access to Services" ~ paste0("Access domain deprivation in ", y, " constituencies, ", simd$ranks$refPeriod[1]),
+                       TRUE ~ paste0(x, " domain deprivation in ", y, " constituencies, ", simd$ranks$refPeriod[1]))
+    
     simd$shares %>% 
       filter(Region == y | Area_name == "Scotland",
              simdDomain == x) %>% 
       make_tenure_chart() %>% 
-      hc_title(text = ifelse(x == "SIMD", 
-                             paste0(x, " deprivation in ", y, " constituencies, ", 
-                                    simd$ranks$refPeriod[1]),
-                             paste0(x, " domain deprivation in ", y, " constituencies, ", 
-                                    simd$ranks$refPeriod[1]))) %>% 
+      hc_title(text = title) %>% 
       hc_subtitle(text = "Share of Data Zones in each deprivation band")
   })
   names(out) <- regions
@@ -58,12 +61,17 @@ charts_localshare <- lapply(unique(simd$shares$simdDomain), function(x) {
     rename(Constituency = Area_name) %>% 
     mutate(Data = Data * 100)
   
+  
   out <- lapply(regions, function(y) {
+    
+    title <- case_when(x == "SIMD" ~ paste0("Where ", x, " deprivation is concentrated in ", y),
+                       x == "Education, Skills and Training" ~ paste0("Where Education domain deprivation is concentrated in ", y),
+                       x == "Access to Services" ~ paste0("Where Access domain deprivation is concentrated in ", y),
+                       TRUE ~ paste0("Where ", x, " domain deprivation is concentrated in ", y))
     
     make_localshare_map(sf = shp_SPC %>% filter(Region == y),
                         df = localshares %>% filter(Region == y)) %>% 
-      hc_title(text = ifelse(x == "SIMD", paste0("Where ", x, " deprivation is concentrated in ", y),
-                             paste0("Where ", x, " domain deprivation is concentrated in ", y))) %>% 
+      hc_title(text = title) %>% 
       hc_subtitle(text = "Constituencies' share of Scotland's 20% most deprived Data Zones")
   })
   names(out) <- regions
@@ -99,10 +107,14 @@ charts_deciles <- lapply(unique(simd$shares$simdDomain), function(d) {
     # loop over constituencies
     const <- lapply(constituencies, function(c) {
       
+      title <- case_when(d == "SIMD" ~ paste0("Where SIMD deprivation is concentrated in ", c),
+                         d == "Education, Skills and Training" ~ paste0("Where Education domain deprivation is concentrated in ", c),
+                         d == "Access to Services" ~ paste0("Where Access domain deprivation is concentrated in ", c),
+                         TRUE ~ paste0("Where ", d, " domain deprivation is concentrated in ", c))
+      
       make_decile_map(sf = shp_DZ %>% filter(Region == r, Constituency == c), 
                       df = ranks %>%  filter(Region == r, Constituency == c)) %>% 
-        hc_title(text = ifelse(d == "SIMD", paste0("Where ", d, " deprivation is concentrated in ", c),
-                               paste0("Where ", d, " domain deprivation is concentrated in ", c))) %>% 
+        hc_title(text = title) %>% 
         hc_subtitle(text = "Deprivation decile in each Data Zone (1 = most deprived)")
     })
     
@@ -123,4 +135,5 @@ saveRDS(list(barchart = charts_simd,
              region_maps = charts_localshare,
              const_maps = charts_deciles), 
         "data/charts_deprivation.rds")
+
 rm(list = ls())

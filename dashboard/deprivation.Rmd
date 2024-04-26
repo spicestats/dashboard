@@ -1,5 +1,5 @@
 ---
-title: "Deprivation"
+title: "SIMD deprivation"
 ---
   
 ```{r setup, include = FALSE}

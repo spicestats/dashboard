@@ -11,6 +11,21 @@ lapply(regions, function(x){
                     output_file = output_file)
 })
 
+# SIMD domain pages ------------------------------------------------------------
+
+domains <- c("Income", "Employment", "Health", "Education, Skills and Training",
+             "Housing", "Crime", "Access to Services")
+
+lapply(domains, function(x){
+  
+  output_file <- paste0("_site/simd_", tolower(str_sub(x, 1, 3)), ".html")
+  domain_short <- str_split_i(x, "\\s|[:punct:]", 1)
+  
+  rmarkdown::render("dashboard/domains.Rmd", params = list(domain = x,
+                                                           domain_short = domain_short),
+                    output_file = output_file)
+})
+
 # Topics pages -----------------------------------------------------------------
 
 files <- list.files("dashboard", pattern = ".Rmd")

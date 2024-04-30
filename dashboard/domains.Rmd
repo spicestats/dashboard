@@ -25,7 +25,6 @@ s <- params$domain_short
 
 charts_deprivation <- readRDS("data/charts_deprivation.rds")
 regions <- names(charts_deprivation[[1]][[1]])
-domain_abb <- tolower(substr(params$domain, 1, 3))
 
 ```
 
@@ -36,7 +35,7 @@ domain_abb <- tolower(substr(params$domain, 1, 3))
 # charts are in dashboard/_layouts
 
 sidebar <- paste0("# Sidebar {.sidebar}\n",
-                  knitr::knit_expand(paste0("dashboard/_sidebar_text/deprivation", domain_abb, "_text.Rmd")))
+                  knitr::knit_expand("dashboard/_sidebar_text/deprivation_text.Rmd"))
 
 layout = lapply(seq_along(regions), function(x) {
   x <- regions[x]

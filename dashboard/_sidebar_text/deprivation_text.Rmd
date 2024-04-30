@@ -4,7 +4,7 @@ SIMD is the Scottish Government's [Scottish Index of Multiple Deprivation](https
 
 The charts show the area deprivation profile of each constituency. Constituencies are made up of small areas with populations of 500-1,000 household residents called "Data Zones", which are all ranked across Scotland from most (rank 1) to least deprived (rank 6,976). 
 
-SIMD is based on a range of indicators in seven domains: Income, Employment, Health, Education, Housing, Crime, and Access to Services (= rurality). Indicator definitions can be found in the [SIMD 2020 technical notes](https://www.gov.scot/publications/simd-2020-technical-notes/).
+SIMD is based on a range of indicators in seven domains: Income, Employment, Health, Education, Housing, Crime, and Access to Services (= rurality).
 
 - [SIMD overall](./deprivation.html)
 - [Income domain](./simd_inc.html)
@@ -14,6 +14,8 @@ SIMD is based on a range of indicators in seven domains: Income, Employment, Hea
 - [Housing domain](./simd_hou.html)
 - [Crime domain](./simd_cri.html)
 - [Access domain](./simd_acc.html)
+
+Indicator definitions can be found in the [SIMD 2020 technical notes](https://www.gov.scot/publications/simd-2020-technical-notes/).
 
 The **local share** is the share of areas (Data Zones) within the constituency that are among the most deprived 20% areas in Scotland. 
 

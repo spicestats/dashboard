@@ -18,8 +18,8 @@ domains <- c("Income", "Employment", "Health", "Education, Skills and Training",
 
 lapply(domains, function(x){
   
-  output_file <- paste0("_site/simd_", tolower(str_sub(x, 1, 3)), ".html")
-  domain_short <- str_split_i(x, "\\s|[:punct:]", 1)
+  output_file <- paste0("_site/simd_", tolower(substr(x, 1, 3)), ".html")
+  domain_short <- stringr::str_split_i(x, "\\s|[:punct:]", 1)
   
   rmarkdown::render("dashboard/domains.Rmd", params = list(domain = x,
                                                            domain_short = domain_short),

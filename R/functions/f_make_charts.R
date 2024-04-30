@@ -409,9 +409,9 @@ add_recessionbar <- function(hc) {
 
 make_localshare_map <- function(sf, df){
   
-  region_map <- jsonlite::fromJSON(sf_geojson(sf), simplifyVector = FALSE)
+  region_map <- jsonlite::fromJSON(geojsonsf::sf_geojson(sf), simplifyVector = FALSE)
   
-  highchart() %>%
+  highchart(type = "map") %>%
     hc_add_series_map(map = region_map, 
                       name = "SIMD 2020 local share", 
                       df = df, 
@@ -432,7 +432,7 @@ make_localshare_map <- function(sf, df){
 
 make_decile_map <- function(sf, df) {
   
-  local_map <- jsonlite::fromJSON(sf_geojson(sf), simplifyVector = FALSE)
+  local_map <- jsonlite::fromJSON(geojsonsf::sf_geojson(sf), simplifyVector = FALSE)
   
   highchart() %>%
     hc_add_series_map(map = local_map, 

@@ -20,7 +20,7 @@ regions <- regions[!is.na(regions)]
 charts_simd <- lapply(unique(simd$shares$simdDomain), function(x) {
   
   out <- lapply(regions, function(y) {
-  
+    
     title <- case_when(x == "SIMD" ~ paste0("SIMD deprivation in ", y, " constituencies, ", simd$ranks$refPeriod[1]),
                        x == "Education, Skills and Training" ~ paste0("Education domain deprivation in ", y, " constituencies, ", simd$ranks$refPeriod[1]),
                        x == "Access to Services" ~ paste0("Access domain deprivation in ", y, " constituencies, ", simd$ranks$refPeriod[1]),
@@ -43,14 +43,29 @@ names(charts_simd) <- unique(simd$shares$simdDomain)
 
 ## Region maps -----------------------------------------------------------------
 
+# Scottish Parliamentary Regions (December 2022) Boundaries SC BGC
+# Scottish Parliamentary Constituencies (December 2022) Boundaries SC BGC
+
+# shapefiles from: 
+# https://geoportal.statistics.gov.uk/search?q=BDY_SPC%20DEC_2022&sort=Title%7Ctitle%7Casc
+
+const_sf <- "data/Scottish_Parliamentary_Constituencies_December_2022_Boundaries_SC_BGC_811473201121076359/SPC_DEC_2022_SC_BGC.shp"
+regions_sf <- "data/Scottish_Parliamentary_Regions_December_2022_SC_BGC_362369918693762846/SPR_DEC_2022_SC_BGC.shp"
+
 # prepare SPC boundary map from shapefile
-shp_SPC <- sf::st_read("C:/Users/s910140/Downloads/bdline_essh_gb/Data/GB/scotland_and_wales_const_region.shp") %>% 
-  filter(AREA_CODE == "SPC") %>% 
-  mutate(Constituency = const_code_to_name(CODE),
+shp_SPC <- sf::st_read(const_sf) %>% 
+  mutate(Constituency = const_code_to_name(SPC22CD),
          Region = const_name_to_region(Constituency)) %>% 
   select(Region, Constituency, geometry) %>% 
   # reduce size of map by losing some detail
-  rmapshaper::ms_simplify()
+  rmapshaper::ms_simplify(keep = 0.3)
+
+# prepare SPR boundary map from shapefile
+shp_SPR <- sf::st_read(regions_sf) %>% 
+  rename(Region = SPR22NM) %>% 
+  select(Region, geometry) %>% 
+  # reduce size of map by losing some detail
+  rmapshaper::ms_simplify(keep = 0.3)
 
 charts_localshare <- lapply(unique(simd$shares$simdDomain), function(x) {
   
@@ -82,14 +97,17 @@ names(charts_localshare) <- unique(simd$shares$simdDomain)
 
 ## DZ map ----------------------------------------------------------------------
 
+# DZ shapefile downloaded from:
+# https://spatialdata.gov.scot/geonetwork/srv/api/records/7d3e8709-98fa-4d71-867c-d5c8293823f2
+
 # DZ shapefile
-shp_DZ <- sf::st_read("C:/Users/s910140/Downloads/SG_DataZoneBdry_2011/SG_DataZone_Bdry_2011.shp") %>% 
+shp_DZ <- sf::st_read("data/SG_DataZoneBdry_2011/SG_DataZone_Bdry_2011.shp") %>% 
   mutate(Constituency = dz_code_to_const(DataZone),
          Region = const_name_to_region(Constituency),
          DataZoneName = dz_code_to_name(DataZone)) %>% 
-  select(Region, Constituency, DataZone, DataZoneName, geometry) %>% 
+  select(Region, Constituency, DataZone, DataZoneName, geometry) %>%
   # reduce size of map by losing some detail
-  rmapshaper::ms_simplify()
+  rmapshaper::ms_simplify(keep = 0.2)
 
 # loop over domains
 charts_deciles <- lapply(unique(simd$shares$simdDomain), function(d) {

@@ -30,6 +30,7 @@ lapply(domains, function(x){
 
 files <- list.files("dashboard", pattern = ".Rmd")
 files <- files[files != "regions.Rmd"]
+files <- files[files != "domains.Rmd"]
 files <- paste0("dashboard/", files)
 
 lapply(files, rmarkdown::render, output_dir = "dashboard/_site")

@@ -35,14 +35,14 @@ Page last updated on `r date`.
 ### Statistics
 
 ```{r}
-flexdashboard::valueBox("Central Scotland", icon = "ion-stats-bars", 
+flexdashboard::valueBox("Central Scotland", icon = "ion-search", 
                         color = spcols[8], href = "central_scotland.html")
 ```
 
 ### Statistics
 
 ```{r}
-flexdashboard::valueBox("Glasgow", icon = "ion-stats-bars", color = spcols[8],
+flexdashboard::valueBox("Glasgow", icon = "ion-search", color = spcols[8],
                         href = "glasgow.html")
 ```
 
@@ -50,14 +50,14 @@ flexdashboard::valueBox("Glasgow", icon = "ion-stats-bars", color = spcols[8],
 
 ```{r}
 flexdashboard::valueBox("Highlands & Islands", color = spcols[8], 
-                        icon = "ion-stats-bars",
+                        icon = "ion-search",
                         href = "highlands_and_islands.html")
 ```
 
 ### Statistics
 
 ```{r}
-flexdashboard::valueBox("Lothian", color = spcols[8], icon = "ion-stats-bars",
+flexdashboard::valueBox("Lothian", color = spcols[8], icon = "ion-search",
                         href = "lothian.html")
 ```
 
@@ -65,28 +65,28 @@ flexdashboard::valueBox("Lothian", color = spcols[8], icon = "ion-stats-bars",
 
 ```{r}
 flexdashboard::valueBox("Mid Scotland & Fife", color = spcols[8],
-         icon = "ion-stats-bars", href = "mid_scotland_and_fife.html")
+         icon = "ion-search", href = "mid_scotland_and_fife.html")
 ```
 
 ### Statistics
 
 ```{r}
 flexdashboard::valueBox("North East Scotland", color = spcols[8],
-         icon = "ion-stats-bars", href = "north_east_scotland.html")
+         icon = "ion-search", href = "north_east_scotland.html")
 ```
 
 ### Statistics
 
 ```{r}
 flexdashboard::valueBox("South Scotland", color = spcols[8],
-         icon = "ion-stats-bars", href = "south_scotland.html")
+         icon = "ion-search", href = "south_scotland.html")
 ```
 
 ### Statistics
 
 ```{r}
 flexdashboard::valueBox("West Scotland", color = spcols[8],
-         icon = "ion-stats-bars", href = "west_scotland.html")
+         icon = "ion-search", href = "west_scotland.html")
 ```
 
 ## Col 2 - by topic

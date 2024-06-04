@@ -24,6 +24,8 @@ date <- paste(lubridate::day(Sys.Date()),
 
 ## Sidebar {.sidebar}
 
+PAGES CURRENTLY UNDER DEVELOPMENT
+
 Explore statistics by topic, Scottish Parliament region, or compare statistics across UK nations.
 
 Page last updated on `r date`.
@@ -145,8 +147,7 @@ flexdashboard::valueBox("Deprivation",
 ```{r}
 flexdashboard::valueBox("Health",
          color = spcols[12],
-         icon = "ion-ios-medkit",
-         href = "health.html")
+         icon = "ion-ios-medkit")
 ```
 
 ## Col 3 - UK nations

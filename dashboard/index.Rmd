@@ -142,25 +142,9 @@ flexdashboard::valueBox("Deprivation",
 ```
 
 
-### Health, disability and life expectancy
-
-```{r}
-flexdashboard::valueBox("Health",
-         color = spcols[12],
-         icon = "ion-ios-medkit")
-```
-
 ## Col 3 - UK nations
 
 #### **UK COMPARISONS**
-
-### UK nations
-
-```{r}
-flexdashboard::valueBox("Labour market",
-         color = spcols[4],
-         icon = "ion-android-train")
-```
 
 ### UK nations
 
@@ -170,36 +154,6 @@ flexdashboard::valueBox("Pay",
          icon = "ion-card",
          href = "earnings_nations.html")
 ```
-
-### UK nations
-
-```{r}
-flexdashboard::valueBox("Housing",
-         color = spcols[4],
-         icon = "ion-home")
-```
-
-### UK nations
-
-```{r}
-flexdashboard::valueBox("Poverty",
-         color = spcols[4],
-         icon = "ion-ios-cart")
-```
-
-### UK nations
-
-```{r}
-flexdashboard::valueBox("Health",
-         color = spcols[4],
-         icon = "ion-ios-medkit")
-```
-
-
-
-
-
-
 
 
 

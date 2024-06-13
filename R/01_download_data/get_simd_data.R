@@ -34,6 +34,6 @@ ranks_access_domain <- ods_dataset("scottish-index-of-multiple-deprivation",
 
 saveRDS(rbind(deciles, ranks, deciles_access_domain, ranks_access_domain), "data/simd_data.rds")
 
-message <- paste("SIMD data downloaded from statistics.gov.scot - data from", simd_data$refPeriod[1])
+message <- paste("SIMD data downloaded from statistics.gov.scot - data from", deciles$refPeriod[1])
 
 cat(message, fill = TRUE)

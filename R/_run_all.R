@@ -1,17 +1,21 @@
 
 # 01 download data -------------------------------------------------------------
 
-source("R/01_download_data/get_ASHE_data.R")
-source("R/01_download_data/get_cilif_data.R")
+source("R/01_download_data/get_labourmarket_data.R") # monthly
+
+source("R/01_download_data/get_ASHE_data.R") # annually
+source("R/01_download_data/get_cilif_data.R") # annually
+source("R/01_download_data/get_population_data.R") # annually
+source("R/01_download_data/get_lifeexpectancy_data.R") # annually
+
 source("R/01_download_data/get_gss_codes.R")
 source("R/01_download_data/get_housing_data.R")
 source("R/01_download_data/get_inflation_data.R")
-source("R/01_download_data/get_labourmarket_data.R")
-source("R/01_download_data/get_lifeexpectancy_data.R")
-# source("R/01_download_data/get_PAYE_data.R")
-source("R/01_download_data/get_population_data.R")
-source("R/01_download_data/get_simd_data.R")
+
 source("R/01_download_data/get_socialsecurity_data.R")
+source("R/01_download_data/get_simd_data.R") # next in 2026(?)
+# source("R/01_download_data/get_PAYE_data.R")
+
 
 # 02 prep data -----------------------------------------------------------------
 
